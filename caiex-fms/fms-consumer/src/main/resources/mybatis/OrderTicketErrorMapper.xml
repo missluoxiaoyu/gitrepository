@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caiex.account.mapper.OrderTicketErrorMapper">
+		
+	<insert id="saveTicketError" parameterType="com.caiex.account.entity.OrderTicketError">
+		insert into order_ticket_error values
+		(#{id},#{tkId},#{tradeState},#{agentId},#{tradeTime},#{tradePrice},#{recyclePrice},#{winMoney},#{state},#{queryTime},#{requestTimestamp})
+	</insert>	
+	
+	<select id="getTicketErrors" resultMap="TicketErrorResult" parameterType="java.util.Map">
+		select * from order_ticket_error limit #{page} ,#{size}
+	</select>
+	
+	<select id="getTicketErrorByid" parameterType="int" resultMap="TicketErrorResult">
+		select * from order_ticket_error where id =#{id}
+	</select>
+	
+	<select id="queryTicketErrorByTkIdAndAgentId" parameterType="com.caiex.account.entity.OrderTicketError" resultMap="TicketErrorResult">
+		select * from order_ticket_error where tkId= #{tkId} and agent_id= #{agentId}
+	</select>
+	
+	<!--查询错误票的总数  -->
+	<select id="queryOrderTicketErrorAmount" resultType="java.lang.Integer">
+	select count(*) from order_ticket_error 
+	</select>
+	
+
+	<delete id="deleteTicketError" parameterType="com.caiex.account.entity.OrderTicketError">
+		delete from order_ticket_error where tkId =#{tkId} and agent_id= #{agentId}
+	</delete>
+	
+	<update id="updateTicketErrorState" parameterType="com.caiex.account.entity.OrderTicketError">
+	 	update order_ticket_error set state = 1 WHERE tkId=#{tkId} and agent_id= #{agentId}
+	</update>
+	
+	
+	
+	<update id="updateTicketError" parameterType="com.caiex.account.entity.OrderTicketError">
+		update order_ticket_error 
+		set trade_state=#{tradeState},trade_time=#{tradeTime},
+		trade_price=#{tradePrice},recycle_price=#{recyclePrice},
+		win_money=#{winMoney},query_time=#{queryTime}
+		where tkId=#{tkId} and agent_id= #{agentId}
+	</update>
+	
+	
+	<select id="getTicketErrorByTime" parameterType="java.util.Map" resultMap="TicketErrorResult">
+		select * from order_ticket_error where trade_time between #{startTime} and #{endTime}
+	</select>
+	
+	<resultMap type="com.caiex.account.entity.OrderTicketError" id="TicketErrorResult">
+	<id property="id" column="id"/>
+	<result property="tkId" column="tkId"/>
+	<result property="tradeState" column="trade_state"/>
+	<result property="agentId" column="agent_id"/>
+	<result property="tradeTime" column="trade_time"/>
+	<result property="tradePrice" column="trade_price"/>
+	<result property="recyclePrice" column="recycle_price"/>
+	<result property="winMoney" column="win_money"/>
+	<result property="state" column="state"/>
+	<result property="queryTime" column="query_time"/>
+	<result property="requestTimestamp" column="requestTimestamp"/>
+	</resultMap> 
+ 
+</mapper>   

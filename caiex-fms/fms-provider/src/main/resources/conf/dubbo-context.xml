@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+  <dubbo:application name="${dubbo.application.name}" />
+
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+  <!--   <dubbo:registry address="zookeeper://192.168.1.5:2181" /> -->
+    <dubbo:registry address="${dubbo.registry.address}" />
+
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${dubbo.protocol.dubbo.port}" />
+
+    <!-- 用户服务接口 -->
+    <dubbo:service interface="com.fms.api.LoginService" ref="loginService" />
+    <bean id="loginService" class="com.caiex.account.service.impl.LoginServiceImpl"/>
+  
+</beans>
+  

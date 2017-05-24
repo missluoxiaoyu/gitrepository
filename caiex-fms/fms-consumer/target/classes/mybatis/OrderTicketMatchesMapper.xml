@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caiex.account.mapper.OrderTicketMatchesMapper">
+<!-- 
+ <select id="getOrderTicketMatchesById" parameterType="int" resultMap="OrderTicketMatchesResult">
+  
+ </select>
+ <resultMap type="com.caiex.account.entity.OrderTicketMatches" id="OrderTicketInfoResult">
+ 	
+ 	<id column="id" property="id"/>
+ 	<result column="price_allup" property="priceallup"/>
+ 	<result column="local_m" property="localm"/>
+ 	<result column="sid" property="sid"/>
+ 	<result column="inv_match" property="invmatch"/>
+ 	<result column="l_prod" property="lprod"/>
+ 	<result column="l_code" property="lcode"/>
+ 	<result column="l_team" property="lteam"/>
+ 	<result column="l_opt" property="lopt"/>
+ 	<result column="l_odds" property="lodds"/>
+ 	<result column="local_odds" property="localodds"/>
+ 	<result column="weekno" property="weekno"/>
+ 	<result column="statistics" property="statistics"/>
+ 	
+ </resultMap>
+ 
+ -->
+</mapper>   

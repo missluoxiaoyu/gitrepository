@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Daily Single</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" href="img/biticon.ico" media="screen" />
+    <!-- bootstrap -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <!--<link href="css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />-->
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/icons.css" />
+    <!-- libraries -->
+    <link href="css/lib/font-awesome.css" type="text/css" rel="stylesheet" />    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="css/compiled/tables.css" type="text/css" media="screen" />
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+</head>
+<body ng-app="single">
+    <!-- navbar -->
+    <div class="navbar navbar-inverse" ng-controller="loginctrl as nav">
+        <div ng-include="'login.html'"></div>
+    </div>
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="singctrl as gle">
+        <ul id="dashboard-menu">
+            <li ng-repeat="g in gle.gbox" ng-class="{active:g.active}" ng-click="g.active = !g.active">                
+                <a ng-href="{{g.urlb}}">
+                    <span>{{g.texa}}</span>
+                </a>
+            </li> 
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="glectrl as le">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section center">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>单场投注数据明细表</span><br />
+                            	<span>Single Betting Details</span>
+                            </h4>
+                            <form class="formdate left">
+								<input id="d12" class="Wdate" type="text"/>
+								<input type="radio" name="radio" value="1" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy'})">年
+								<input type="radio" name="radio" value="2" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-MM'})">月
+								<input type="radio" name="radio" value="3" checked onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-MM-dd'})">日
+							</form>
+							<button>查询</button>
+							<button>导出</button>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <tbody>
+                                <tr class="fb">
+                                    <td colspan="4"></td>
+                                    <td>合计</td>
+                                    <td>20</td>
+                                    <td>21.53</td>
+                                    <td>70</td>
+                                    <td>21.53</td>
+                                    <td>3.251</td>
+                                    <td>225.128%</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="gree" colspan="6">胜平负HAD</td>
+                                    <td class="red" colspan="6">让球胜平负HHAD</td>
+                                    <td class="blue" colspan="6">HAFU</td>
+                                    <td class="yel" colspan="6">TTG</td>
+                                    <td class="white" colspan="6">CRS</td>
+                                </tr>
+                                <tr>
+                                    <td>比赛编号Match No.</td>
+                                    <td>比赛时间Match_date</td>
+                                    <td>联赛League</td>
+                                    <td>Team(HomeVSAway)</td>
+                                    <td>赛果Result(半场/全场)</td>
+                                    <td class="gree">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="gree">投注额Investment(人民币RMB)</td>
+                                    <td class="gree">返奖金额Payout(人民币RMB)</td>
+                                    <td class="gree">中奖额Amt.Winning Unit</td>
+                                    <td class="gree">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="gree">盈利率%PayoutRatio</td>
+                                    <td class="red">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="red">投注额Investment(人民币RMB)</td>
+                                    <td class="red">返奖金额Payout(人民币RMB)</td>
+                                    <td class="red">中奖额Amt.Winning Unit</td>
+                                    <td class="red">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="red">盈利率%PayoutRatio</td>
+                                    <td class="blue">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="blue">投注额Investment(人民币RMB)</td>
+                                    <td class="blue">返奖金额Payout(人民币RMB)</td>
+                                    <td class="blue">中奖额Amt.Winning Unit</td>
+                                    <td class="blue">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="blue">盈利率%PayoutRatio</td>
+                                    <td class="yel">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="yel">投注额Investment(人民币RMB)</td>
+                                    <td class="yel">返奖金额Payout(人民币RMB)</td>
+                                    <td class="yel">中奖额Amt.Winning Unit</td>
+                                    <td class="yel">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="yel">盈利率%PayoutRatio</td>
+                                    <td class="white">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="white">投注额Investment(人民币RMB)</td>
+                                    <td class="white">返奖金额Payout(人民币RMB)</td>
+                                    <td class="white">中奖额Amt.Winning Unit</td>
+                                    <td class="white">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="white">盈利率%PayoutRatio</td>
+                                </tr>
+                                <tr class="smallfont" ng-repeat="do in le.dobox">
+                                    <td>{{do.worda}}</td>
+                                    <td>{{do.wordb}}</td>
+                                    <td>{{do.wordc}}</td>
+                                    <td>{{do.wordd}}</td>
+                                    <td>{{do.worde}}</td>
+                                    <td class="gree">{{do.wordu}}</td>
+                                    <td class="gree">{{do.wordv}}</td>
+                                    <td class="gree">{{do.wordw}}</td>
+                                    <td class="gree">{{do.wordx}}</td>
+                                    <td class="gree">{{do.wordy}}</td>
+                                    <td class="gree">{{do.wordz}}</td>
+                                    <td class="red">{{do.wordu}}</td>
+                                    <td class="red">{{do.wordv}}</td>
+                                    <td class="red">{{do.wordw}}</td>
+                                    <td class="red">{{do.wordx}}</td>
+                                    <td class="red">{{do.wordy}}</td>
+                                    <td class="red">{{do.wordz}}</td>
+                                    <td class="blue">{{do.wordu}}</td>
+                                    <td class="blue">{{do.wordv}}</td>
+                                    <td class="blue">{{do.wordw}}</td>
+                                    <td class="blue">{{do.wordx}}</td>
+                                    <td class="blue">{{do.wordy}}</td>
+                                    <td class="blue">{{do.wordz}}</td>
+                                    <td class="yel">{{do.wordu}}</td>
+                                    <td class="yel">{{do.wordv}}</td>
+                                    <td class="yel">{{do.wordw}}</td>
+                                    <td class="yel">{{do.wordx}}</td>
+                                    <td class="yel">{{do.wordy}}</td>
+                                    <td class="yel">{{do.wordz}}</td>
+                                    <td class="white">{{do.wordu}}</td>
+                                    <td class="white">{{do.wordv}}</td>
+                                    <td class="white">{{do.wordw}}</td>
+                                    <td class="white">{{do.wordx}}</td>
+                                    <td class="white">{{do.wordy}}</td>
+                                    <td class="white">{{do.wordz}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- scripts -->
+    <script src="js/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/theme.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/single.js"></script>
+	<script src="js/login.js"></script>
+	<script src="js/My97DatePicker/WdatePicker.js"></script>
+</body>
+</html>
