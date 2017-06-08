@@ -33,7 +33,6 @@
 
 
  
- 
  <resultMap type="com.caiex.account.entity.OrderTicketInfo" id="OrderTicketInfoResult">
  	<id column="id" property="id"/>
  	<result column="inplay" property="inplay"/>

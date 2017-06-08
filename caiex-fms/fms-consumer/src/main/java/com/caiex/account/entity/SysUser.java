@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class SysUser implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;//   id主键
 	private String email;//   邮箱也是登录帐号
 	private String pwd;//   登录密码

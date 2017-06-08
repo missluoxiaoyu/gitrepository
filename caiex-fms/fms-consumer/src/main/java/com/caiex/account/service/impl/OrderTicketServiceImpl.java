@@ -1,6 +1,7 @@
 package com.caiex.account.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.caiex.account.constants.AccountSystemConstants;
+import com.caiex.account.entity.AgentInfo;
 import com.caiex.account.entity.OrderTicketError;
-
+import com.caiex.account.mapper.AgentInfoMapper;
 import com.caiex.account.mapper.OrderTicketInfoMapper;
 import com.caiex.account.mapper.OrderTicketMapper;
 import com.caiex.account.model.OrderTicketModel;
@@ -31,6 +33,9 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 	
 	private final static Logger log = Logger.getLogger(OrderTicketServiceImpl.class);
 	private int tradeState=100;
+	
+	@Autowired
+	private AgentInfoMapper agentInfoMapper;
 	
 	@Autowired
 	private biYingAgentUrlInfo biying;
@@ -175,8 +180,9 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 	
 	public void findErrors(String orderListUrl,Date startTime, Date endTime,int agentid,int page){
 		
-		Response response = redisOptApi.getRedisValue(agentid+"PriKey");
-		String  priKey = response.getData() == null ? "":response.getData().toString();
+		//Response response = redisOptApi.getRedisValue(agentid+"PriKey");
+		//String  priKey = response.getData() == null ? "":response.getData().toString();
+		String priKey="4e9d6df992a1be66801bbdcc5138c87f";
 		List<TicketResult> resultList=sendTimeRequestTo(orderListUrl, agentid, priKey, startTime.getTime(), endTime.getTime(), page);
 		Map<String, Object> paramsMap = new HashMap<>();
 		paramsMap.put("startTime", startTime);
@@ -185,10 +191,12 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 		paramsMap.put("page", (page-1)*100);//默认每页数据一百条
 		paramsMap.put("size", 100);
 		List<OrderTicketModel> orderTickets = getOrderTicketListWithTkidByTime(paramsMap);
-		if(resultList.size() == 0 || orderTickets.size() == 0){//查出票的数量为空
-			log.error("该时间段查出票的数量为0，请检查");
-			System.out.println("查出的票为空 请检查");
-		}else{
+		if(resultList.size() == 0 ){//查出票的数量为空
+			log.error("该时间段查出"+agentid+"票的数量为0，请检查");
+		}if(orderTickets.size() == 0){
+			log.error("该时间段数据库查出票的数量为0，请检查");
+		}
+		else{
 			contrastAll(orderTickets, resultList,agentid);	
 		}
 	}
@@ -267,35 +275,82 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 		return errorTicket;
 	}
 
-	/** 单独查询第三方ticket和我方ticket*/
+	
+	
+
+@Override	
+public  Map<String,Object> queryAgentTicketByTime(Date startTime, Date endTime,int agentid,int page){
+	    Map<String,Object> resultMap = new HashMap<>();
+	    List<TicketResult> resultList = new ArrayList<TicketResult>();
+	    switch (agentid) {
+		case 111:{
+			//Response response = redisOptApi.getRedisValue(agentid+"PriKey");
+			//String  priKey = response.getData() == null ? "":response.getData().toString();
+			String priKey="4e9d6df992a1be66801bbdcc5138c87f";
+			resultList=sendTimeRequestTo(xiaomi.getOnlineGetOrderListUrl(), agentid, priKey, startTime.getTime(), endTime.getTime(), page);
+			
+			break;
+			}
+		case 117:{
+
+			Response response = redisOptApi.getRedisValue(agentid+"PriKey");
+			String  priKey = response.getData() == null ? "":response.getData().toString();
+			resultList=sendTimeRequestTo(biying.getOnlineGetOrderListUrl(), agentid, priKey, startTime.getTime(), endTime.getTime(), page);
+			break;
+			}
+			default :{
+			resultList= null;
+			}
+	    }
+
+		resultMap.put("resultList", resultList);
+		
+	return resultMap;
+}	
+	
+	
+	
+	
+	/** 单独查询第三方ticket*/
 	@Override
-	public Map 	queryTogether(String tid){
+	public Map<String, Object> 	queryAgentTicket(String tid){
 		String tkId = orderTicketInfoMapper.getOrderTicketInfoBytid(tid).getTkId();
 		int agentid = orderTicketInfoMapper.getOrderTicketInfoBytid(tid).getAgentId();
 		Map<String,Object> resultMap = new HashMap<>();
 		switch (agentid) {
 			case 111:{//小米
-				queryTicket(agentid, xiaomi.getOnlineGetOrderUrl(), tkId);
+				resultMap = queryTicket(agentid, xiaomi.getOnlineGetOrderUrl(), tkId);
 				break;
 			}
 			case 117:{//必赢
-				queryTicket(agentid, biying.getOnlineGetOrderUrl(), tkId);
+				resultMap = queryTicket(agentid, biying.getOnlineGetOrderUrl(), tkId);
 				break;
+			}default : {
+				
 			}
 		}
+	
 		return resultMap;
 	}
 	
 	public Map<String, Object> queryTicket(int agentid,String orderUrl,String tkId){
 		Map<String,Object> resultMap = new HashMap<>();
-		Response response = redisOptApi.getRedisValue(agentid+"PriKey");
-		String  priKey = response.getData() == null ? "":response.getData().toString();
+		//Response response = redisOptApi.getRedisValue(agentid+"PriKey");
+		//String  priKey = response.getData() == null ? "":response.getData().toString();
+		String priKey="4e9d6df992a1be66801bbdcc5138c87f";
 		TicketResult ticketResult = sendTkidRequestTo(orderUrl, agentid, priKey, tkId);//发送请求获取ticket
-		OrderTicketModel orderTicketModel = orderTicketMapper.getOrderTicketByTkid(tkId);//通过tkid查询数据库的票
+		
 		resultMap.put("ticketResult", ticketResult);
-		resultMap.put("orderTicket", orderTicketModel);
+
 		return resultMap;
 		
 	}
 
+	@Override
+    public List<AgentInfo> queryAllAgentInfo(){
+    	return agentInfoMapper.queryAll();
+    }
+    
+	
+	
 }

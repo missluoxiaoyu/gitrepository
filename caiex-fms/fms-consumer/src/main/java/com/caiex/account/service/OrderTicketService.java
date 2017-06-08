@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.caiex.account.entity.AgentInfo;
 import com.caiex.account.model.OrderTicketModel;
 
 
@@ -14,6 +15,10 @@ public interface OrderTicketService {
 	public void verifyMore(Date startTime, Date endTime,int agentid,int page);
 	//根据时间获得
 	List<OrderTicketModel> getOrderTicketListWithTkidByTime(Map<String,Object> map);
-	//同时查询
-	public Map 	queryTogether(String tkId);
+	
+	public Map<String, Object> 	queryAgentTicket(String tkId);
+	
+	public  Map<String,Object> queryAgentTicketByTime(Date startTime, Date endTime,int agentid,int page);
+	
+	 public List<AgentInfo> queryAllAgentInfo();
 }

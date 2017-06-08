@@ -25,7 +25,6 @@ import com.caiex.account.utils.biYingAgentUrlInfo;
 import com.caiex.account.utils.xiaomiAgentUrlInfo;
 
 
-
 /**
  * Hello world!
  *

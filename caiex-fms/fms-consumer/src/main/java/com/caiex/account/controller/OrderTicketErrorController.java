@@ -160,23 +160,7 @@ public class OrderTicketErrorController {
 	}
 
 	
-	//根据页面上的给定时间查询
-	@RequestMapping(value="")
-	@ResponseBody
-	public Map getErrorTicketByTime(String startTime,String endTime){
-		//SimpleDateFormat sdf  =   new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		List <OrderTicketError> tickets=orderTicketErrorService.getTicketErrorByTime(startTime, endTime);
-		Map map =new HashMap<>();
-		map.put("tickets", tickets);
-		return map;
-	}
 	
-	//单独查询tkid
-	@RequestMapping(value="errorTicket/queryTogether")
-	@ResponseBody
-	public Map queryTogether(String tid){
-		return orderTicketService.queryTogether(tid);
-	}
 	
 	//查看派奖情况	
 	@RequestMapping(value="/errorTicket/checkAward")

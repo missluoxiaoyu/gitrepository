@@ -88,6 +88,122 @@
     </select>
  		
  		
+ 	<!-- 用户管理 -->	
+ 	<!-- 两表联查  查询成功的    -->
+<select id="queryTicketInfoSuccess" resultMap="BaseOrderTicketResult"  parameterType="Object">
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket t LEFT  JOIN order_ticket_info i on i.id=t.ticketInfo_id 
+	<include refid="Example_Where_TicketInfo"/>
+	  union all
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket_his t LEFT  JOIN order_ticket_info_his i on i.id=t.ticketInfo_id
+	<include refid="Example_Where_TicketInfo"/>
+	order by order_id desc
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+    
+</select>
+<!-- 两表联查  查询取消的    -->
+<select id="queryTicketInfoCancel" resultMap="BaseOrderTicketResult"  parameterType="Object">
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket_cancel t LEFT  JOIN order_ticket_info_cancel i on i.id=t.ticketInfo_id
+	<include refid="Example_Where_TicketInfo"/>
+	order by t.order_id desc
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+    
+</select>
+<!-- 两表联查 下载-->
+<select id="queryTicketInfoExcel" resultMap="BaseOrderTicketResult"  parameterType="Object">
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket t LEFT  JOIN order_ticket_info i on i.id=t.ticketInfo_id 
+	<include refid="Example_Where_TicketInfo"/>
+	union all
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket_cancel t LEFT  JOIN order_ticket_info_cancel i on i.id=t.ticketInfo_id
+	<include refid="Example_Where_TicketInfo"/>
+	  union all
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket_his t LEFT  JOIN order_ticket_info_his i on i.id=t.ticketInfo_id
+	<include refid="Example_Where_TicketInfo"/>
+	order by order_id desc
+</select>
+<!-- 两表联查 下载 成功的-->
+<select id="queryTicketInfoSuccessExcel" resultMap="BaseOrderTicketResult"  parameterType="Object">
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket t LEFT  JOIN order_ticket_info i on i.id=t.ticketInfo_id 
+	<include refid="Example_Where_TicketInfo"/>
+	  union all
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket_his t LEFT  JOIN order_ticket_info_his i on i.id=t.ticketInfo_id
+	<include refid="Example_Where_TicketInfo"/>
+	order by order_id desc
+</select>
+<!-- 两表联查 下载 取消的-->
+<select id="queryTicketInfoCancelExcel" resultMap="BaseOrderTicketResult"  parameterType="Object">
+	select t.ticketInfo_id,t.order_id,t.agent_id,i.uid,i.bettingproducts,i.inplay,i.totalinvestment/i.unitinvestment as investmentNum,i.totalInvestment,i.total_price,i.bonus-100 as addAwardAmount,t.trade_time,t.trade_price,t.trade_type,t.state
+	,t.winMoney,t.recycleState,i.ballType,t.recyclePrice,i.tkId,i.id
+	from order_ticket_cancel t LEFT  JOIN order_ticket_info_cancel i on i.id=t.ticketInfo_id
+	<include refid="Example_Where_TicketInfo"/>
+	order by t.order_id desc
+</select>
+<!-- 查询条件 -->
+<sql id="Example_Where_TicketInfo">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="tkId != null and tkId!=''" >
+	    and i.tkId =  #{tkId}
+	</if>
+	<if test="uid != null and uid!=''" >
+	    and i.uid =  #{uid}
+	</if>
+	<if test="agentNum != null and agentNum!=''" >
+	    and t.agent_id =  #{agentNum}
+	</if>
+	<if test="inplay != null" >
+	    and i.inplay =  #{inplay}
+	</if>
+	<if test="startDate != null and startDate!=''" >
+	    and <![CDATA[  t.trade_time  >=#{startDate}  ]]>
+	</if>
+	<if test="endDate != null and endDate!=''" >
+	    and <![CDATA[  t.trade_time < #{endDate}]]>
+	</if>
+	<if test="recycleState != null" >
+	    and t.recycleState =  #{recycleState}
+	</if>
+	<if test="state != null" >
+	    and t.state =  #{state}
+	</if>
+</trim>
+</sql>	
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
  		
  	<!-- order_ticket的resultMap -->	
     <resultMap type="com.caiex.account.entity.OrderTicket" id="BaseOrderTicketResult">

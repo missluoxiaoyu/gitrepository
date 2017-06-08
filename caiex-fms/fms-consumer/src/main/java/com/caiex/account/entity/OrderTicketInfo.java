@@ -9,25 +9,27 @@ import java.util.List;
 public class OrderTicketInfo implements Serializable{
 	
 	
-	private int inplay;
+	private Integer inplay;
 	private String tkId;
 	private Timestamp sellingTime;
-	private int unitInvestment;
-	private int totalInvestment;
-	private int agentId;
+	private Integer unitInvestment;
+	private Integer totalInvestment;
+	private Integer agentId;
 	private BigInteger uid;
 	private Double bonus;
 	private String bettingProducts;
-	private int localm;
+	private Integer localm;
 	private Double tradePrice;
 	private Double totalPrice;
 	private String tid;
-	private int ballType;
+	private Integer ballType;
 	private BigInteger id;
-	public int getInplay() {
+	
+	
+	public Integer getInplay() {
 		return inplay;
 	}
-	public void setInplay(int inplay) {
+	public void setInplay(Integer inplay) {
 		this.inplay = inplay;
 	}
 	public String getTkId() {
@@ -42,22 +44,22 @@ public class OrderTicketInfo implements Serializable{
 	public void setSellingTime(Timestamp sellingTime) {
 		this.sellingTime = sellingTime;
 	}
-	public int getUnitInvestment() {
+	public Integer getUnitInvestment() {
 		return unitInvestment;
 	}
-	public void setUnitInvestment(int unitInvestment) {
+	public void setUnitInvestment(Integer unitInvestment) {
 		this.unitInvestment = unitInvestment;
 	}
-	public int getTotalInvestment() {
+	public Integer getTotalInvestment() {
 		return totalInvestment;
 	}
-	public void setTotalInvestment(int totalInvestment) {
+	public void setTotalInvestment(Integer totalInvestment) {
 		this.totalInvestment = totalInvestment;
 	}
-	public int getAgentId() {
+	public Integer getAgentId() {
 		return agentId;
 	}
-	public void setAgentId(int agentId) {
+	public void setAgentId(Integer agentId) {
 		this.agentId = agentId;
 	}
 	public BigInteger getUid() {
@@ -78,10 +80,10 @@ public class OrderTicketInfo implements Serializable{
 	public void setBettingProducts(String bettingProducts) {
 		this.bettingProducts = bettingProducts;
 	}
-	public int getLocalm() {
+	public Integer getLocalm() {
 		return localm;
 	}
-	public void setLocalm(int localm) {
+	public void setLocalm(Integer localm) {
 		this.localm = localm;
 	}
 	public Double getTradePrice() {
@@ -102,10 +104,10 @@ public class OrderTicketInfo implements Serializable{
 	public void setTid(String tid) {
 		this.tid = tid;
 	}
-	public int getBallType() {
+	public Integer getBallType() {
 		return ballType;
 	}
-	public void setBallType(int ballType) {
+	public void setBallType(Integer ballType) {
 		this.ballType = ballType;
 	}
 	public BigInteger getId() {

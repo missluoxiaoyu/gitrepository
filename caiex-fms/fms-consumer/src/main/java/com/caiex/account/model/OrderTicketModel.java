@@ -20,6 +20,23 @@ public class OrderTicketModel {
 	//新加字段
 	private String requestTimestamp;
 	
+	//
+	private String startDate;//渠道报表统计的开始时间
+	private String endDate;//渠道报表统计的结束时间
+	private String uid;//用户id
+	private String agentName;//渠道名称
+	private String agentCode;//渠道编码
+	private Integer inplay;//订单类型
+	private Double total_price;//   total price: 最大中奖额
+	private String bettingproducts;//   betting product: 玩法 [HAD, HHAD, FCA]
+	private Integer investmentNum;//投注倍数 TotalInvestment/UnitInvestment
+	private Integer totalinvestment;//   total investment: 此票总投注额
+	private Integer addAwardAmount;//   M: 串关数
+	private Integer agentNum;//   渠道编号
+	
+	
+	
+	
 	
 	public String getRequestTimestamp() {
 		return requestTimestamp;
@@ -97,5 +114,79 @@ public class OrderTicketModel {
 	public void setTkId(String tkId) {
 		this.tkId = tkId;
 	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public String getAgentName() {
+		return agentName;
+	}
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+	public String getAgentCode() {
+		return agentCode;
+	}
+	public void setAgentCode(String agentCode) {
+		this.agentCode = agentCode;
+	}
+	public Integer getInplay() {
+		return inplay;
+	}
+	public void setInplay(Integer inplay) {
+		this.inplay = inplay;
+	}
+	public Double getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(Double total_price) {
+		this.total_price = total_price;
+	}
+	public String getBettingproducts() {
+		return bettingproducts;
+	}
+	public void setBettingproducts(String bettingproducts) {
+		this.bettingproducts = bettingproducts;
+	}
+	public Integer getInvestmentNum() {
+		return investmentNum;
+	}
+	public void setInvestmentNum(Integer investmentNum) {
+		this.investmentNum = investmentNum;
+	}
+	public Integer getTotalinvestment() {
+		return totalinvestment;
+	}
+	public void setTotalinvestment(Integer totalinvestment) {
+		this.totalinvestment = totalinvestment;
+	}
+	public Integer getAddAwardAmount() {
+		return addAwardAmount;
+	}
+	public void setAddAwardAmount(Integer addAwardAmount) {
+		this.addAwardAmount = addAwardAmount;
+	}
+	public Integer getAgentNum() {
+		return agentNum;
+	}
+	public void setAgentNum(Integer agentNum) {
+		this.agentNum = agentNum;
+	}
+	
+	
 	
 }

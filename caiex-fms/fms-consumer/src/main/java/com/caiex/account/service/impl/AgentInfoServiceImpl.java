@@ -81,7 +81,6 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 		Integer totalOrderAmount = 0; 
 		Integer totalUserAmount = 0;
 		
-		
 		Map resultMap = new HashMap<>();
 		List<AgentInfo> noticketAgent = find(agentids);// 该时间段没有交易的渠道
 		List<AgentInfoModel> noTradeResults = showNoTradeAgent(noticketAgent);
@@ -295,7 +294,6 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 		for (OrderTicketInfo orderTicketInfo : ticketInfos) {
 			set.add(orderTicketInfo.getUid());
 		}
-	//	System.out.println(set.size());
 		return set.size();
 	}
 
@@ -349,6 +347,12 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 	//	SysUser user = (SysUser) session.getAttribute("user");
 		Response rs = new Response();
 		try {
+			if( agentInfo.getPassword().isEmpty() || StringUtils.isEmpty(agentInfo.getPassword())){
+				log.error("渠道密码必须填");
+				rs.getResult().setResultCode(0);
+				rs.getResult().setResultMsg("渠道密码必须填");
+				return rs;	
+			}
 			if (agentInfo.getAgentCode() == null  || agentInfo.getAgentName() == null || agentInfo.getAgentNum() == null) {
 				log.error("渠道编码，名称，编号必须填");
 				log.error("编码"+agentInfo.getAgentCode()+"名称"+agentInfo.getAgentName()+"编号"+agentInfo.getAgentNum());
@@ -386,7 +390,7 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 			agentInfo.setUpdateTime(new Date());
 			agentInfo.setUpdator(9);
 			agentInfo.setCreator(9);
-			agentInfo.setAgentSell(-1);
+			agentInfo.setAgentSell(agentInfo.getAgentNum());
 			// agentInfo.setUpdator(user.getId());
 			// agentInfo.setCreator(user.getId());
 

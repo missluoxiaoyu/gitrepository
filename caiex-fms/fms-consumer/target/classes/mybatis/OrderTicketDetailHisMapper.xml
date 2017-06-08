@@ -165,206 +165,20 @@ where 1=1
   </insert>
   	
   	
-  	<!-- 统计单关中了的 Invest-->
-<select id="queryInvest1" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(a.price_allup) as price_allup from(
-	select sum(d.price_allup) as price_allup from order_ticket_detail_his d
-	<include refid="Example_Where_queryInvest1"/> union all 
-	select sum(d.price_allup) as price_allup from order_ticket_detail d
-	<include refid="Example_Where_queryInvest1"/>) as  a
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryInvest1">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-     and d.status =1
-	 and d.local_m=1
-</trim>
-</sql>	
-
-
   	
-  	 <!-- 统计单Invest -->
-<select id="queryInvest" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.price_allup) as price_allup from(
-	select sum(d.price_allup) as price_allup from order_ticket_detail_his d
-	<include refid="Example_Where_queryInvest"/> union all
-	select sum(d.price_allup) as price_allup from order_ticket_detail d
-	<include refid="Example_Where_queryInvest"/>
-	) as c
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryInvest">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-     and d.status in (1,2)
-	 and d.local_m=1
-</trim>
-</sql>	
- <!-- 统计串Invest -->
-<select id="queryInvestAllUP" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.price_allup) as price_allup from (
-		select sum(d.price_allup) as price_allup from order_ticket_detail_his d 
-		<include refid="Example_Where_queryInvestAllUP"/> union all
-		select sum(d.price_allup) as price_allup from order_ticket_detail d 
-		<include refid="Example_Where_queryInvestAllUP"/>
-	) as c
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryInvestAllUP">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-     and d.status in (1,2)
-	 and d.local_m>1
-</trim>
-</sql>	
-  	
- <!-- Level0 -->
-<select id="queryInvestLevel0" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.price_allup) as price_allup,sum(c.total_price) as total_price from (
-		select sum(d.price_allup) as price_allup,sum(d.total_price) as total_price from order_ticket_detail_his d 
-		<include refid="Example_Where_queryInvestLevel0"/> union all 
-		select sum(d.price_allup) as price_allup,sum(d.total_price) as total_price from order_ticket_detail d 
-		<include refid="Example_Where_queryInvestLevel0"/>
-	) as c
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryInvestLevel0">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-     and d.status=1
-	 and d.local_m=0
-</trim>
-</sql>	
-  	   	  <!-- 每日财务报表合计 lib -->
-<select id="queryInvestTotalLib" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.total_price) as total_price from (
-		select sum(d.total_price) as total_price from order_ticket_detail_his d 
-		<include refid="Example_Where_queryInvestTotalLib"/> union all 
-		select sum(d.total_price) as total_price from order_ticket_detail d 
-		<include refid="Example_Where_queryInvestTotalLib"/>
-	) as c
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryInvestTotalLib">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-	and d.status=1
-</trim>
-</sql>	
-  	  <!-- 每日财务报表合计 invest -->
-<select id="queryInvestTotal" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.price_allup) as price_allup,sum(c.total_price) as total_price from (
-		select sum(d.price_allup) as price_allup,sum(d.total_price) as total_price from order_ticket_detail_his d 
-		<include refid="Example_Where_queryInvestTotal"/> union all 
-		select sum(d.price_allup) as price_allup,sum(d.total_price) as total_price from order_ticket_detail d 
-		<include refid="Example_Where_queryInvestTotal"/>
-	) as c
-
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryInvestTotal">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-	and d.status in (1,2)
-</trim>
-</sql>	
-
- <!-- 统计单Liab -->
-<select id="queryLiab" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.total_price) as total_price from (
-		select sum(d.total_price) as total_price from order_ticket_detail_his d 
-		<include refid="Example_Where_queryLiab"/> union all
-		select sum(d.total_price) as total_price from order_ticket_detail d 
-		<include refid="Example_Where_queryLiab"/> 
-   	)as c
-</select>
-<!-- 查询条件 -->
-<sql id="Example_Where_queryLiab">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    <![CDATA[ and d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-    <if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-     and d.status =1
-	 and d.local_m=1
-</trim>
-</sql>	
-   <!-- 统计串Liab -->
-<select id="queryLiabALLUP" resultMap="BaseResultMap"  parameterType="Object">
-	select sum(c.total_price) as total_price from (
-		select sum(d.total_price) as total_price from order_ticket_detail_his d 
-		<include refid="Example_Where_queryLiabALLUP"/> union all 
-		select sum(d.total_price) as total_price from order_ticket_detail d 
-		<include refid="Example_Where_queryLiabALLUP"/>
-	) as c
-</select>
-
-<!-- 查询条件 -->
-<sql id="Example_Where_queryLiabALLUP">
-where 1=1
-<trim  suffixOverrides="," >
-	<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
-	    and <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>
-	</if>
-	<if test="product != null and product != '' " >
-    and d.product=#{product}
-	</if>
-     and d.status =1
-	 and d.local_m>1
-</trim>
-</sql>	 
-
+<!--summary  -->
    <!--根据时间统计场次数量-->
 <select id="queryMatchNum" resultType="java.lang.Integer"  parameterType="Object">
-<!--  select count(a.payouttime) from
-(select distinct(date_format(payouttime,'%Y-%m-%d')) as payouttime  from order_ticket_detail_his d 
-where <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>)  a
- -->
+
 select sum(c.mid) from (
 select count(a.mid)as mid from(select distinct(h.mid) from match_product_his h where <![CDATA[ h.payouttime  >=#{startDate}  ]]>  <![CDATA[ and h.payouttime < #{endDate}]]>)  a union all
 select count(b.mid)as mid from(select distinct(p.mid) from match_product p where <![CDATA[ p.payouttime  >=#{startDate}  ]]>  <![CDATA[ and p.payouttime < #{endDate}]]>)  b
 ) c	
 </select> 
+
+
+
+
 		 <!--根据时间查询赛事日数-->
 <select id="queryMatchNumList" resultMap="BaseResultMapStatement"  parameterType="Object">
 <!-- select distinct(a.payouttime) from (
@@ -1977,63 +1791,174 @@ where d.week_id =#{week_id} and d.local_m=1 and e.l_code =#{match_code} and d.st
 
       
 </select>
-<select id="detailHisQueryInvest" resultMap="BaseResultMap"  parameterType="Object">
+
+
+<!-- single -->
+<select id="detailHisQueryInvest" resultMap="BaseResultMap"  parameterType="com.caiex.account.entity.MatchInfoHis">
 select SUM(a.price_allup) AS  price_allup from (
 	select SUM(d.price_allup) AS  price_allup from order_ticket_detail_his d INNER JOIN order_ticket_matches_his e on e.sid=d.sid
 
-	where d.local_m=1 and e.l_code =#{match_code} and d.status in (1,2) and d.product=#{product} and e.sid in 
-<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
+	<!-- where d.local_m=1 and e.l_code =#{match_code} and d.status in (1,2) and d.product=#{product} --> 
+	<include refid="Where_queryTotalInvestmentFSGL"/> and e.sid in 
+	<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
             #{item.sid}
     </foreach>
-    
-	
+   
 	union all 
 
 	select SUM(d.price_allup) AS  price_allup from order_ticket_detail d INNER JOIN order_ticket_matches e on e.sid=d.sid
 	
-	where d.local_m=1 and e.l_code =#{match_code} and d.status in (1,2) and d.product=#{product}  and e.sid in 
-<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
+	<!-- where d.local_m=1 and e.l_code =#{match_code} and d.status in (1,2) and d.product=#{product}  -->
+	<include refid="Where_queryTotalInvestmentFSGL"/> and e.sid in 
+	
+	<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
             #{item.sid}
     </foreach>
-) as a
+	) as a
 </select>
-<select id="detailHisQueryLib" resultMap="BaseResultMap"  parameterType="Object">
+
+
+    <!-- 查询条件 -->
+<sql id="Where_queryTotalInvestmentFSGL">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="match_code != null and match_code != '' " >
+	    and <![CDATA[ e.l_code =#{match_code} ]]> 
+	</if>
+	<if test="product != null and product != '' " >
+    and d.product=#{product}
+	</if>
+	 and d.local_m=1 and d.status in (1,2)
+</trim>
+</sql>
+    
+
+
+
+
+<select id="detailHisQueryTotalPrice" resultMap="BaseResultMap"  parameterType="com.caiex.account.entity.MatchInfoHis">
 	select SUM(a.total_price) AS  total_price from ( 
 		select SUM(d.total_price) AS  total_price from order_ticket_detail_his d INNER JOIN order_ticket_matches_his e on e.sid=d.sid
 		
-		where d.local_m=1 and e.l_code =#{match_code} and d.status=1 and d.product=#{product} and e.sid in
+		<!-- where d.local_m=1 and e.l_code =#{match_code} and d.status=1 and d.product=#{product} --> 
+		<include refid="Where_queryTotalPriceFSGL"/>
+		and e.sid in
 		<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
             #{item.sid}
-    </foreach>
+    	</foreach>
 		union all
 		select SUM(d.total_price) AS  total_price from order_ticket_detail d INNER JOIN order_ticket_matches e on e.sid=d.sid
 		
-		where d.local_m=1 and e.l_code =#{match_code} and d.status=1 and d.product=#{product} and e.sid in
+		<!-- where d.local_m=1 and e.l_code =#{match_code} and d.status=1 and d.product=#{product}  -->
+		<include refid="Where_queryTotalPriceFSGL"/>
+		and e.sid in
 		<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
             #{item.sid}
     </foreach>
  	) as a
 </select>
 
-<select id="detailHisQueryInvest1" resultMap="BaseResultMap"  parameterType="Object">
+  <!-- 查询条件 -->
+<sql id="Where_queryTotalPriceFSGL">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="match_code != null and match_code != '' " >
+	    and <![CDATA[ e.l_code =#{match_code} ]]> 
+	</if>
+	<if test="product != null and product != '' " >
+    and d.product=#{product}
+	</if>
+	 and d.local_m=1 and d.status=1
+</trim>
+</sql>
+
+
+
+
+
+
+<select id="detailHisQueryWinInvest" resultMap="BaseResultMap"  parameterType="com.caiex.account.entity.MatchInfoHis">
 select SUM(a.price_allup) AS price_allup  from (
 	select SUM(d.price_allup) AS price_allup  from order_ticket_detail_his d INNER JOIN order_ticket_matches_his e on e.sid=d.sid
 	
-	where   d.local_m=1 and e.l_code =#{match_code} and d.status=1  and d.product=#{product}  and  e.sid in
+	<!-- where   d.local_m=1 and e.l_code =#{match_code} and d.status=1  and d.product=#{product}  --> 
+	<include refid="Where_queryWinInvestFSGL"/>
+	and  e.sid in
 	<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
             #{item.sid}
     </foreach>
 	union all
 	select SUM(d.price_allup) AS price_allup  from order_ticket_detail d INNER JOIN order_ticket_matches e on e.sid=d.sid
 	
-	where   d.local_m=1 and e.l_code =#{match_code} and d.status=1  and d.product=#{product} and  e.sid in
+	<!-- where   d.local_m=1 and e.l_code =#{match_code} and d.status=1  and d.product=#{product} --> 
+	<include refid="Where_queryWinInvestFSGL"/>
+	and  e.sid in
 	<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
             #{item.sid}
     </foreach>
 ) as a
 </select>
 
-<select id="detailHisQueryPay" resultMap="BaseResultMap"  parameterType="Object">
+<sql id="Where_queryWinInvestFSGL">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="match_code != null and match_code != '' " >
+	    and <![CDATA[ e.l_code =#{match_code} ]]> 
+	</if>
+	<if test="product != null and product != '' " >
+    and d.product=#{product}
+	</if>
+	 and d.local_m=1 and d.status=1
+</trim>
+</sql>
+
+
+	<!--单关的totalInvestment -->
+<select id="detailHisQueryTotalInvestment" resultMap="BaseResultMap"  parameterType="com.caiex.account.entity.MatchInfoHis">
+	select SUM(f.inv_allup) as inv_allup from (
+
+			select SUM(d.inv_allup) as inv_allup  from order_ticket_detail_his d INNER JOIN order_ticket_matches_his e on e.sid=d.sid
+		
+			<!-- where d.local_m=1 and e.l_code =#{match_code}  and d.product=#{product} --> 
+			<include refid="Where_querydetailTotalInvestment"/>
+			and e.sid in 
+			<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
+		            #{item.sid}
+		    </foreach>
+			
+			union all 
+		
+			select SUM(d.inv_allup) as inv_allup  from order_ticket_detail d INNER JOIN order_ticket_matches e on e.sid=d.sid
+			<!-- where d.local_m=1 and e.l_code =#{match_code}  and d.product=#{product}  --> 
+			<include refid="Where_querydetailTotalInvestment"/>
+			and e.sid in 
+			<foreach item="item" index="index" collection="sids" open="(" separator="," close=")">
+		            #{item.sid}
+		    </foreach>
+		) as f
+
+</select>
+
+<sql id="Where_querydetailTotalInvestment">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="match_code != null and match_code != '' " >
+	    and <![CDATA[ e.l_code =#{match_code} ]]> 
+	</if>
+	<if test="product != null and product != '' " >
+    and d.product=#{product}
+	</if>
+	 and d.local_m=1 
+</trim>
+</sql>
+
+
+<!--single  -->
+
+
+
+
+<select id="queryDetailHisByPayouttime" resultMap="BaseResultMap"  parameterType="java.util.Map">
 	
 select <include refid="Base_Column_List"/> from order_ticket_detail_his d where  <![CDATA[ d.payouttime  >=#{startDate}  ]]>  <![CDATA[ and d.payouttime < #{endDate}]]>  and d.local_m=1
 union all

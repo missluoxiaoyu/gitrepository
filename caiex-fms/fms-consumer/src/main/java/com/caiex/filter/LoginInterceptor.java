@@ -39,7 +39,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 				} 
 			}
 		}
-		response.sendRedirect("http://192.168.1.5:8083/account/1.html");
+		response.sendRedirect("http://192.168.1.209:8083/account/login.html");
 		return false;
 		
 	}

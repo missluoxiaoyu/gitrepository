@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caiex.account.mapper.OrderTicketMatchesHisMapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.caiex.account.entity.OrderTicketMatchesHis" >
+	<result column="price_allup" property="price_allup"/>
+	<result column="local_m" property="local_m"/>
+	<result column="sid" property="sid"/>
+	<result column="inv_match" property="inv_match"/>
+	<result column="l_prod" property="l_prod"/>
+	<result column="l_code" property="l_code"/>
+	<result column="l_team" property="l_team"/>
+	<result column="l_opt" property="l_opt"/>
+	<result column="l_odds" property="l_odds"/>
+	<result column="local_odds" property="local_odds"/>
+	<result column="id" property="id"/>
+	<result column="weekno" property="weekno"/>
+	<result column="statistics" property="statistics"/>
+</resultMap>
+       
+<!-- order_ticket_matches_his table all fields -->
+<sql id="Base_Column_List" >
+	 price_allup,local_m,sid,inv_match,l_prod,l_code,l_team,l_opt,l_odds,local_odds,id,weekno
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="price_allup != null" >
+	    and price_allup =  #{price_allup}
+	</if>
+	<if test="local_m != null" >
+	    and local_m =  #{local_m}
+	</if>
+	<if test="sid != null" >
+	    and sid =  #{sid}
+	</if>
+	<if test="inv_match != null" >
+	    and inv_match =  #{inv_match}
+	</if>
+	 	<if test="l_prod != null and l_prod != ''" >
+	    and l_prod =  #{l_prod}
+	</if>
+	 	<if test="l_code != null and l_code != ''" >
+	    and l_code =  #{l_code}
+	</if>
+	 	<if test="l_team != null and l_team != ''" >
+	    and l_team =  #{l_team}
+	</if>
+	 	<if test="l_opt != null and l_opt != ''" >
+	    and l_opt =  #{l_opt}
+	</if>
+	<if test="l_odds != null" >
+	    and l_odds =  #{l_odds}
+	</if>
+	 	<if test="local_odds != null and local_odds != ''" >
+	    and local_odds =  #{local_odds}
+	</if>
+	<if test="id != null" >
+	    and id =  #{id}
+	</if>
+	<if test="weekno != null" >
+	    and weekno =  #{weekno}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into order_ticket_matches_his(price_allup,local_m,sid,inv_match,l_prod,l_code,l_team,l_opt,l_odds,local_odds,id,weekno)
+ values(#{price_allup},#{local_m},#{sid},#{inv_match},#{l_prod},#{l_code},#{l_team},#{l_opt},#{l_odds},#{local_odds},#{id},#{weekno})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update order_ticket_matches_his set local_m=#{local_m},sid=#{sid},inv_match=#{inv_match},l_prod=#{l_prod},l_code=#{l_code},l_team=#{l_team},l_opt=#{l_opt},l_odds=#{l_odds},local_odds=#{local_odds},id=#{id},weekno=#{weekno} where price_allup=#{price_allup}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update order_ticket_matches_his set 
+	<trim  suffixOverrides="," >
+	<if test="local_m != null  ">
+		local_m=#{local_m},
+	</if>
+	<if test="sid != null  ">
+		sid=#{sid},
+	</if>
+	<if test="inv_match != null  ">
+		inv_match=#{inv_match},
+	</if>
+	<if test="l_prod != null  and l_prod != '' ">
+		l_prod=#{l_prod},
+	</if>
+	<if test="l_code != null  and l_code != '' ">
+		l_code=#{l_code},
+	</if>
+	<if test="l_team != null  and l_team != '' ">
+		l_team=#{l_team},
+	</if>
+	<if test="l_opt != null  and l_opt != '' ">
+		l_opt=#{l_opt},
+	</if>
+	<if test="l_odds != null  ">
+		l_odds=#{l_odds},
+	</if>
+	<if test="local_odds != null  and local_odds != '' ">
+		local_odds=#{local_odds},
+	</if>
+	<if test="id != null  ">
+		id=#{id},
+	</if>
+	<if test="weekno != null  ">
+		weekno=#{weekno},
+	</if>
+	</trim> where price_allup=#{price_allup}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from order_ticket_matches_his where price_allup = #{price_allup}
+</delete>
+ 
+<!-- 根据id查询 票比赛信息历史记录 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from order_ticket_matches_his where price_allup = #{price_allup}
+</select>
+
+<!-- 票比赛信息历史记录 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from order_ticket_matches_his 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询票比赛信息历史记录列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from order_ticket_matches_his 
+	<include refid="Example_Where_Clause"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+
+
+  	<!-- 批量迁移match_product_his表 -->
+<insert id="batchAdd" useGeneratedKeys="false" parameterType="java.util.List">  
+  insert into order_ticket_matches_his(price_allup,local_m,sid,inv_match,l_prod,l_code,l_team,l_opt,l_odds,local_odds,weekno,id,statistics)
+	values  
+        <foreach collection="list" item="item" index="index" separator="," >  
+	(#{item.price_allup},#{item.local_m},#{item.sid},#{item.inv_match},#{item.l_prod},#{item.l_code},#{item.l_team},#{item.l_opt},#{item.l_odds},#{item.local_odds},#{item.weekno},#{item.id},#{item.statistics})
+        </foreach>  
+  </insert>
+  
+  
+  <!-- single -->
+    <!-- 批量查询 -->
+<select id="batchDetailQuery" resultMap="BaseResultMap">
+	select distinct(weekno),l_code from (
+		select distinct(weekno),l_code
+		
+		  from  order_ticket_matches_his 
+		where local_m =1 and sid in 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item.sid}
+	    </foreach>
+	    union all 
+	    select distinct(weekno),l_code  from  order_ticket_matches
+		where local_m =1 and sid in 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item.sid}
+	    </foreach>
+    ) as a
+</select>
+
+
+    <!-- sid查询 -->
+<select id="sidQuery" resultMap="BaseResultMap">
+select sid,local_m,l_code,l_prod
+	
+	  from  order_ticket_matches_his 
+	where   sid in  
+	 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.sid}
+    </foreach> 
+    union all 
+    select sid,local_m,l_code,l_prod from  order_ticket_matches
+	where sid in
+     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.sid}
+    </foreach>
+</select>
+  	
+  	<!-- single -->
+  <select id="queryBySid" resultMap="BaseResultMap">
+  
+  select distinct(weekno),sid,l_code,l_prod from (
+		select distinct(weekno),sid,l_code,l_prod
+		
+		  from  order_ticket_matches_his 
+		where local_m =1 and sid in 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.sid}
+    	</foreach> 
+	    union all 
+	    select distinct(weekno),sid,l_code,l_prod from  order_ticket_matches
+		where local_m =1 and sid in 
+	     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.sid}
+   		 </foreach> 
+    ) as a
+  
+  </select>
+  	
+  	
+  	
+  	
+  	
+  	
+</mapper>   

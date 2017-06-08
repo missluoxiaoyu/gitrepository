@@ -51,13 +51,14 @@ public class Jobs {
 		count++;
 		log.info("当前页数为"+count);
 		
-		int size = getTicketAmount(str, end, biying.getAgentid());
+		int size = getTicketAmount(str, end, xiaomi.getAgentid());
 		if(count > Math.ceil(size/100)){//如果页数增加到结尾处，从1重新开始查询
 			count=1;
 		}
-		//orderTicketService.verifyMore(str,end,111,count );//每一小时执行查询昨天0点到12点的票
+		
 		//Thread.sleep(FIVE_MINUTE);
-		orderTicketService.verifyMore(str,end,biying.getAgentid(),count );//每一小时执行查询昨天0点到12点的票
+		//orderTicketService.verifyMore(str,end,biying.getAgentid(),count );//每一小时执行查询昨天0点到12点的票
+		orderTicketService.verifyMore(str,end,xiaomi.getAgentid(),count );
 		}
 	
 	
