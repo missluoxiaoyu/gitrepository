@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>User</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" href="img/biticon.ico" media="screen" />
+    <!-- bootstrap -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/icons.css" />
+    <!-- libraries -->
+    <link href="css/lib/font-awesome.css" type="text/css" rel="stylesheet" />    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="css/compiled/tables.css" type="text/css" media="screen" />
+	<style media="all and (orientation:landscape)" type="text/css">
+	#portrait { display: none; }
+	</style>
+</head>
+<body ng-app="user">
+    <!-- navbar -->
+    <div class="navbar navbar-inverse" ng-controller="loginctrl as nav">
+        <div ng-include="'top.html'"></div>
+    </div>
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="userorctrl as usero">
+        <ul id="dashboard-menu">
+            <li ng-repeat="use in usero.usebox" ng-class="{active:use.active}" ng-click="use.active = !use.active">                
+                <a ng-href="{{use.urlb}}">
+                    <span>{{use.texa}}</span>
+                </a>
+            </li> 
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="userctrl as user">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>用户管理</span><br />
+                            	<span>User Management</span>
+                            </h4>
+                            <form class="formdate left">
+                            	<p class="word">
+                            		<span>订单ID：</span><input type="text" /><br />
+                            		<span>用户ID：</span><input type="text" />
+                            	</p>
+								<p class="word">
+									<span>交易开始时间：</span>
+									<input type="text" id="startime" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-M-d'})" />
+									<br />
+									<span>交易截止时间：</span>
+									<input type="text" id="endtime" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-M-d'})" />
+								</p>
+								<p class="word">
+									<span>订单类型：</span>
+									<select>
+										<option value ="all">ALL</option>
+										<option value ="dea">死球</option>
+										<option value="ji">即场</option>
+									</select><br />
+									<span>订单状态：</span>
+									<select>
+										<option value ="all">ALL</option>
+										<option value ="ok">中奖</option>
+										<option value="wei">未中奖</option>
+										<option value="alive">Alive</option>
+									</select>
+								</p>
+								<p class="word">
+									<span>渠道的状态：</span>
+									<select>
+										<option value ="all">ALL</option>
+										<option value ="no">未回收</option>
+										<option value="yi">已回收</option>
+									</select><br />
+									<span>第三方状态：</span>
+									<select>
+										<option value ="all">ALL</option>
+										<option value ="xin">新浪</option>
+										<option value="swa">Swaggie</option>
+										<option value="you">游戏</option>
+									</select>
+								</p>
+								<p class="word">
+									<span>交易状态：</span>
+									<select>
+										<option value ="all">ALL</option>
+										<option value ="no">未回收</option>
+										<option value="yi">已回收</option>
+									</select><br />
+									<button ng-click="notWinning()">未中奖回收</button>
+									<button ng-click="data()">查询</button>
+									<button ng-click="export()">导出</button>
+								</p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <thead>
+                                <tr class="thtible">
+                                    <th ng-repeat="a in user.abox">{{a.texb}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- row -->
+                                <tr class="firstr odds">
+                                    <td>订单ID</td>
+                                    <td>用户ID</td>
+                                    <td>渠道</td> 
+                                    <td>彩种</td> 
+                                    <td>玩法</td>
+                                    <td>订单类型</td>
+                                    <td>金额</td>
+                                    <td>最大中奖额</td>
+									<td>加奖额</td>
+                                    <td>交易时间</td> 
+                                    <td>交易金额</td>
+                                    <td>交易状态</td>
+                                    <td>订单状态</td> 
+                                    <td>中奖金额</td> 
+                                    <td>第三方状态</td>
+                                </tr>
+                                <tr ng-dblclick="details()" ng-repeat="b in user.bbox">
+                                    <td>{{b.ordera}}</td>
+                                    <td>{{b.orderb}}</td>
+                                    <td>{{b.orderc}}</td> 
+                                    <td>{{b.orderd}}</td> 
+                                    <td>{{b.ordere}}</td>
+                                    <td>{{b.orderf}}</td>
+                                    <td>{{b.orderg}}</td>
+                                    <td>{{b.orderh}}</td>
+									<td>{{b.orderi}}</td>
+                                    <td>{{b.orderj}}</td> 
+                                    <td>{{b.orderk}}</td>
+                                    <td>{{b.orderl}}</td>
+                                    <td>{{b.orderm}}</td> 
+                                    <td>{{b.ordern}}</td> 
+                                    <td ng-click="clicking">{{b.ordero}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--fenye-->
+        <ul class="pagination">  
+	        <li ng-class="{true:'disabled'}[p_current==1]">
+	        	<a href="javascript:void(0);" ng-click="p_index()">首页</a>
+	        </li>  
+	        <li ng-repeat="page in pages" ng-class="{true:'active'}[p_current==page]">
+	        	<a href="javascript:void(0);" ng-click="load_page(page)">{{ page }}</a>
+	        </li>  
+	        <li ng-class="{true:'disabled'}[p_current==p_all_page]">
+	        	<a href="javascript:void(0);" ng-click="p_last()">尾页</a>
+	        </li>
+	        <span>  共：{{count}} 条</span>
+		</ul> 
+		<!--end-->
+    </div> 
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/theme.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/user.js"></script>
+	<script src="js/top.js"></script>
+	<script src="js/layer.js"></script>
+	<script src="js/My97DatePicker/WdatePicker.js"></script>
+</body>
+</html>

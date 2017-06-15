@@ -33,22 +33,16 @@ public class AccountSystemConstants {
 	  * 
 	  * 1数据库有此票第三方无此票
 	  * 2对方还在交易中
-	  * 3对方显示转让完成已中奖，我们显示未中奖或alive
 	  * 
-	  * 5对方显示中奖已回收，我们显示未回收
-	  * 6对方方案未交易，我们有票
+	  * 3对方方案未交易，我们有票
 	  * */
 	
 	 
 	 public final static int OPPOSITE_NO_TICKET=1;
 	 
-	 public final static int OPPOSITE_TRADING_AND_OUR_HAVE_TICKET=2;
+	 public final static int OPPOSITE_TRADING=2;
 	 
-	 public final static int OPPOSITE_AWARD_AND_OUR_NOAWARD_OR_ALIVE=3;
-	
-	 public final static int OPPOSITE_RECYCLE_AND_OUR_NO_RECYCLE=5;
-	 
-	 public final static int OPPOSITE_NO_TRADE_AND_OUR_HAVE_TICKET=6;
+	 public final static int OPPOSITE_NO_TRADE_AND_OUR_HAVE_TICKET=3;
 	 
 	 
 	 
@@ -63,5 +57,17 @@ public class AccountSystemConstants {
 	 public final static int UPDATE_AGENT_INF = 3;
 	 
 	
+	 /*用户管理
+	  * 1足球2 篮球
+	  * 1：交易成功；2：交易失败
+	  * 0 死球 1 即场
+	  * 
+	  * */
+	 public final static int BALL_TYPE_FB = 1;
+	 public final static int BALL_TYPE_BK = 2;
+	 public final static int DEAD_BALL =0;
+	 public final static int THE_FIELD =1;
+	 public final static int TRADE_SUCCESS=1;
+	 public final static int TRADE_FAIL=2;
 	 
 }

@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.caiex.account.entity.SysUser;
 import com.caiex.account.mapper.SysUserMapper;
 import com.fms.api.LoginService;
+import com.fms.entity.SysUser;
 
 
 

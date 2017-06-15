@@ -1,6 +1,7 @@
 com\caiex\account\redis\RedisProperties.class
 com\caiex\account\controller\DailyFinancialStatementsController.class
 com\caiex\account\service\DailyCollectStatementsService.class
+com\caiex\account\mapper\MatchInfoMapper.class
 com\caiex\account\service\DetailAllupService.class
 com\caiex\account\service\OrderTicketDetailService.class
 com\caiex\account\mapper\MatchInfoHisMapper.class
@@ -8,8 +9,8 @@ com\caiex\account\service\DailyFinancialDetailService.class
 com\caiex\account\service\impl\AgentInfoServiceImpl.class
 com\caiex\account\utils\CookieUtils.class
 com\caiex\account\service\impl\DailyFinancialStatementsServiceImpl.class
-com\caiex\account\model\summaryTitle.class
 com\caiex\account\controller\UserManagementController.class
+com\caiex\account\model\MatchInfoModel.class
 com\caiex\account\utils\VerificationUtil.class
 com\caiex\account\entity\AgentInfoDetail.class
 com\caiex\account\entity\OrderTicketError.class
@@ -21,10 +22,13 @@ com\caiex\account\service\impl\AgentInfoDetailServiceImpl.class
 com\caiex\account\service\OrderTicketErrorService.class
 com\caiex\account\service\impl\DailyFinancialDetailServiceImpl.class
 com\caiex\account\utils\TicketResult.class
+com\caiex\account\entity\OrderCancel.class
 com\caiex\account\controller\SysUserController.class
+com\caiex\account\mapper\OrderCancelMapper.class
 com\caiex\account\service\OrderTicketService.class
 com\caiex\account\utils\biYingAgentUrlInfo.class
 com\caiex\account\service\AgentInfoService.class
+com\caiex\account\model\SummaryTitle.class
 com\caiex\account\utils\Result.class
 com\caiex\account\controller\DailyCollectStatementsController.class
 com\caiex\account\entity\OrderTicketDetailHis.class
@@ -53,6 +57,7 @@ com\caiex\account\service\impl\DetailSGLServiceImpl.class
 com\caiex\account\entity\OrderTicketMatches.class
 com\caiex\account\model\OrderTicketDetailFinancialModel.class
 com\caiex\account\service\impl\OrderTicketServiceImpl.class
+com\caiex\account\model\OrderCancelModel.class
 com\caiex\servlet\DruidStatViewServlet.class
 com\caiex\account\mapper\OrderTicketMatchesMapper.class
 com\caiex\account\redis\RedisConfig.class
@@ -73,6 +78,7 @@ com\caiex\account\utils\xiaomiAgentUrlInfo.class
 com\caiex\ConsumerApp.class
 com\caiex\account\service\impl\DetailAllupServiceImpl.class
 com\caiex\account\service\impl\OrderTicketErrorServiceImpl.class
+com\caiex\account\model\OrderTicketDetailUMModel.class
 com\caiex\account\model\OrderTicketFsglModel.class
 com\caiex\account\service\CookieService.class
 com\caiex\account\controller\OrderTicketInfoController.class
@@ -87,5 +93,6 @@ com\caiex\account\job\Jobs.class
 com\caiex\account\utils\Response.class
 com\caiex\account\model\AgentInfoModel.class
 com\caiex\account\service\impl\UserManagementServiceImpl.class
+com\caiex\account\entity\OrderTicketCancel.class
 com\caiex\account\constants\AccountSystemConstants.class
 com\caiex\account\mapper\SysUserMapper.class

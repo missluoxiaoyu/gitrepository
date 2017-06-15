@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OrderTicketMatches implements Serializable{
-
+	private Integer id;
 	private Double price_allup;
 	private Integer local_m;
-	private int sid;
+	private Integer sid;
 	private Double inv_match;
 	private String l_prod;
 	private String l_code;
@@ -15,10 +15,14 @@ public class OrderTicketMatches implements Serializable{
 	private String l_opt;
 	private Double l_odds;
 	private Double local_odds;
-	private int weekno;
+	private Integer weekno;
 	private String statistics;
-	
-	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Double getPrice_allup() {
 		return price_allup;
 	}
@@ -31,10 +35,10 @@ public class OrderTicketMatches implements Serializable{
 	public void setLocal_m(Integer local_m) {
 		this.local_m = local_m;
 	}
-	public int getSid() {
+	public Integer getSid() {
 		return sid;
 	}
-	public void setSid(int sid) {
+	public void setSid(Integer sid) {
 		this.sid = sid;
 	}
 	public Double getInv_match() {
@@ -79,10 +83,10 @@ public class OrderTicketMatches implements Serializable{
 	public void setLocal_odds(Double local_odds) {
 		this.local_odds = local_odds;
 	}
-	public int getWeekno() {
+	public Integer getWeekno() {
 		return weekno;
 	}
-	public void setWeekno(int weekno) {
+	public void setWeekno(Integer weekno) {
 		this.weekno = weekno;
 	}
 	public String getStatistics() {
@@ -91,7 +95,6 @@ public class OrderTicketMatches implements Serializable{
 	public void setStatistics(String statistics) {
 		this.statistics = statistics;
 	}
-	
 	
 	
 }

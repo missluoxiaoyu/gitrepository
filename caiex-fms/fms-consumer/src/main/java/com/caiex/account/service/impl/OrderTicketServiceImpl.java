@@ -59,92 +59,11 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 		paramMap.put("tkId", tkId);
 		paramMap.put("sign", Md5Util.md5("agentid"+agentid+"tkId"+tkId+priKey));
 		TicketResult ticketResult = verificationUtil.getTicketResult(paramMap,url);//发送请求
+		ticketResult.setAgentid(agentid);
 		log.info("加密后的私钥"+Md5Util.md5("agentid"+agentid+"tkId"+tkId+priKey));
 		return ticketResult;
 	}
 	
-	/** 根据票的tkId验证单个票 
-	 */
-	@Override
-	public void verifyOne(String tid) {
-		String tkId = orderTicketInfoMapper.getOrderTicketInfoBytid(tid).getTkId();
-		int agentid = orderTicketInfoMapper.getOrderTicketInfoBytid(tid).getAgentId();
-		switch (agentid) {
-			case 111:{//小米
-				findError(tkId, agentid, xiaomi.getOnlineGetOrderUrl());
-				break;
-			}
-			case 117:{//必赢
-				findError(tkId, agentid, biying.getOnlineGetOrderUrl());
-				break;
-			}
-		}
-	}
-	
-
-	
-	public void findError(String tkId,int agentid,String orderUrl ){
-		//获取私钥
-		Response response = redisOptApi.getRedisValue(agentid+"PriKey");
-		String  priKey = response.getData() == null ? "":response.getData().toString();
-		
-		TicketResult ticketResult = sendTkidRequestTo(orderUrl, agentid, priKey, tkId);//发送请求获取ticket
-		OrderTicketModel orderTicketModel = orderTicketMapper.getOrderTicketByTkid(tkId);//通过tkid查询数据库的票
-		if (ticketResult == null) {//第三方没有查询到此票
-			tradeState = AccountSystemConstants.OPPOSITE_NO_TICKET;
-			log.error("第三方没有此票tkId为"+tkId);
-			OrderTicketError errorTicket = orderTicketToErrorTicket(orderTicketModel);
-			errorTicket.setTradeState(tradeState);
-			errorService.saveTicketError(errorTicket);//检查是不是首次进入数据库；是，存贮，不是，更新状态
-		} else {//双方都存在
-			boolean error = contrast(orderTicketModel, ticketResult);//进行比对
-			OrderTicketError errorTicket = orderTicketToErrorTicket(orderTicketModel);
-			if (error) {//如果有错误
-				errorTicket.setTradeState(tradeState);
-				errorService.saveTicketError(errorTicket);
-			} else {//当再次查询时，票变成正常票，将error表之前存贮的删除掉
-				log.info(tkId+"为正常票");
-				errorService.deleteTicketError(errorTicket);
-			}
-		}
-		
-	}
-	
-	
-	
-	
-	
-	/** 封装的验证的工具方法 */
-	public boolean contrast(OrderTicketModel orderTicketModel,TicketResult ticketResult) {
-		int schemeState = ticketResult.getSchemeState();//第三方交易状态
-		int state = orderTicketModel.getState();//我方交易状态
-		boolean flag = false;
-		// 对方正在交易中，我们数据库有票
-		if (schemeState == AccountSystemConstants.TRADEING && orderTicketModel != null) {
-			tradeState = AccountSystemConstants.OPPOSITE_TRADING_AND_OUR_HAVE_TICKET;
-			log.error("agentid="+" 对方正在交易中，我们数据库有票 tkId 为"+ticketResult.getTkId());
-			flag = true;
-		}
-		// 对方显示转让完成且中奖，我们显示未中奖或alive 可能派奖延迟导致
-		if (schemeState == AccountSystemConstants.TRANSFER_COMPLETE_AWARD && state != AccountSystemConstants.STATE_AWARD) {
-			tradeState = AccountSystemConstants.OPPOSITE_AWARD_AND_OUR_NOAWARD_OR_ALIVE;
-			log.error("agentid="+" 对方显示转让完成且中奖，我们显示未中奖或alive 可能派奖延迟导致 tkId 为"+ticketResult.getTkId());
-			flag = true;
-		}
-		// 对方显示中奖已回收，我们显示未回收
-		if (schemeState == AccountSystemConstants.AWARD_RECYCLE && state == AccountSystemConstants.STATE_NO_RECYCLE) {
-			tradeState = AccountSystemConstants.OPPOSITE_RECYCLE_AND_OUR_NO_RECYCLE;
-			log.error("agentid="+"对方显示中奖已回收，我们显示未回收 tkId 为"+ticketResult.getTkId());
-			flag = true;
-		}
-		// 对方方案未交易，我们有票
-		if (schemeState == AccountSystemConstants.NO_TRADE && orderTicketModel != null) {
-			tradeState = AccountSystemConstants.OPPOSITE_NO_TRADE_AND_OUR_HAVE_TICKET;
-			log.error("agentid="+"对方方案未交易，我们有票 tkId 为"+ticketResult.getTkId());
-			flag = true;
-		}
-		return flag;
-	}
 	
 	/**发送time请求*/
 	public List<TicketResult> sendTimeRequestTo(String url ,int agentid,String priKey,long startTime,long endTime,int page){
@@ -156,8 +75,44 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 		map.put("page", page+"");
 		map.put("sign",Md5Util.md5("agentid"+agentid+"endTime"+endTime+"page"+page+"startTime"+startTime+priKey));
 		List<TicketResult> resultList = verificationUtil.getTicketListResult(map, url);//获取该时间段第三方的票
+		for (TicketResult ticketResult : resultList) {
+			ticketResult.setAgentid(agentid);
+			showStateMessage(ticketResult);
+		}
 		return resultList;
 	}
+	
+	
+	
+	
+	
+	/** 封装的验证的工具方法 */
+	public boolean contrast(OrderTicketModel orderTicketModel,TicketResult ticketResult) {
+		int schemeState = ticketResult.getSchemeState();//第三方交易状态
+		boolean flag = false;
+		// 对方正在交易中，我们数据库有票
+		if (schemeState == AccountSystemConstants.TRADEING && orderTicketModel != null) {
+			tradeState = AccountSystemConstants.OPPOSITE_TRADING;
+			log.info("agentid="+" 对方正在交易中，我们数据库有票 tkId 为"+ticketResult.getTkId());
+			flag = true;
+		}
+		
+		if (schemeState == AccountSystemConstants.TRADEING && orderTicketModel == null) {
+			tradeState = AccountSystemConstants.OPPOSITE_TRADING;
+			log.info("agentid="+" 对方正在交易中， tkId 为"+ticketResult.getTkId());
+			flag = true;
+		}
+		// 对方方案未交易，我们有票
+		if (schemeState == AccountSystemConstants.NO_TRADE && orderTicketModel != null) {
+			tradeState = AccountSystemConstants.OPPOSITE_NO_TRADE_AND_OUR_HAVE_TICKET;
+			log.info("agentid="+"对方方案未交易，我们有票 tkId 为"+ticketResult.getTkId());
+			flag = true;
+		}
+		
+		return flag;
+	}
+	
+	
 	
 	/**
 	 * 根据一段时间去查看对方的票
@@ -179,10 +134,9 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 	
 	
 	public void findErrors(String orderListUrl,Date startTime, Date endTime,int agentid,int page){
-		
 		//Response response = redisOptApi.getRedisValue(agentid+"PriKey");
 		//String  priKey = response.getData() == null ? "":response.getData().toString();
-		String priKey="4e9d6df992a1be66801bbdcc5138c87f";
+		String priKey="1eca5188403ada23850f19632934a9d4";
 		List<TicketResult> resultList=sendTimeRequestTo(orderListUrl, agentid, priKey, startTime.getTime(), endTime.getTime(), page);
 		Map<String, Object> paramsMap = new HashMap<>();
 		paramsMap.put("startTime", startTime);
@@ -201,14 +155,6 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 		}
 	}
 	
-	
-
-
-	/** 根据时间去查数据库order_ticket表的信息 */
-	@Override
-	public List<OrderTicketModel> getOrderTicketListWithTkidByTime(Map<String, Object> map) {
-		return orderTicketMapper.getOrderTicketListWithTkidByTime(map);
-	}
 
 	/** 验证两个集合中的票 */
 	public void contrastAll(List<OrderTicketModel> orderTickets,List<TicketResult> resultList,int agentid) {
@@ -230,7 +176,6 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 						errorService.deleteTicketError(errorTicket);
 					}
 				}
-				
 			}
 			if (!flag) {
 				System.out.println("我们有票而第三方没有" + orderTickets.get(i).getTkId());
@@ -281,76 +226,99 @@ public class OrderTicketServiceImpl implements OrderTicketService {
 @Override	
 public  Map<String,Object> queryAgentTicketByTime(Date startTime, Date endTime,int agentid,int page){
 	    Map<String,Object> resultMap = new HashMap<>();
-	    List<TicketResult> resultList = new ArrayList<TicketResult>();
 	    switch (agentid) {
 		case 111:{
-			//Response response = redisOptApi.getRedisValue(agentid+"PriKey");
-			//String  priKey = response.getData() == null ? "":response.getData().toString();
-			String priKey="4e9d6df992a1be66801bbdcc5138c87f";
-			resultList=sendTimeRequestTo(xiaomi.getOnlineGetOrderListUrl(), agentid, priKey, startTime.getTime(), endTime.getTime(), page);
-			
+			resultMap = queryMoreTicket(startTime, endTime, agentid, page, xiaomi.getOnlineGetOrderListUrl());
 			break;
 			}
 		case 117:{
-
-			Response response = redisOptApi.getRedisValue(agentid+"PriKey");
-			String  priKey = response.getData() == null ? "":response.getData().toString();
-			resultList=sendTimeRequestTo(biying.getOnlineGetOrderListUrl(), agentid, priKey, startTime.getTime(), endTime.getTime(), page);
+			resultMap = queryMoreTicket(startTime, endTime, agentid, page, biying.getOnlineGetOrderListUrl());
 			break;
 			}
 			default :{
-			resultList= null;
+				resultMap.put("resultList", "该渠道未开发此接口");
 			}
 	    }
-
-		resultMap.put("resultList", resultList);
-		
+	     	
 	return resultMap;
 }	
 	
+public Map<String, Object> queryMoreTicket(Date startTime, Date endTime,int agentid,int page,String orderListUrl){
+	Map<String,Object> resultMap = new HashMap<>();
+	 List<TicketResult> resultList = new ArrayList<TicketResult>();
+	Response response = redisOptApi.getRedisValue(agentid+"PriKey");
+	String  priKey = response.getData() == null ? "":response.getData().toString();
+	/*String priKey="1eca5188403ada23850f19632934a9d4";*/
+	resultList=sendTimeRequestTo(orderListUrl, agentid, priKey, startTime.getTime(), endTime.getTime(), page);
+	resultMap.put("resultList", resultList);
 	
+	return resultMap;
+	
+}
 	
 	
 	/** 单独查询第三方ticket*/
 	@Override
-	public Map<String, Object> 	queryAgentTicket(String tid){
-		String tkId = orderTicketInfoMapper.getOrderTicketInfoBytid(tid).getTkId();
-		int agentid = orderTicketInfoMapper.getOrderTicketInfoBytid(tid).getAgentId();
+	public Map<String, Object> 	queryAgentTicket(String tkId,int agentid){
+		
 		Map<String,Object> resultMap = new HashMap<>();
 		switch (agentid) {
 			case 111:{//小米
-				resultMap = queryTicket(agentid, xiaomi.getOnlineGetOrderUrl(), tkId);
+				resultMap = queryOneTicket(agentid, xiaomi.getOnlineGetOrderUrl(), tkId);
 				break;
 			}
 			case 117:{//必赢
-				resultMap = queryTicket(agentid, biying.getOnlineGetOrderUrl(), tkId);
+				resultMap = queryOneTicket(agentid, biying.getOnlineGetOrderUrl(), tkId);
 				break;
 			}default : {
-				
+				resultMap.put("ticketResult", "该渠道未开发此接口");
 			}
 		}
 	
 		return resultMap;
 	}
 	
-	public Map<String, Object> queryTicket(int agentid,String orderUrl,String tkId){
+	public Map<String, Object> queryOneTicket(int agentid,String orderUrl,String tkId){
 		Map<String,Object> resultMap = new HashMap<>();
-		//Response response = redisOptApi.getRedisValue(agentid+"PriKey");
-		//String  priKey = response.getData() == null ? "":response.getData().toString();
-		String priKey="4e9d6df992a1be66801bbdcc5138c87f";
+		Response response = redisOptApi.getRedisValue(agentid+"PriKey");
+		String  priKey = response.getData() == null ? "":response.getData().toString();
+		/*String priKey="1eca5188403ada23850f19632934a9d4";*/
 		TicketResult ticketResult = sendTkidRequestTo(orderUrl, agentid, priKey, tkId);//发送请求获取ticket
 		
-		resultMap.put("ticketResult", ticketResult);
-
+		resultMap.put("ticketResult", showStateMessage(ticketResult));
 		return resultMap;
 		
 	}
 
+	public TicketResult showStateMessage(TicketResult ticketResult){
+		if(ticketResult.getSchemeState()==AccountSystemConstants.TRADEING){
+			ticketResult.setStateMessage("交易中");
+		}else if(ticketResult.getSchemeState()==AccountSystemConstants.TRANSFER_COMPLETE){
+			ticketResult.setStateMessage("交易完成");
+		}else if(ticketResult.getSchemeState()==AccountSystemConstants.TRANSFER_COMPLETE_AWARD){
+			ticketResult.setStateMessage("交易完成且中奖");
+		}else if(ticketResult.getSchemeState()==AccountSystemConstants.TRANSFER_COMPLETE_NO_AWARD){
+			ticketResult.setStateMessage("交易完成未中奖");
+		}else if(ticketResult.getSchemeState()==AccountSystemConstants.AWARD_RECYCLE){
+			ticketResult.setStateMessage("中奖回收");
+		}else{
+			ticketResult.setStateMessage("未交易");
+		}
+		return ticketResult;
+	}
+	
+	
+	
+	
 	@Override
     public List<AgentInfo> queryAllAgentInfo(){
     	return agentInfoMapper.queryAll();
     }
     
-	
+	/** 根据时间去查数据库order_ticket表的信息 */
+	@Override
+	public List<OrderTicketModel> getOrderTicketListWithTkidByTime(Map<String, Object> map) {
+		return orderTicketMapper.getOrderTicketListWithTkidByTime(map);
+	}
 	
 }

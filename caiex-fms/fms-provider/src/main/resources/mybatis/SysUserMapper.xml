@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.caiex.account.mapper.SysUserMapper" > 
 <!-- Result Map-->
-<resultMap id="BaseResultMap" type="com.caiex.account.entity.SysUser" >
+<resultMap id="BaseResultMap" type="com.fms.entity.SysUser" >
 	<result column="id" property="id"/>
 	<result column="email" property="email"/>
 	<result column="pwd" property="pwd"/>

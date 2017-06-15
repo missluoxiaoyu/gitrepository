@@ -34,10 +34,17 @@ public class ChannelStatisticsController {
 	private AgentInfoService agentInfoService;
 	
 	
+
+	@RequestMapping(value = "/list")
+	public String view() {
+		return "channel";
+	}
+	
+	
 	@RequestMapping(value = "/queryAll")
 	@ResponseBody
 	public Map<String, Object> queryAll(String year,String month,String day,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
+		
 		Map<String, Object> map=agentInfoService.queryChannel(year, month, day);
 		return map;
 	}
@@ -46,7 +53,6 @@ public class ChannelStatisticsController {
 	@ResponseBody
 	public Response update(AgentInfoModel result,HttpSession session,HttpServletResponse response) throws Exception {
 		
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Response rs=new Response();
 		try{
 		   rs=agentInfoService.updateAgent(result,session);
@@ -64,7 +70,7 @@ public class ChannelStatisticsController {
 	@RequestMapping(value = "/add")
 	@ResponseBody
 	public Response add(AgentInfo agentInfo,HttpServletResponse response,HttpSession session) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
+		
 		Response rs=new Response();
 		try{
 			rs=agentInfoService.addAgent(agentInfo, session);
@@ -77,8 +83,7 @@ public class ChannelStatisticsController {
 	
 	@RequestMapping(value = "/queryPreStoreDetail")
 	@ResponseBody
-	public Map queryPreStoreDetail(int  agentId,HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
+	public Map<String, Object> queryPreStoreDetail(int  agentId,HttpServletResponse response) throws Exception {
 		
 		Map<String, Object> preStoreMap = new HashMap<String, Object>();
 		 List <AgentInfoDetail> agentInfoDetails =agentInfoService.queryPreStoreDetail(agentId);
@@ -92,7 +97,6 @@ public class ChannelStatisticsController {
 	@RequestMapping(value = "/updateSell")
 	@ResponseBody
 	public Response updateSell(AgentInfoModel agentInfo,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Response rs=new Response();
 		try{
 		    rs=agentInfoService.changeAgentSellStatus(agentInfo,request);
@@ -107,7 +111,6 @@ public class ChannelStatisticsController {
 	@RequestMapping(value = "/updateSellAll")
 	@ResponseBody
 	public Response updateSellAll(AgentInfoModel agentInfo,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Response rs=new Response();
 		try{
 			rs=agentInfoService.changeAllAgentSellStatus(agentInfo,request);
@@ -122,7 +125,6 @@ public class ChannelStatisticsController {
 	@ResponseBody
 	public Response channelStatisticsExcel(String year,String month,String day,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		
 		Response rs=new Response();
 		try{

@@ -32,17 +32,17 @@ import com.caiex.account.mapper.OrderTicketMatchesHisMapper;
 import com.caiex.account.model.OrderTicketDetailFinancialModel;
 import com.caiex.account.model.OrderTicketDetailSGLModel;
 import com.caiex.account.model.OrderTicketFsglModel;
-import com.caiex.account.service.DetailSGLService;
+
 import com.caiex.account.utils.NumberUtil;
 import com.caiex.account.utils.PoiUtil;
 import com.caiex.account.utils.Response;
 import com.mysql.fabric.xmlrpc.base.Array;
 
 @Service
-public class DetailSGLServiceImpl implements DetailSGLService {
+public class DetailSGLServiceImpl  {
 	private final static Logger log = Logger.getLogger(DetailSGLServiceImpl.class);
 
-	@Autowired
+	/*@Autowired
 	private MatchInfoHisMapper matchInfoHisMapper;
 
 	@Autowired
@@ -280,31 +280,26 @@ public class DetailSGLServiceImpl implements DetailSGLService {
 		String endDate = null;
 		Map<String, Object> params = new HashMap<>();
 		if (StringUtils.isEmpty(month)) {
-			startDate = year + "-01-01 00:00:00";
+			startDate = year + "-01-01 12:00:00";
 			Calendar calendar = new GregorianCalendar();
 			calendar.setTime(DateUtils.parseDate(year, new String[] { "yyyy" }));
 			calendar.add(Calendar.YEAR, 1);
-			endDate = DateFormatUtils.format(calendar, "yyyy-MM-dd")
-					+ " 00:00:00";
+			endDate = DateFormatUtils.format(calendar, "yyyy-MM-dd")+ " 12:00:00";
 		} else if (StringUtils.isEmpty(day)) {
-			startDate = year + "-" + month + "-01 00:00:00";
+			startDate = year + "-" + month + "-01 12:00:00";
 			Calendar calendar = new GregorianCalendar();
-			calendar.setTime(DateUtils.parseDate(startDate,
-					new String[] { "yyyy-MM-dd hh:mm:ss" }));
+			calendar.setTime(DateUtils.parseDate(startDate,	new String[] { "yyyy-MM-dd hh:mm:ss" }));
 			calendar.add(Calendar.MONTH, 1);
-			endDate = DateFormatUtils.format(calendar, "yyyy-MM-dd")
-					+ " 00:00:00";
+			endDate = DateFormatUtils.format(calendar, "yyyy-MM-dd")+ " 12:00:00";
 		} else {
-			startDate = year + "-" + month + "-" + day + " 00:00:00";
+			startDate = year + "-" + month + "-" + day + " 12:00:00";
 			Calendar calendar = new GregorianCalendar();
-			calendar.setTime(DateUtils.parseDate(startDate,
-					new String[] { "yyyy-MM-dd hh:mm:ss" }));
+			calendar.setTime(DateUtils.parseDate(startDate,new String[] { "yyyy-MM-dd hh:mm:ss" }));
 			calendar.add(Calendar.DATE, 1);
-			endDate = DateFormatUtils.format(calendar, "yyyy-MM-dd")
-					+ " 00:00:00";
+			endDate = DateFormatUtils.format(calendar, "yyyy-MM-dd")+ " 12:00:00";
 		}
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		return params;
-	}
+	}*/
 }

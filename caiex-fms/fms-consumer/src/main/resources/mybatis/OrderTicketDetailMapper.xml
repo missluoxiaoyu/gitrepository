@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.caiex.account.mapper.OrderTicketDetailMapper">
 
+	<sql id="Base_Column_List" >
+	 local_m,total_price,sid,tid,inv_allup,price_allup,status,alive_m,product,payouttime
+   </sql>
+
 		
 <!--daily breakdown  -->
 <!-- 统计单关totalInvestment -->
@@ -333,7 +337,79 @@ where 1=1
 </trim>
 </sql>	
 		
+
 	
+
+	
+	
+	
+	<!-- 用户管理 -->
+	<!-- 查询赔率列表  要分页 -->
+	<select id="queryByList" resultMap="OrderTicketDetailResult"  parameterType="Object">
+		select 
+		<include refid="Base_Column_List"/>
+		from order_ticket_detail 
+		<include refid="Example_Where_Clause"/>
+	</select>
+	
+	<!-- 查询赔率列表 -->
+<select id="queryByListUnCancel" resultMap="OrderTicketDetailResult"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from order_ticket_detail 
+	<include refid="Example_Where_Clause"/>
+	union all
+	select 
+	<include refid="Base_Column_List"/>
+	from order_ticket_detail_his
+	<include refid="Example_Where_Clause"/>
+	union all
+		select 
+	<include refid="Base_Column_List"/>
+	from order_ticket_detail_cancel
+	<include refid="Example_Where_Clause"/>
+
+</select>
+
+
+	
+	
+	
+	
+	
+	<sql id="Example_Where_Clause">
+		where 1=1
+	<trim  suffixOverrides="," >
+		<if test="local_m != null" >
+		    and local_m =  #{local_m}
+		</if>
+		<if test="total_price != null" >
+		    and total_price =  #{total_price}
+		</if>
+		<if test="sid != null" >
+		    and sid =  #{sid}
+		</if>
+		<if test="tid != null" >
+		    and tid =  #{tid}
+		</if>
+		<if test="inv_allup != null" >
+		    and inv_allup =  #{inv_allup}
+		</if>
+		<if test="price_allup != null" >
+		    and price_allup =  #{price_allup}
+		</if>
+		<if test="status != null" >
+		    and status =  #{status}
+		</if>
+		<if test="alive_m != null" >
+		    and alive_m =  #{alive_m}
+		</if>
+		 	<if test="product != null and product != ''" >
+		    and product =  #{product}
+		</if>
+	</trim>
+</sql>
+   
 		
 
 	

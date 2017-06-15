@@ -18,8 +18,8 @@
 		
 	<import resource="dubbo-context.xml"/>
 	
-    <context:property-placeholder location="file:/opt/FMS/consumer/fms.properties" ignore-unresolvable="true" />  
-<!--  	  <context:property-placeholder location="file:C:/fms/config/fms.properties" ignore-unresolvable="true" />  -->
+   <!--   <context:property-placeholder location="file:/opt/FMS/consumer/fms.properties" ignore-unresolvable="true" />  --> 
+  <context:property-placeholder location="file:C:/fms/config/fms.properties" ignore-unresolvable="true" />    
 	
 	
 </beans>

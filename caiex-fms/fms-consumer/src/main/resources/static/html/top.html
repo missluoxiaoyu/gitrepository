@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" href="img/biticon.ico" media="screen" />
+    <!-- bootstrap -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/icons.css" />
+    <!-- libraries -->
+    <link href="css/lib/font-awesome.css" type="text/css" rel="stylesheet" />    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="css/compiled/tables.css" type="text/css" media="screen" />
+	<style media="all and (orientation:landscape)" type="text/css">
+	#portrait { display: none; }
+	</style>
+</head>
+<body>
+    <!-- navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>            
+            <a class="brand" ng-href="{{nav.urla}}"><img ng-src="{{nav.srca}}"/></a>
+  
+            <div class="nav pull-right">
+				<div class="gray hidden-phone">
+					<span id="time">{{nav.time}}</span>
+					欢迎 <span class="orange">测试用户</span> 第[<span class="orange">{{nav.num}}</span>]次登录系统 
+					<a class="orange" href="/SBC/i18n/ChangeI18n.do?i18nType=cn">中文</a>
+					<a class="orange" href="/SBC/i18n/ChangeI18n.do?i18nType=us">英文</a>
+					<a class="modify-pwd-btn" href="javascript:void(0);">修改密码</a> |
+					<a class="logout-btn" href="/SBC/logout.shtml">退出</a>
+				</div>
+			</div>
+        </div>
+    </div>
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/theme.js"></script>
+	<script src="js/angular.min.js"></script>
+</body>
+</html>

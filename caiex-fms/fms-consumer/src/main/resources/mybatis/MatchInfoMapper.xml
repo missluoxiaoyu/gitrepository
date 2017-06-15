@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caiex.account.mapper.MatchInfoMapper">
+	<!-- Result Map -->
+
+
+	<resultMap id="BaseResultMap" type="com.caiex.account.entity.MatchInfo">
+	<result column="mid" property="mid"/>
+	<result column="match_date" property="match_date"/>
+	<result column="match_code" property="match_code"/>
+	<result column="st_id" property="st_id"/>
+	<result column="match_league" property="match_league"/>
+	<result column="home_team" property="home_team"/>
+	<result column="away_team" property="away_team"/>
+	<result column="home_score_half" property="home_score_half"/>
+	<result column="away_score_half" property="away_score_half"/>
+	<result column="home_score" property="home_score"/>
+	<result column="away_score" property="away_score"/>
+	<result column="state" property="state"/>
+	<result column="create_time" property="create_time"/>
+	<result column="auto_stop" property="auto_stop"/>
+	<result column="hold" property="hold"/>
+	<result column="week_id" property="week_id"/>
+	</resultMap>
+	
+	
+	<!-- match_info table all fields -->
+	 <sql id="Base_Column_List">
+		mid,week_id,match_date,match_code,st_id,match_league,home_team,away_team,home_score_half,away_score_half,home_score,away_score,state,
+		state_name,create_time,auto_stop,hold
+	</sql>
+	<sql id="Base_Column_List_ID">
+		mid,week_id AS weekid,match_date,match_code,st_id,match_league,home_team,away_team,home_score_half,away_score_half,home_score,away_score,state,
+		state_name,create_time,auto_stop,hold
+	</sql>
+	<sql id="Base_Column_List_withoutstatename">
+		mid,week_id,match_date,match_code,st_id,match_league,home_team,away_team,home_score_half,away_score_half,home_score,away_score,state,
+		create_time,auto_stop,hold
+	</sql>
+	
+	<sql id="Base_Column_Simple_List">
+		mid,week_id,match_date,match_code,st_id,match_league,home_team,away_team,home_score_half,away_score_half,home_score,away_score,state,create_time,auto_stop,hold
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="mid != null ">
+				and mid = #{mid}
+			</if>
+			<if test="week_id != null">
+				and week_id = #{week_id}
+			</if>
+			<if test="match_date != null and match_date != ''">
+				and date_format(match_date,'%Y-%m-%d') = LEFT(#{match_date},10)
+			</if>
+			<if test="match_code != null and match_code != '' ">
+				and match_code like CONCAT(${match_code},'%' )
+			</if>
+			<if test="st_id != null">
+				and st_id = #{st_id}
+			</if>
+			<if test="match_league != null and match_league != ''">
+				and match_league = #{match_league}
+			</if>
+			<if test="home_team != null and home_team != ''">
+				and home_team = #{home_team}
+			</if>
+			<if test="away_team != null and away_team != ''">
+				and away_team = #{away_team}
+			</if>
+			<if test="home_score_half != null">
+				and home_score_half = #{home_score_half}
+			</if>
+			<if test="away_score_half != null">
+				and away_score_half = #{away_score_half}
+			</if>
+			<if test="home_score != null">
+				and home_score = #{home_score}
+			</if>
+			<if test="away_score != null">
+				and away_score = #{away_score}
+			</if>
+			<if test="state != null ">
+				and state = #{state}
+			</if>
+			<if test="create_time != null and create_time != ''">
+				and create_time = #{create_time}
+			</if>
+			<if test="auto_stop != null ">
+				and auto_stop = #{auto_stop}
+			</if>
+			<if test="hold != null ">
+				and hold = #{hold}
+			</if>
+
+		</trim>
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause_remove">
+		where 1=1 and state in(6,7)
+		<trim suffixOverrides=",">
+			<if test="mid != null ">
+				and mid = #{mid}
+			</if>
+			<if test="week_id != null">
+				and week_id = #{week_id}
+			</if>
+			<if test="match_date != null and match_date != ''">
+				and date_format(match_date,'%Y-%m-%d') = LEFT(#{match_date},10)
+			</if>
+			<if test="match_code != null and match_code != '' ">
+				and match_code like CONCAT(${match_code},'%' )
+			</if>
+			<if test="st_id != null">
+				and st_id = #{st_id}
+			</if>
+			<if test="match_league != null and match_league != ''">
+				and match_league = #{match_league}
+			</if>
+			<if test="home_team != null and home_team != ''">
+				and home_team = #{home_team}
+			</if>
+			<if test="away_team != null and away_team != ''">
+				and away_team = #{away_team}
+			</if>
+			<if test="home_score_half != null">
+				and home_score_half = #{home_score_half}
+			</if>
+			<if test="away_score_half != null">
+				and away_score_half = #{away_score_half}
+			</if>
+			<if test="home_score != null">
+				and home_score = #{home_score}
+			</if>
+			<if test="away_score != null">
+				and away_score = #{away_score}
+			</if>
+			<if test="state != null ">
+				and state = #{state}
+			</if>
+			<if test="create_time != null and create_time != ''">
+				and create_time = #{create_time}
+			</if>
+			<if test="auto_stop != null ">
+				and auto_stop = #{auto_stop}
+			</if>
+			<if test="hold != null ">
+				and hold = #{hold}
+			</if>
+
+		</trim>
+	</sql>
+
+
+
+
+	
+	<sql id="Base_Column_List_Un">
+		DISTINCT
+		f.mid,f.week_id,f.match_date,f.match_code,f.st_id,f.match_league,f.home_team,f.away_team,f.home_score_half,f.away_score_half,f.home_score,f.away_score,f.state,f.state_name,f.create_time,f.auto_stop,f.hold
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause_Un">
+		where s.unconfirm_price!=0
+		<trim suffixOverrides=",">
+			<if test="mid != null ">
+				and f.mid = #{mid}
+			</if>
+			<if test="week_id != null">
+				and f.week_id = #{week_id}
+			</if>
+			<if test="match_date != null and match_date != ''">
+				and date_format(f.match_date,'%Y-%m-%d') = LEFT(#{match_date},10)
+			</if>
+			<if test="match_code != null and match_code != '' ">
+				and f.match_code like CONCAT(${match_code},'%' )
+			</if>
+			<if test="st_id != null">
+				and f.st_id = #{st_id}
+			</if>
+			<if test="match_league != null and match_league != ''">
+				and f.match_league = #{match_league}
+			</if>
+
+			<if test="state != null ">
+				and f.state = #{state}
+			</if>
+
+		</trim>
+	</sql>
+
+	
+	
+	
+	<!-- where条件 -->
+	<sql id="Example_Where_Sh">
+		where 1=1
+		<trim suffixOverrides=",">
+
+			<if test="week_id != null and week_id!=''">
+				and week_id = #{week_id}
+			</if>
+			<if test="match_code != null and match_code != ''">
+				and match_code = #{match_code}
+			</if>
+			<if test="match_code == null or match_code == ''">
+				and 1>1
+			</if>
+		</trim>
+	</sql>
+
+
+	
+<!--用户管理 -->
+<!-- 根据match_code,week_id查询赛事 -->
+<select id="queryByCodeWeek" resultMap="BaseResultMap" parameterType="com.caiex.account.entity.MatchInfo">
+		select 
+		<include refid="Base_Column_Simple_List"/>
+		from match_info where week_id=#{week_id} and match_code=#{match_code} 
+		union all
+		select 
+		<include refid="Base_Column_Simple_List"/>
+		from match_info_his where week_id=#{week_id} and match_code=#{match_code}
+</select>
+
+<select id="query" resultMap="BaseResultMap" parameterType="Object">
+		select *
+		from match_info where week_id=#{week_id} and match_code=#{match_code} 
+		union all
+		select *
+		from match_info_his where week_id=#{week_id} and match_code=#{match_code}
+</select>
+
+
+</mapper>   

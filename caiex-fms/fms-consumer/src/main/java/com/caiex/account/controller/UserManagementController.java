@@ -1,7 +1,9 @@
-package com.caiex.account.controller;
+/*package com.caiex.account.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.caiex.account.entity.AgentInfo;
+import com.caiex.account.entity.OrderTicketDetail;
+import com.caiex.account.model.OrderTicketDetailUMModel;
+import com.caiex.account.model.OrderTicketModel;
 import com.caiex.account.service.UserManagementService;
+import com.caiex.account.utils.Response;
 
 
 @Controller
@@ -22,27 +28,29 @@ public class UserManagementController {
 	@Autowired
 	private UserManagementService service;
 	
-	/*@RequestMapping(value = "/queryAll")
+	@RequestMapping(value = "/queryAll")
 	@ResponseBody
-	public DataPagination<OrderTicket> queryAll(OrderTicketModel orderTicket,
-			HttpServletRequest request) throws Exception {
-		DataPagination<OrderTicket> dp=new DataPagination<OrderTicket>();
+	public Map<String, Object> queryAll(OrderTicketModel orderTicket,HttpServletRequest request) throws Exception {
+		 Map<String, Object> map = new HashMap<String, Object>();
 		try{
-			 dp=userManagementService.queryAll(orderTicket);
+			map = service.queryAll(orderTicket);
 		}catch(Exception e){
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-				return dp;
-	}@RequestMapping(value = "/queryDetail")
+			return map;
+	}
+	
+	
+	
+	@RequestMapping(value = "/queryDetail")
 	@ResponseBody
-	public List<OrderTicketDetail> queryDetail(OrderTicketModel orderTicket,
-			HttpServletRequest request) throws Exception {
-		List<OrderTicketDetail>  list=new ArrayList<OrderTicketDetail>();
+	public List<OrderTicketDetailUMModel> queryDetail(OrderTicketModel orderTicket,HttpServletRequest request) throws Exception {
+		List<OrderTicketDetailUMModel>  list=new ArrayList<OrderTicketDetailUMModel>();
 		try{
-			list=userManagementService.queryDetail(orderTicket);
+			list=service.queryDetail(orderTicket);
 		}catch(Exception e){
-			log.error(e.getMessage());
+			//log.error(e.getMessage());
 			e.printStackTrace();
 		}
 				return list;
@@ -50,25 +58,15 @@ public class UserManagementController {
 	
 	@RequestMapping(value = "/userManagementExcel")
 	@ResponseBody
-	public void userManagementExcel(String order_id,String terminalNo,String agentName,Integer inplay,
-			String startDate,String endDate,Integer state,Integer recycleState,Integer trade_type,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		OrderTicketModel orderTicket=new OrderTicketModel();
-		orderTicket.setTkId(order_id);
-		orderTicket.setUid(terminalNo);
-		orderTicket.setAgentName(agentName);
-		orderTicket.setInplay(inplay);
-		orderTicket.setTrade_type(trade_type);
-		orderTicket.setStartDate(startDate);
-		orderTicket.setEndDate(endDate);
-		orderTicket.setState(state);
-		orderTicket.setRecycleState(recycleState);
+	public Response userManagementExcel(OrderTicketModel orderTicket, HttpServletResponse response) throws Exception {
+		Response res = new Response();
 		try{
-			userManagementService.userManagementExcel(request,response,orderTicket);
+		res = 	service.userManagementExcel(response,orderTicket);
 		}catch(Exception e){
-			log.error(e.getMessage());
+			//log.error(e.getMessage());
 			e.printStackTrace();
 		}
+		return res;
 	}
 	
 	@RequestMapping(value = "/updateNotWinning")
@@ -134,7 +132,7 @@ public class UserManagementController {
 			e.printStackTrace();
 		}
 		return rs;
-	}*/
+	}
 	
 	
 	@RequestMapping(value = "/queryAllAgent")
@@ -144,3 +142,4 @@ public class UserManagementController {
 		
 	}
 }
+*/

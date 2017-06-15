@@ -4,4 +4,99 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.caiex.account.mapper.OrderTicketMatchesMapper">
 
+<resultMap id="BaseResultMap" type="com.caiex.account.entity.OrderTicketMatches" >
+	<result column="price_allup" property="price_allup"/>
+	<result column="local_m" property="local_m"/>
+	<result column="sid" property="sid"/>
+	<result column="inv_match" property="inv_match"/>
+	<result column="l_prod" property="l_prod"/>
+	<result column="l_code" property="l_code"/>
+	<result column="l_team" property="l_team"/>
+	<result column="l_opt" property="l_opt"/>
+	<result column="l_odds" property="l_odds"/>
+	<result column="local_odds" property="local_odds"/>
+	<result column="id" property="id"/>
+	<result column="weekno" property="weekno"/>
+	<result column="statistics" property="statistics"/>
+</resultMap>
+
+<sql id="Base_Column_Listh" >
+	 price_allup,local_m,sid,inv_match,l_prod,l_code,l_opt,l_odds,local_odds,id,weekno,statistics
+</sql>  
+
+
+<sql id="Base_Column_List" >
+	 price_allup,local_m,sid,inv_match,l_prod,l_code,l_team,l_opt,l_odds,local_odds,id,weekno,statistics
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="price_allup != null" >
+	    and price_allup =  #{price_allup}
+	</if>
+	<if test="local_m != null" >
+	    and local_m =  #{local_m}
+	</if>
+	<if test="sid != null" >
+	    and sid =  #{sid}
+	</if>
+	<if test="inv_match != null" >
+	    and inv_match =  #{inv_match}
+	</if>
+	 	<if test="l_prod != null and l_prod != ''" >
+	    and l_prod =  #{l_prod}
+	</if>
+	 	<if test="l_code != null and l_code != ''" >
+	    and l_code =  #{l_code}
+	</if>
+	 	<if test="l_team != null and l_team != ''" >
+	    and l_team =  #{l_team}
+	</if>
+	 	<if test="l_opt != null and l_opt != ''" >
+	    and l_opt =  #{l_opt}
+	</if>
+	<if test="l_odds != null" >
+	    and l_odds =  #{l_odds}
+	</if>
+	 	<if test="local_odds != null and local_odds != ''" >
+	    and local_odds =  #{local_odds}
+	</if>
+	<if test="id != null" >
+	    and id =  #{id}
+	</if>
+	<if test="weekno != null" >
+	    and weekno =  #{weekno}
+	</if>
+	
+</trim>
+</sql>
+
+
+
+
+ 	<!-- 查询赔率列表 -->
+<select id="queryByListUnCancel" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_Listh"/>
+	from order_ticket_matches 
+	<include refid="Example_Where_Clause"/>
+	
+	union all
+	select 
+	<include refid="Base_Column_Listh"/>
+	from order_ticket_matches_his
+	<include refid="Example_Where_Clause"/>
+	
+	union all
+	select 
+	<include refid="Base_Column_Listh"/>
+	from order_ticket_matches_cancel 
+	<include refid="Example_Where_Clause"/>
+	
+	order by l_code
+</select>
+
+
 </mapper>   

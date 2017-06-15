@@ -34,7 +34,6 @@ public class SysUserController {
 	@RequestMapping(value="tologin",method=RequestMethod.POST)
 	@ResponseBody
 	public Response  login(String email, String pwd,HttpServletRequest request, HttpServletResponse response) throws Exception{
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Response res = new Response();
 		
 		if(StringUtils.isBlank(email)){

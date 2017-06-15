@@ -1,6 +1,6 @@
 package com.caiex.account.model;
 
-public class summaryTitle {
+public class SummaryTitle {
 	 private String week;
 	 private String totalNum;
 	
@@ -119,7 +119,7 @@ public class summaryTitle {
 	public void setPayoutRateBk(String payoutRateBk) {
 		this.payoutRateBk = payoutRateBk;
 	}
-	public summaryTitle(String week, String totalNum, String totalInvestment,
+	public SummaryTitle(String week, String totalNum, String totalInvestment,
 			String invest, String totalPrice, String payoutRate, String fbNum,
 			String totalInvestmentFb, String investFb, String totalPriceFb,
 			String payoutRateFb, String bkNum, String totalInvestmentBk,
@@ -142,7 +142,7 @@ public class summaryTitle {
 		this.totalPriceBk = totalPriceBk;
 		this.payoutRateBk = payoutRateBk;
 	}
-	public summaryTitle() {
+	public SummaryTitle() {
 		super();
 	}
 	 

@@ -18,10 +18,12 @@ public class OrderTicketErrorServiceImpl implements OrderTicketErrorService{
 	
 	//分页查询
 	@Override
-	public List<OrderTicketError> getTicketErrors(int page,int size){
+	public List<OrderTicketError> getTicketErrors(int page,int size,String startDate,String endDate){
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("page", (page-1)*size);
 		map.put("size", size);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
 		return orderTicketErrorMapper.getTicketErrors(map);
 	}
 	

@@ -26,5 +26,6 @@
   	<module>fms-provider</module>
    <module>fms-consumer</module> 
   	<module>fms-api</module>
+  	<module>fms-hisprovider</module>
   </modules>
 </project>

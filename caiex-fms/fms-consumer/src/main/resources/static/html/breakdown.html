@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Daily Breakdown</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" href="img/biticon.ico" media="screen" />
+    <!-- bootstrap -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <!--<link href="css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />-->
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="css/elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/icons.css" />
+    <!-- libraries -->
+    <link href="css/lib/font-awesome.css" type="text/css" rel="stylesheet" />    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="css/compiled/tables.css" type="text/css" media="screen" />
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+</head>
+<body ng-app="Breakdown">
+    <!-- navbar -->
+    <div class="navbar navbar-inverse" ng-controller="loginctrl as nav">
+        <div ng-include="'top.html'"></div>
+    </div>
+    <!-- end navbar -->
+
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="breakctrl as brk">
+        <ul id="dashboard-menu">
+            <li ng-repeat="br in brk.brbox" ng-class="{active:br.active}" ng-click="br.active = !br.active">                
+                <a ng-href="{{br.urlb}}">
+                    <span>{{br.texa}}</span>
+                </a>
+            </li> 
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="brdownctrl as down">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section center">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>财务数据日明细表</span><br />
+                            	<span>Daily Betting Breakdown</span>
+                            </h4>
+                            <form class="formdate left">
+								<input id="d12" class="Wdate" type="text"/>
+								<input type="radio" name="radio" value="1" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy'})">年
+								<input type="radio" name="radio" value="2" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M'})">月
+								<input type="radio" name="radio" value="3" checked onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M-d'})">日
+							</form>
+							<button ng-click="data()">查询</button>
+							<button ng-click="export()">导出</button>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="gree" colspan="4">合计Total</td>
+                                    <td class="red" colspan="4">过关固定奖ALLUP</td>
+                                    <td class="blue" colspan="6">单场固定奖FSGL</td>
+                                    <td class="yel" colspan="4">Level0</td>
+                                </tr>
+                                <tr ng-repeat="do in down.dobox">
+                                    <td>{{do.worda}}</td>
+                                    <td>{{do.wordb}}</td>
+                                    <td class="gree">{{do.wordc}}</td>
+                                    <td class="gree">{{do.wordd}}</td>
+                                    <td class="gree">{{do.worde}}</td>
+                                    <td class="gree">{{do.wordf}}</td>
+                                    <td class="red">{{do.wordc}}</td>
+                                    <td class="red">{{do.wordd}}</td>
+                                    <td class="red">{{do.worde}}</td>
+                                    <td class="red">{{do.wordf}}</td>
+                                    <td class="blue">{{do.wordc}}</td>
+                                    <td class="blue">{{do.wordd}}</td>
+                                    <td class="blue">{{do.worde}}</td>
+                                    <td class="blue">{{do.wordf}}</td>
+                                    <td class="blue">{{do.wordg}}</td>
+                                    <td class="blue">{{do.wordh}}</td>
+                                    <td class="yel">{{do.wordc}}</td>
+                                    <td class="yel">{{do.wordd}}</td>
+                                    <td class="yel">{{do.worde}}</td>
+                                    <td class="yel">{{do.wordf}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fb" rowspan="7">足球FB</td>
+                                </tr>
+                                <tr ng-repeat="dn in dnbox">
+                                    <td>{{dn.product}}</td>
+                                    <td class="gree">{{dn.totalInvestment}}￥</td>
+                                    <td class="gree">{{dn.invest}}￥</td>
+                                    <td class="gree">{{dn.totalPrice}}￥</td>
+                                    <td class="gree">{{dn.payoutRate}}%</td>
+                                    <td class="red">{{dn.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{dn.investAllup}}￥</td>
+                                    <td class="red">{{dn.totalPriceAllup}}￥</td>
+                                    <td class="red">{{dn.payoutRateAllup}}%</td>
+                                    <td class="blue">{{dn.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{dn.investFsgl}}￥</td>
+                                    <td class="blue">{{dn.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{dn.payoutRateFsgl}}%</td>
+                                    <td class="blue">{{dn.winpriceFsgl}}￥</td>
+                                    <td class="blue">{{dn.averageFsgl}}</td>
+                                    <td class="yel">{{dn.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{dn.investLevel0}}￥</td>
+                                    <td class="yel">{{dn.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{dn.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr class="fb">
+                                    <td colspan="2">足球合计 FB Total</td>
+                                    <td>{{FBtotal.totalInvestment}}</td>
+                                    <td>{{FBtotal.invest}}</td>
+                                    <td>{{FBtotal.totalPrice}}</td>
+                                    <td>{{FBtotal.payoutRate}}%</td>
+                                    <td>{{FBtotal.totalInvestmentAllup}}</td>
+                                    <td>{{FBtotal.investAllup}}</td>
+                                    <td>{{FBtotal.totalPriceAllup}}</td>
+                                    <td>{{FBtotal.payoutRateAllup}}%</td>
+                                    <td>{{FBtotal.totalInvestmentFsgl}}</td>
+                                    <td>{{FBtotal.investFsgl}}</td>
+                                    <td>{{FBtotal.totalPriceFsgl}}</td>
+                                    <td>{{FBtotal.payoutRateFsgl}}%</td>
+                                    <td>{{FBtotal.winpriceFsgl}}</td>
+                                    <td>{{FBtotal.averageFsgl}}</td>
+                                    <td>{{FBtotal.totalInvestmentLevel0}}</td>
+                                    <td>{{FBtotal.investLevel0}}</td>
+                                    <td>{{FBtotal.totalPriceLevel0}}</td>
+                                    <td>{{FBtotal.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr>
+                                    <td class="fb" rowspan="3">篮球BK</td>
+                                </tr>
+                                <tr>
+                                    <td>HDC</td>
+                                    <td class="gree">-</td>
+                                    <td class="gree">-</td>
+                                    <td class="gree">-</td>
+                                    <td class="gree">-</td>
+                                    <td class="red">-</td>
+                                    <td class="red">-</td>
+                                    <td class="red">-</td>
+                                    <td class="red">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="yel">-</td>
+                                    <td class="yel">-</td>
+                                    <td class="yel">-</td>
+                                    <td class="yel">-</td>
+                                </tr>
+                                <tr>
+                                    <td>MNL</td>
+                                    <td class="gree">-</td>
+                                    <td class="gree">-</td>
+                                    <td class="gree">-</td>
+                                    <td class="gree">-</td>
+                                    <td class="red">-</td>
+                                    <td class="red">-</td>
+                                    <td class="red">-</td>
+                                    <td class="red">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="blue">-</td>
+                                    <td class="yel">-</td>
+                                    <td class="yel">-</td>
+                                    <td class="yel">-</td>
+                                    <td class="yel">-</td>
+                                </tr>
+                                <tr class="fb">
+                                    <td colspan="2">篮球合计 BK Total</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="dategray">
+                                    <td colspan="2">当日合计 Total</td>
+                                    <td>{{total.totalInvestment}}</td>
+                                    <td>{{total.invest}}</td>
+                                    <td>{{total.totalPrice}}</td>
+                                    <td>{{total.payoutRate}}%</td>
+                                    <td>{{total.totalInvestmentAllup}}</td>
+                                    <td>{{total.investAllup}}</td>
+                                    <td>{{total.totalPriceAllup}}</td>
+                                    <td>{{total.payoutRateAllup}}%</td>
+                                    <td>{{total.totalInvestmentFsgl}}</td>
+                                    <td>{{total.investFsgl}}</td>
+                                    <td>{{total.totalPriceFsgl}}</td>
+                                    <td>{{total.payoutRateFsgl}}%</td>
+                                    <td>{{total.winpriceFsgl}}</td>
+                                    <td>{{total.averageFsgl}}</td>
+                                    <td>{{total.totalInvestmentLevel0}}</td>
+                                    <td>{{total.investLevel0}}</td>
+                                    <td>{{total.totalPriceLevel0}}</td>
+                                    <td>{{total.payoutRateLevel0}}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- scripts -->
+    <script src="js/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/theme.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/breakdown.js"></script>
+	<script src="js/top.js"></script>
+	<script src="js/My97DatePicker/WdatePicker.js"></script>
+</body>
+</html>

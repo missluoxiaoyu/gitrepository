@@ -4,7 +4,8 @@ import java.util.Map;
 
 import org.mybatis.spring.annotation.MapperScan;
 
-import com.caiex.account.entity.SysUser;
+import com.fms.entity.SysUser;
+
 
 
 

@@ -33,18 +33,7 @@ public interface OrderTicketMapper {
 	//渠道
 	public int getOrderAmount(Map<String, Object> paramsMap);
 	
-	//用户管理
-	List<OrderTicketModel> queryTicketInfoSuccess(OrderTicketModel orderTicketModel);
-
-	List<OrderTicketModel> queryTicketInfoSuccessExcel(OrderTicketModel orderTicketModel);
-
-	List<OrderTicketModel> queryTicketInfoCancel(OrderTicketModel orderTicketModel);
-
-	List<OrderTicketModel> queryTicketInfoCancelExcel(OrderTicketModel orderTicketModel);
-
-	List<OrderTicketModel> queryTicketInfo(OrderTicketModel orderTicketModel);
-
-	List<OrderTicketModel> queryTicketInfoExcel(OrderTicketModel orderTicketModel);
+	
 	
 	
 	

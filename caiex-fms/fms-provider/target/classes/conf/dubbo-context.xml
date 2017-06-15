@@ -18,5 +18,21 @@
     <dubbo:service interface="com.fms.api.LoginService" ref="loginService" />
     <bean id="loginService" class="com.caiex.account.service.impl.LoginServiceImpl"/>
   
+  	<dubbo:service interface="com.fms.api.DailyFinancialDetailService" ref="dailyFinancialDetailService" />
+    <bean id="dailyFinancialDetailService" class="com.caiex.account.service.impl.DailyFinancialDetailServiceImpl"/>
+  	
+  	<dubbo:service interface="com.fms.api.DailyCollectStatementsService" ref="dailyCollectStatementsService" />
+    <bean id="dailyCollectStatementsService" class="com.caiex.account.service.impl.DailyCollectStatementsServiceImpl"/>
+    
+   	<dubbo:service interface="com.fms.api.DailyFinancialStatementsService" ref="dailyFinancialStatementsService" />
+    <bean id="dailyFinancialStatementsService" class="com.caiex.account.service.impl.DailyFinancialStatementsServiceImpl"/>
+    
+    <dubbo:service interface="com.fms.api.DetailAllupService" ref="detailAllupService" />
+    <bean id="detailAllupService" class="com.caiex.account.service.impl.DetailAllupServiceImpl"/>
+    
+    <dubbo:service interface="com.fms.api.DetailSGLService" ref="detailSGLService" />
+    <bean id="detailSGLService" class="com.caiex.account.service.impl.DetailSGLServiceImpl"/>
+  
+  
 </beans>
   

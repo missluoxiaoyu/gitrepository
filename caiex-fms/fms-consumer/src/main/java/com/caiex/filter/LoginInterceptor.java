@@ -1,4 +1,4 @@
-/*package com.caiex.filter;
+package com.caiex.filter;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,15 +22,14 @@ public class LoginInterceptor implements HandlerInterceptor{
 		 if(url.indexOf("tologin.do")>=0){  
 	            return true;  
 	        }  
-		//=========================================
-		 if(url.indexOf("/dailyAllup/queryAll.do")>=0){  
-	            return true;  
-	        }//测试/dailyAllup/queryAll.do放行
-	    //==========================================
-		
+		 if(url.indexOf(".html")>=0){
+			 System.out.println("================================");
+			 return false;
+		 }
+		 
 		Cookie cookies[] = request.getCookies();
 		if(cookies == null){
-			System.out.println("cookie为null");
+			//System.out.println("cookie为null");
 		}else{
 			for (Cookie cookie : cookies) {
 				if(cookie.getName().equals("priKey")){
@@ -62,4 +61,3 @@ public class LoginInterceptor implements HandlerInterceptor{
 
 	
 }
-*/

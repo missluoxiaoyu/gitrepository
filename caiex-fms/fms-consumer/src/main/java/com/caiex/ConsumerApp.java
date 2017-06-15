@@ -1,7 +1,10 @@
 package com.caiex;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,6 +26,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.caiex.account.utils.biYingAgentUrlInfo;
 import com.caiex.account.utils.xiaomiAgentUrlInfo;
+import com.github.pagehelper.PageHelper;
 
 
 /**
@@ -37,7 +41,7 @@ import com.caiex.account.utils.xiaomiAgentUrlInfo;
 @EnableScheduling
 @ServletComponentScan
 @EnableConfigurationProperties({biYingAgentUrlInfo.class,xiaomiAgentUrlInfo.class}) 
-@PropertySource(value={"file:/opt/FMS/consumer/fms.properties"})
+@PropertySource(value={"file:C:/fms/config/fms.properties"})
 public class ConsumerApp{
 	@Autowired
 	private Environment env;
@@ -48,12 +52,15 @@ public class ConsumerApp{
 		return new com.caiex.account.config.DataBaseConfig().dataSource(env);
 	}
 	
-	@Bean
-	public SqlSessionFactory sqlSessionFactoryBean() throws Exception{
+	@Bean(name = "sqlSessionFactory")
+	public SqlSessionFactory sqlSessionFactoryBean(PageHelper  pageHelper) throws Exception{
 		SqlSessionFactoryBean sqlSessionFactoryBean=new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource());
 		PathMatchingResourcePatternResolver resolver=new PathMatchingResourcePatternResolver();
 		sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mybatis/*.xml"));
+		
+		 // 添加插件
+        sqlSessionFactoryBean.setPlugins(new Interceptor[] { pageHelper });
 		return sqlSessionFactoryBean.getObject();
 	}
 	
@@ -61,6 +68,19 @@ public class ConsumerApp{
 	public PlatformTransactionManager transactionManager(){
 		return new DataSourceTransactionManager(dataSource());
 	}
+	
+	 @Bean
+	    public PageHelper pageHelper() {
+	        PageHelper pageHelper = new PageHelper();
+	        Properties p = new Properties();
+	        p.setProperty("offsetAsPageNum", "true");
+	        p.setProperty("rowBoundsWithCount", "true");
+	        p.setProperty("reasonable", "true");
+	        p.setProperty("dialect", "mysql");
+	        pageHelper.setProperties(p);
+	        return pageHelper;
+	    }
+	
 	
     public static void main( String[] args ){  
     	SpringApplication.run(ConsumerApp.class, args);

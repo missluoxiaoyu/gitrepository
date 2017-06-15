@@ -6,7 +6,8 @@ import com.caiex.account.entity.OrderTicketError;
 
 public interface OrderTicketErrorService {
 	//分页查询
-	public List<OrderTicketError> getTicketErrors(int page,int size);
+	public List<OrderTicketError> getTicketErrors(int page,int size,String startDate,String endDate);
+	
 	//存贮
 	void saveTicketError(OrderTicketError ticketError);
 	//删除

@@ -1,6 +1,7 @@
 com\caiex\test\TestAgent.class
 com\caiex\test\TestDetail.class
 com\caiex\test\TestList.class
+com\caiex\test\TestUserManage.class
 com\caiex\test\TestLevel0.class
 com\caiex\test\TestDate.class
 com\caiex\test\TestChangeAgentSell.class

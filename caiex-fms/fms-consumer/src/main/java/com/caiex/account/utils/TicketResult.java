@@ -9,7 +9,23 @@ public class TicketResult {
 	private Date tradeTime;
 	private double tradePrice;
 	private double winMoney;
+	private String stateMessage;
+	private Integer agentid;
 	
+	
+	
+	public String getStateMessage() {
+		return stateMessage;
+	}
+	public void setStateMessage(String stateMessage) {
+		this.stateMessage = stateMessage;
+	}
+	public Integer getAgentid() {
+		return agentid;
+	}
+	public void setAgentid(Integer agentid) {
+		this.agentid = agentid;
+	}
 	
 	
 	public int getSchemeState() {
@@ -59,6 +75,7 @@ public class TicketResult {
 		this.tradePrice = tradePrice;
 		this.winMoney = winMoney;
 	}
+	
 	@Override
 	public String toString() {
 		return "TicketResult [schemeState=" + schemeState + ", tradeTime="

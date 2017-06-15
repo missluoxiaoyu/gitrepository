@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component  
-//@ConfigurationProperties(prefix = "redis",locations = "file:C:/fms/config/fms.properties") 
-@ConfigurationProperties(prefix = "redis",locations = "file:/opt/FMS/consumer/fms.properties") 
+@ConfigurationProperties(prefix = "redis",locations = "file:C:/fms/config/fms.properties") 
+//@ConfigurationProperties(prefix = "redis",locations = "file:/opt/FMS/consumer/fms.properties") 
 public class RedisProperties {
 	
 	private String masterName;

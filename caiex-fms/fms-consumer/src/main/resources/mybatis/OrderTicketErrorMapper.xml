@@ -10,8 +10,20 @@
 	</insert>	
 	
 	<select id="getTicketErrors" resultMap="TicketErrorResult" parameterType="java.util.Map">
-		select * from order_ticket_error limit #{page} ,#{size}
+		select * from order_ticket_error o 
+		<include refid="Where_ticket"/>
 	</select>
+	
+	<!-- 查询条件 -->
+	<sql id="Where_ticket">
+	where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
+		    and <![CDATA[ o.trade_time  >=#{startDate}  ]]>  <![CDATA[ and o.trade_time < #{endDate}]]>
+		</if>
+		 limit #{page} ,#{size} 
+	</trim>
+	</sql>
 	
 	<select id="getTicketErrorByid" parameterType="int" resultMap="TicketErrorResult">
 		select * from order_ticket_error where id =#{id}
@@ -23,8 +35,19 @@
 	
 	<!--查询错误票的总数  -->
 	<select id="queryOrderTicketErrorAmount" resultType="java.lang.Integer">
-	select count(*) from order_ticket_error 
+	select count(o.id) from order_ticket_error  o 
+	<include refid="Where_amount"/>
 	</select>
+	<!-- 查询条件 -->
+	<sql id="Where_amount">
+	where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''" >
+		    and <![CDATA[ o.trade_time  >=#{startDate}  ]]>  <![CDATA[ and o.trade_time < #{endDate}]]>
+		</if>
+	</trim>
+	</sql>
+	
 	
 
 	<delete id="deleteTicketError" parameterType="com.caiex.account.entity.OrderTicketError">

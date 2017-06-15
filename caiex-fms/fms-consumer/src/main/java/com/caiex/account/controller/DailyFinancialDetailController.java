@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.caiex.account.service.DailyFinancialDetailService;
+
+
+import com.caiex.account.service.AllDailyFinancialDetailService;
 import com.caiex.account.utils.Response;
 
 
@@ -24,14 +26,20 @@ public class DailyFinancialDetailController {
 	private final static Logger log= Logger.getLogger(DailyFinancialDetailController.class);
 	
 	@Autowired
-	private DailyFinancialDetailService service;
+	private AllDailyFinancialDetailService service;
+	
+	
+	@RequestMapping(value = "/list")
+	public String view() {
+		return "breakdown";
+	}
+	
 	
 	
 	@RequestMapping(value = "/queryAll")
 	@ResponseBody
 	public Map<String, Object> queryAll(String year, String month, String day,
 			HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Map<String, Object> map=new HashMap<String, Object>();
 		try{
 	     	map=service.queryAll(year,month,day);
@@ -46,7 +54,6 @@ public class DailyFinancialDetailController {
 	@ResponseBody
 	public Response dailyFinancialDetailExcel(String year, String month, String day,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Response res = new Response();
 		try{
 			res=service.dailyFinancialDetailExcel(year,month,day,response);

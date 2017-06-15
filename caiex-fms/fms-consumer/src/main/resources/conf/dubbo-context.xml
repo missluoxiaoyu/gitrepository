@@ -8,13 +8,26 @@
     <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}" organization="dubbox"/>
 
     <dubbo:registry address="${dubbo.registry.address}"/>
-   <!--  -->
-   <!-- <dubbo:registry address="zookeeper://127.0.0.1:2181"/>  -->
-    <dubbo:reference  id= "loginService" interface="com.fms.api.LoginService"/>
-   
-    <!--  -->
+  
     <dubbo:reference id="ticketApi" interface="com.caiex.oltp.api.ticket.TicketApi"  timeout="20000"/> 
     <dubbo:reference id="redisOptApi" interface="com.caiex.oltp.api.ticket.RedisOptApi" timeout="8000"/>
+   
+    <!--  -->
+   <!-- <dubbo:registry address="zookeeper://127.0.0.1:2181"/>  -->
+    <dubbo:reference  id= "loginService" interface="com.fms.api.LoginService"/>
+    <dubbo:reference  id= "dailyFinancialDetailService" interface="com.fms.api.DailyFinancialDetailService"/>
+     <dubbo:reference  id= "dailyCollectStatementsService" interface="com.fms.api.DailyCollectStatementsService"/>
+     <dubbo:reference  id= "dailyFinancialStatementsService" interface="com.fms.api.DailyFinancialStatementsService"/>
+     <dubbo:reference  id= "detailAllupService" interface="com.fms.api.DetailAllupService"/>
+    <dubbo:reference  id= "detailSGLService" interface="com.fms.api.DetailSGLService"/>
+    
+    <dubbo:reference  id= "hisDailyFinancialDetailService" interface="com.fms.api.HisDailyFinancialDetailService"/>
+	<dubbo:reference  id= "hisDailyCollectStatementsService" interface="com.fms.api.HisDailyCollectStatementsService"/>
+	<dubbo:reference  id= "hisDailyFinancialStatementsService" interface="com.fms.api.HisDailyFinancialStatementsService"/>
+	<dubbo:reference  id= "hisDetailAllupService" interface="com.fms.api.HisDetailAllupService"/>
+	<dubbo:reference  id= "hisDetailSGLService" interface="com.fms.api.HisDetailSGLService"/>
+    
+    <!--  -->
    
 </beans>
   

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-@ConfigurationProperties(prefix = "xiaomi",locations = "file:/opt/FMS/consumer/fms.properties") 
-//@ConfigurationProperties(prefix = "xiaomi",locations = "file:C:/fms/config/fms.properties")  
+//@ConfigurationProperties(prefix = "xiaomi",locations = "file:/opt/FMS/consumer/fms.properties") 
+@ConfigurationProperties(prefix = "xiaomi",locations = "file:C:/fms/config/fms.properties")  
 public class xiaomiAgentUrlInfo {
 	private int agentid;
 	

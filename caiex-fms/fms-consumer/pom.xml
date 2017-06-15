@@ -69,6 +69,17 @@
 			<artifactId>spring-boot-starter-redis</artifactId>
 		</dependency>
 
+
+		<!-- 分页 -->
+
+	    <dependency>  
+        	<groupId>com.github.pagehelper</groupId>  
+        	<artifactId>pagehelper</artifactId>  
+        	<version>4.1.0</version>  
+    	</dependency>  
+		<!--分页  -->
+
+
 		<!--log4j -->
 <!-- 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

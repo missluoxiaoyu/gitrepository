@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.annotation.MapperScan;
 
 import com.caiex.account.entity.OrderTicketDetail;
+import com.caiex.account.model.OrderTicketModel;
 
 
 @MapperScan
@@ -39,6 +40,12 @@ public interface OrderTicketDetailMapper {
 		public OrderTicketDetail queryTotalprice(Map<String, Object> params);
 		
 		public OrderTicketDetail queryInvest(Map<String, Object> params);
+	
+		
+		//用户管理 
+		public List<OrderTicketDetail> queryByList(OrderTicketDetail detail);
+		
+		public List<OrderTicketDetail> queryByListUnCancel(OrderTicketDetail model);
 		
 		
 }

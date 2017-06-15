@@ -26,7 +26,7 @@ public interface OrderTicketErrorMapper {
 	//根据起止时间查询
 	public List<OrderTicketError> getTicketErrorByTime(Map<String ,Object> paramsMap);
 	//查询总的错误票的数量
-	public Integer queryOrderTicketErrorAmount();
+	public Integer queryOrderTicketErrorAmount(Map<String ,Object> paramsMap);
 	
 	
 }

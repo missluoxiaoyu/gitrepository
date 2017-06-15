@@ -60,10 +60,14 @@ public class OrderTicketErrorController {
 	//查询
 	@RequestMapping(value="/errorTicket/getErrorTickets")
 	@ResponseBody
-	public Map<String, Object> getTicketErrors(@RequestParam (defaultValue="1")int page,@RequestParam (defaultValue="10")int size, HttpServletResponse response){
-		response.setHeader( "Access-Control-Allow-Origin","*");
+	public Map<String, Object> getTicketErrors(@RequestParam (defaultValue="1")int page,@RequestParam (defaultValue="10")int size, 
+												String startDate,String endDate,HttpServletResponse response) throws Exception{
+		
 		Map<String, Object> map =new HashMap<String, Object>();
-		map.put("ticketResult", orderTicketErrorService.getTicketErrors(page,size));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date str = sdf.parse(startDate);
+		Date end = sdf.parse(endDate);
+		map.put("ticketResult", orderTicketErrorService.getTicketErrors(page,size,sdf.format(str),sdf.format(end)));
 		return map;
 	}
 	
@@ -72,7 +76,6 @@ public class OrderTicketErrorController {
 	@ResponseBody
 	public MessageResult refuseTicket(Integer id,HttpServletResponse response){
 		
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		OrderTicketError orderTicketError = orderTicketErrorService.getTicketErrorByid(id);
 		
 		RefusedTicket refusedTicket=new RefusedTicket();
@@ -102,7 +105,6 @@ public class OrderTicketErrorController {
 	@ResponseBody
 	public MessageResult recycleTicket(Integer id,HttpServletResponse res){
 		
-		res.setHeader( "Access-Control-Allow-Origin","*");
 		OrderTicketError orderTicketError = orderTicketErrorService.getTicketErrorByid(id);
 		log.info(orderTicketError.getAgentId()+"回收"+orderTicketError.getAgentId()+orderTicketError.getTkId());
 		RecycleEntity entity = new RecycleEntity();
@@ -126,8 +128,6 @@ public class OrderTicketErrorController {
 	@RequestMapping(value="/errorTicket/cancelTicket")
 	@ResponseBody
 	public MessageResult cancelTicket(Integer id,HttpServletResponse res){
-		
-		res.setHeader( "Access-Control-Allow-Origin","*");
 		OrderTicketError orderTicketError = orderTicketErrorService.getTicketErrorByid(id);
 		
 		CancelOrder order = new CancelOrder(null, null, null, null, null);
@@ -151,22 +151,16 @@ public class OrderTicketErrorController {
 	//查出错误票的总数
 	@RequestMapping(value="/errorTicket/amount")
 	@ResponseBody
-	public Map queryCount(HttpServletResponse res){
-	  res.setHeader( "Access-Control-Allow-Origin","*");
+	public Map queryCount(HttpServletResponse res,String startDate,String endDate){
 	  Map<String, Object> map = new HashMap<>();
-	  int amount =orderTicketErrorMapper.queryOrderTicketErrorAmount();
+	  Map<String, Object> paramsMap = new HashMap<>();
+	  paramsMap.put("startDate", startDate);
+	  paramsMap.put("endDate", endDate);
+	  int amount =orderTicketErrorMapper.queryOrderTicketErrorAmount(paramsMap);
 	  map.put("amount", amount);
 	  return map;
 	}
 
-	
-	
-	
-	//查看派奖情况	
-	@RequestMapping(value="/errorTicket/checkAward")
-	public void checkAward(){
-		
-	}
 	
 	
 }

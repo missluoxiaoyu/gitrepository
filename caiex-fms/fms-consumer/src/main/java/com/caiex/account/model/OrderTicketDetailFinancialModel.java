@@ -190,6 +190,9 @@ public class OrderTicketDetailFinancialModel {
 		this.totalPriceLevel0 = totalPriceLevel0;
 		this.payoutRateLevel0 = payoutRateLevel0;
 	}
+	public OrderTicketDetailFinancialModel() {
+		super();
+	}
 	
 	
 	 

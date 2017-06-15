@@ -1,4 +1,4 @@
-package com.caiex.account.controller;
+/*package com.caiex.account.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.caiex.account.service.DetailSGLService;
 import com.caiex.account.utils.Response;
 
+
 @Controller
 @RequestMapping("/detailSGL")
 public class DetailSGLController {
@@ -22,11 +23,17 @@ public class DetailSGLController {
 	@Autowired 
 	private DetailSGLService service;
 	
+	
+	@RequestMapping(value = "/list")
+	public String view() {
+		return "single";
+	}
+	
+	
 
 	@RequestMapping(value = "/queryAll")
 	@ResponseBody
 	public Map<String, Object> queryAll(String year,String month,String day,HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		Map<String, Object> map=new HashMap<String, Object>();
 		try{
 		    map=service.queryAll(year,month,day);			
@@ -40,7 +47,6 @@ public class DetailSGLController {
 	@RequestMapping(value = "/detailSGLExcel")
 	@ResponseBody
 	public Response detailSGLExcel(String year,String month,String day,HttpServletResponse response) throws Exception {
-		response.setHeader( "Access-Control-Allow-Origin","*");
 		 Response res = new Response();
 		try{
 		 res = service.detailSGLExcel(response,year,month,day);
@@ -51,3 +57,4 @@ public class DetailSGLController {
 		return res;
 	}
 }
+*/

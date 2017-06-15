@@ -12,31 +12,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.caiex.account.service.DetailAllupService;
+import com.caiex.account.service.AllDetailAllupService;
+import com.caiex.account.utils.Response;
 
 
 
 @Controller
 @RequestMapping("/dailyAllup")
 public class DetaiAllupController {
-	@Autowired(required=false) 
-	private DetailAllupService service;
+	@Autowired
+	private AllDetailAllupService service;
+	
 	private final static Logger log= Logger.getLogger(DetaiAllupController.class);
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String batchList() {
-		return "statement/dailyAllup";
+	@RequestMapping(value = "/list")
+	public String view() {
+		return "allup";
 	}
+	
 	@RequestMapping(value = "/queryAll")
 	@ResponseBody
-	public Map<String, Object> queryAll(String date,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		//==============================================
-		response.setHeader( "Access-Control-Allow-Origin","*");
-		//测试allup，跨域
-		//==============================================
+	public Map<String, Object> queryAll(String year,String month,String day,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		Map<String, Object> map=new HashMap<String, Object>();
 		try{
-		    map=service.queryAll(date);
+		    map=service.queryAll(year,month,day);
 		}catch(Exception e){
 			log.error(e);
 			e.printStackTrace();
@@ -46,14 +45,15 @@ public class DetaiAllupController {
 
 	@RequestMapping(value = "/dailyAllupExcel")
 	@ResponseBody
-	public void dailyAllupExcel(String date,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Response  dailyAllupExcel(String year,String month,String day,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Response res = new Response();
 		try{
-			service.dailyAllupExcel(request,response,date);
+			service.dailyAllupExcel(year,month,day,response);
 		}catch(Exception e){
 			log.error(e);
 			e.printStackTrace();
 		}
+		return res;
 	}
 	
 }
