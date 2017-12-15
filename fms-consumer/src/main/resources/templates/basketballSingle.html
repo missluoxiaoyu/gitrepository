@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Daily Single</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/img/biticon.ico}" media="screen" />
+    <!-- bootstrap -->
+    <link th:href="@{/css/bootstrap/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap/bootstrap-responsive.css}" rel="stylesheet" />
+    <!--<link href="css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />-->
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/elements.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icons.css}" />
+    <!-- libraries -->
+    <link th:href="@{/css/lib/font-awesome.css}" type="text/css" rel="stylesheet" />    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" th:href="@{/css/compiled/tables.css}" type="text/css" media="screen" />
+
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+</head>
+<body ng-app="single">
+    <!-- navbar -->
+    
+    <div class="navbar navbar-inverse" >
+        <div ng-include="'../top.html'"></div>
+    </div>
+
+ <!--    <div class="navbar navbar-inverse" >
+        <div th:include="top::top"></div> 
+    </div> -->
+    
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="singctrl as gle">
+        <ul id="dashboard-menu">
+            <li ng-repeat="g in gle.gbox" ng-class="{active:g.active}" ng-click="g.active = !g.active">                
+                <a ng-href="{{g.urlb}}">
+                    <span>{{g.texa}}</span>
+                </a>
+            </li> 
+              
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="glectrl as le">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section center">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>篮球单场投注数据明细表</span><br />
+                            	<span>Single Betting Details</span>
+                            </h4>
+                            <form class="formdate left">
+								<input id="d12" class="Wdate" type="text"/>
+								<input type="radio" name="radio" value="1" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy'})"/>年
+								<input type="radio" name="radio" value="2" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M'})"/>月
+								<input type="radio" name="radio" value="3" checked="checked" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M-d'})"/>日
+							</form>
+							
+							<span>请选择</span>
+                                    <select id="state">
+                                      
+                                        <option value="1">篮球</option>
+                                        <option value="2">足球</option>
+                                    </select>
+							
+							<button ng-click="data()">查询</button>
+							<button ng-click="export()">导出</button>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <tbody>
+                                <tr class="fb">
+                                    <td colspan="4"></td>
+                                    <td>合计</td>
+                                    <td>{{total.totalInvestmentHDC}}</td>
+                                    <td>{{total.investHDC}}</td>
+                                    <td>{{total.bonusHDC}}</td>
+                                    <td>{{total.totalPriceHDC}}</td>
+                                    <td>{{total.winpriceHDC}}</td>
+                                    <td>{{total.averageHDC}}</td>
+                                    <td>{{total.payoutRateHDC}}%</td>
+                                    <td>{{total.totalInvestmentHILO}}</td>
+                                    <td>{{total.investHILO}}</td>
+                                    <td>{{total.bonusHILO}}</td>
+                                    <td>{{total.totalPriceHILO}}</td>
+                                    <td>{{total.winpriceHILO}}</td>
+                                    <td>{{total.averageHILO}}</td>
+                                    <td>{{total.payoutRateHILO}}%</td>
+                                    <td>{{total.totalInvestmentMNL}}</td>
+                                    <td>{{total.investMNL}}</td>
+                                    <td>{{total.bonusMNL}}</td>
+                                    <td>{{total.totalPriceMNL}}</td>
+                                    <td>{{total.winpriceMNL}}</td>
+                                    <td>{{total.averageMNL}}</td>
+                                    <td>{{total.payoutRateMNL}}%</td>
+                                    <td>{{total.totalInvestmentWNM}}</td>
+                                    <td>{{total.investWNM}}</td>
+                                    <td>{{total.bonusWNM}}</td>
+                                    <td>{{total.totalPriceWNM}}</td>
+                                    <td>{{total.winpriceWNM}}</td>
+                                    <td>{{total.averageWNM}}</td>
+                                    <td>{{total.payoutRateWNM}}%</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="gree" colspan="7">HDC</td>
+                                    <td class="red" colspan="7">HILO</td>
+                                    <td class="blue" colspan="7">MNL</td>
+                                    <td class="yel" colspan="7">WNM</td>
+                                
+                                </tr>
+                                <tr>
+                                    <td>比赛编号Match No.</td>
+                                    <td>比赛时间Match_date</td>
+                                    <td>联赛League</td>
+                                    <td>Team(AwayVSHome)</td>
+                                    <td>赛果Result(半场/全场)</td>
+                                    <td class="gree">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="gree">投注额Investment(人民币RMB)</td>
+                                    <td class="gree">caiex加奖额(人民币RMB)</td>
+                                    <td class="gree">返奖金额Payout(人民币RMB)</td>
+                                    <td class="gree">中奖额Amt.Winning Unit</td>
+                                    <td class="gree">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="gree">盈利率%PayoutRatio</td>
+                                    <td class="red">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="red">投注额Investment(人民币RMB)</td>
+                                    <td class="red">caiex加奖额(人民币RMB)</td>
+                                    <td class="red">返奖金额Payout(人民币RMB)</td>
+                                    <td class="red">中奖额Amt.Winning Unit</td>
+                                    <td class="red">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="red">盈利率%PayoutRatio</td>
+                                    <td class="blue">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="blue">投注额Investment(人民币RMB)</td>
+                                    <td class="blue">caiex加奖额(人民币RMB)</td>
+                                    <td class="blue">返奖金额Payout(人民币RMB)</td>
+                                    <td class="blue">中奖额Amt.Winning Unit</td>
+                                    <td class="blue">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="blue">盈利率%PayoutRatio</td>
+                                    <td class="yel">原始投注额TotalInvestment(人民币RMB)</td>
+                                    <td class="yel">投注额Investment(人民币RMB)</td>
+                                    <td class="yel">caiex加奖额(人民币RMB)</td>
+                                    <td class="yel">返奖金额Payout(人民币RMB)</td>
+                                    <td class="yel">中奖额Amt.Winning Unit</td>
+                                    <td class="yel">平均中奖固定奖金额AverageWinningOdds</td>
+                                    <td class="yel">盈利率%PayoutRatio</td>
+                                   
+                                </tr>
+                                <tr class="smallfont" ng-repeat="do in singlebox">
+                                    <td>{{do.match_code}}</td>
+                                    <td>{{do.match_date}}</td>
+                                    <td>{{do.match_league}}</td>
+                                    <td>
+                                    	<span>{{do.away_team}}</span>vs
+                                    	<span>{{do.home_team}}</span>
+                                    </td>
+                                    <td>
+                                    	
+                                    	<span>{{do.away_score}}:</span>
+                                    	<span>{{do.home_score}}</span>
+                                    </td>
+                                    <td class="gree">{{do.totalInvestmentHDC}}</td>
+                                    <td class="gree">{{do.investHDC}}</td>
+                                    <td class="gree">{{do.bonusHDC}}</td>
+                                    <td class="gree">{{do.totalPriceHDC}}</td>
+                                    <td class="gree">{{do.winpriceHDC}}</td>
+                                    <td class="gree">{{do.averageHDC}}</td>
+                                    <td class="gree">{{do.payoutRateHDC}}%</td>
+                                    <td class="red">{{do.totalInvestmentHILO}}</td>
+                                    <td class="red">{{do.investHILO}}</td>
+                                    <td class="red">{{do.bonusHILO}}</td>
+                                    <td class="red">{{do.totalPriceHILO}}</td>
+                                    <td class="red">{{do.winpriceHILO}}</td>
+                                    <td class="red">{{do.averageHILO}}</td>
+                                    <td class="red">{{do.payoutRateHILO}}%</td>
+                                    <td class="blue">{{do.totalInvestmentMNL}}</td>
+                                    <td class="blue">{{do.investMNL}}</td>
+                                    <td class="blue">{{do.bonusMNL}}</td>
+                                    <td class="blue">{{do.totalPriceMNL}}</td>
+                                    <td class="blue">{{do.winpriceMNL}}</td>
+                                    <td class="blue">{{do.averageMNL}}</td>
+                                    <td class="blue">{{do.payoutRateMNL}}%</td>
+                                    <td class="yel">{{do.totalInvestmentWNM}}</td>
+                                    <td class="yel">{{do.investWNM}}</td>
+                                    <td class="yel">{{do.bonusWNM}}</td>
+                                    <td class="yel">{{do.totalPriceWNM}}</td>
+                                    <td class="yel">{{do.winpriceWNM}}</td>
+                                    <td class="yel">{{do.averageWNM}}</td>
+                                    <td class="yel">{{do.payoutRateWNM}}%</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- scripts -->
+    <script th:src="@{/js/jquery-latest.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
+	<script th:src="@{/js/angular.min.js}"></script>
+	<script th:src="@{/js/basketballSingle.js}"></script>
+	<script th:src="@{/js/top.js}"></script>
+	<script th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+</body>
+</html>

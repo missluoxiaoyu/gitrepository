@@ -1,5 +1,0 @@
-com\caiex\account\config\DataBaseConfig.class
-com\caiex\ProviderApp.class
-com\caiex\account\service\impl\LoginServiceImpl.class
-com\caiex\account\entity\SysUser.class
-com\caiex\account\mapper\SysUserMapper.class

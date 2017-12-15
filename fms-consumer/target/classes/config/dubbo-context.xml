@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}" organization="dubbox"/>
+
+    <dubbo:registry address="${dubbo.registry.address}" />
+  	
+  	<dubbo:protocol name="dubbo" />
+  	
+  	<dubbo:consumer  timeout="10000000"  loadbalance="leastactive"/> 
+    <!--  -->
+   <!-- <dubbo:registry address="zookeeper://127.0.0.1:2181"/>  -->
+    <dubbo:reference  id= "loginService" interface="com.caiex.dbservice.currentdb.api.LoginService"  version="${version}"/>
+    <dubbo:reference  id= "breakDownProService" interface="com.caiex.dbservice.currentdb.api.BreakDownProService"  version="${version}"/>
+     <dubbo:reference  id= "dailySummaryProService" interface="com.caiex.dbservice.currentdb.api.DailySummaryProService"  version="${version}"/>
+     <dubbo:reference  id= "summaryProService" interface="com.caiex.dbservice.currentdb.api.SummaryProService"  version="${version}"/>
+     <dubbo:reference  id= "allupProService" interface="com.caiex.dbservice.currentdb.api.AllupProService"  version="${version}"/>
+    <dubbo:reference  id= "singleProService" interface="com.caiex.dbservice.currentdb.api.SingleProService"  version="${version}"/>
+     <dubbo:reference  id= "orderManageProService" interface="com.caiex.dbservice.currentdb.api.OrderManageProService"  version="${version}"/>
+    <dubbo:reference  id= "agentInfoApi" interface="com.caiex.dbservice.currentdb.api.AgentInfoProApi"  version="${version}"/>
+    <dubbo:reference  id= "orderTicketErrorApi" interface="com.caiex.dbservice.currentdb.api.OrderTicketErrorApi"  version="${version}"/>
+     <dubbo:reference  id= "matchInfoApi" interface="com.caiex.dbservice.currentdb.api.MatchInfoApi"  version="${version}"/>
+     <dubbo:reference  id= "matchProductApi" interface="com.caiex.dbservice.currentdb.api.MatchProductApi"  version="${version}"/>
+     <dubbo:reference  id= "orderTicketInfoApi" interface="com.caiex.dbservice.currentdb.api.OrderTicketInfoApi"  version="${version}"/>
+     <dubbo:reference  id= "orderTicketApi" interface="com.caiex.dbservice.currentdb.api.OrderTicketApi"  version="${version}"/>
+    
+   
+    <dubbo:reference  id= "breakDownProHisService" interface="com.caiex.dbservice.historydb.api.BreakDownProHisService"  version="${version}"/>
+	<dubbo:reference  id= "dailySummaryProHisService" interface="com.caiex.dbservice.historydb.api.DailySummaryProHisService"  version="${version}"/>
+	<dubbo:reference  id= "summaryProHisService" interface="com.caiex.dbservice.historydb.api.SummaryProHisService"  version="${version}"/>
+	<dubbo:reference  id= "allupProHisService" interface="com.caiex.dbservice.historydb.api.AllupProHisService"  version="${version}"/>
+	<dubbo:reference  id= "singleProHisService" interface="com.caiex.dbservice.historydb.api.SingleProHisService"  version="${version}"/>
+	<dubbo:reference  id= "orderManageProHisService" interface="com.caiex.dbservice.historydb.api.OrderManageProHisService"  version="${version}"/>
+	<dubbo:reference  id= "agentInfoProHisApi" interface="com.caiex.dbservice.historydb.api.AgentInfoProHisApi"  version="${version}"/>
+	<dubbo:reference  id= "orderTicketHistoryApi" interface="com.caiex.dbservice.historydb.api.OrderTicketHistoryApi"  version="${version}"/>
+	
+	
+	<!-- 篮球 -->
+ 	 <dubbo:reference  id= "bkAllupProService" interface="com.caiex.dbservice.basketball.api.BkAllupProService"  version="${version}"/>
+	<dubbo:reference  id= "bkSingleProService" interface="com.caiex.dbservice.basketball.api.BkSingleProService"  version="${version}"/>
+	<dubbo:reference  id= "bkBreakDownProService" interface="com.caiex.dbservice.basketball.api.BkBreakDownProService"  version="${version}"/>
+	<dubbo:reference  id= "bkDailySummaryProService" interface="com.caiex.dbservice.basketball.api.BkDailySummaryProService"  version="${version}"/>
+	<dubbo:reference  id= "bkSummaryProService" interface="com.caiex.dbservice.basketball.api.BkSummaryProService"  version="${version}"/>
+	<dubbo:reference  id= "bkOrderManageApi" interface="com.caiex.dbservice.basketball.api.BkOrderManageProApi"  version="${version}"/>
+	<dubbo:reference  id= "bkAgentProApi" interface="com.caiex.dbservice.basketball.api.BkAgentProApi"  version="${version}"/>
+	<dubbo:reference  id= "bkMatchInfoApi" interface="com.caiex.dbservice.basketball.api.BkMatchInfoApi"  version="${version}"/>
+	<dubbo:reference  id= "bkMatchProductApi" interface="com.caiex.dbservice.basketball.api.BkMatchProductApi"  version="${version}"/>
+	<dubbo:reference  id= "basketBallOrderApi" interface="com.caiex.dbservice.basketball.api.BasketBallOrderApi"  version="${version}"/>
+	
+	
+	<dubbo:reference  id= "bkBreakDownProHisService" interface="com.caiex.dbservice.historydb.api.BkBreakDownProHisService"  version="${version}"/>
+	<dubbo:reference  id= "bkDailySummaryProHisService" interface="com.caiex.dbservice.historydb.api.BkDailySummaryProHisService"  version="${version}"/>
+	<dubbo:reference  id= "bkAllupProHisService" interface="com.caiex.dbservice.historydb.api.BkAllupProHisService"  version="${version}"/>
+	<dubbo:reference  id= "bkSingleProHisService" interface="com.caiex.dbservice.historydb.api.BkSingleProHisService"  version="${version}"/>
+	<dubbo:reference  id= "bkSummaryProHisService" interface="com.caiex.dbservice.historydb.api.BkSummaryProHisService"  version="${version}"/>
+	<dubbo:reference  id= "bkAgentProHisApi" interface="com.caiex.dbservice.historydb.api.BkAgentProHisApi"  version="${version}"/>
+	<dubbo:reference  id= "bkOrderManageProHisApi" interface="com.caiex.dbservice.historydb.api.BkOrderManageProHisApi"  version="${version}"/>  
+	<dubbo:reference  id= "bkOrderTicketHistoryApi" interface="com.caiex.dbservice.historydb.api.BkOrderTicketHistoryApi"  version="${version}"/>  
+	
+	
+    <!--  -->
+    <dubbo:reference id="ticketApi" interface="com.caiex.oltp.api.ticket.TicketApi"  timeout="20000"/> 
+    <dubbo:reference id="redisOptApi" interface="com.caiex.oltp.api.ticket.RedisOptApi" timeout="8000"/>
+   
+</beans>
+  
+  

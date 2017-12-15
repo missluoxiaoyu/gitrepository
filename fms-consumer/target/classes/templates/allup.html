@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	
+	<title>Daily Allup</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/img/biticon.ico}" media="screen" />
+    
+    <!-- bootstrap -->
+    <link th:href="@{/css/bootstrap/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap/bootstrap-responsive.css}" rel="stylesheet" />
+   
+    <!--<link href="css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />-->
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/elements.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icons.css}" />
+    <!-- libraries -->
+    <link th:href="@{/css/lib/font-awesome.css}" type="text/css" rel="stylesheet" />    
+     <link href="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css" rel="stylesheet"/>
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" th:href="@{/css/compiled/tables.css}" type="text/css" media="screen" />
+	<style media="all and (orientation:landscape)" type="text/css">
+		#portrait { display: none; }
+	</style>
+</head>
+<body ng-app="Allup">
+    <!-- navbar -->
+  
+     <div class="navbar navbar-inverse" >
+        <div ng-include="'../top.html'"></div>
+    </div>
+    
+<!--     <div class="navbar navbar-inverse" >
+        <div th:include="top::top"></div> 
+    </div> -->
+    
+    <!-- end navbar -->
+
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="upctrl as upp">
+        <ul id="dashboard-menu">
+            <li ng-repeat="up in upp.upbox" ng-class="{active:up.active}" ng-click="up.active = !up.active">                
+                <a ng-href="{{up.urlb}}"  rel="external" >
+                    <span>{{up.texa}}</span>
+                </a>
+            </li> 
+            
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="alupctrl as all">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                                <span>篮球过关投注数据明细表</span><br />
+                                <span>Allup Level Breakdown</span>
+                            </h4>
+                            <form class="formdate left">
+                                <input id="d12" class="Wdate" type="text"/>
+                                <input type="radio" name="radio" value="1" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy'})"/>年
+                                <input type="radio" name="radio" value="2" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M'})"/>月
+                                <input type="radio" name="radio" value="3" checked="checked" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M-d'})"/>日
+                            </form>
+                            
+                             <span>请选择</span>
+                                    <select id="state">
+
+                                          <option value="1">足球</option>
+                                          <option value="2">篮球</option>
+                                    </select> 
+                                    
+                            <button ng-click="data()">查询</button>
+                            <button ng-click="export()">导出</button>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <thead>
+                                <tr class="thtible">
+                                    <th>人民币RMB</th>
+                                    <th>原始投注额TotalInvestment</th>
+                                    <th>投注额Investment</th>
+                                    <th>caiex加奖额Bonus</th>
+                                    <th>返奖金额Payout</th>
+                                    <th>返奖率Payout</th>
+                                    <th>盈余金额P/L Amt.</th>
+                                </tr>
+                                <tr class="thtible">
+                                    <th>{{total.product}}</th>
+                                    <th>{{total.totalInvestment}}</th>
+                                    <th>{{total.invest}}</th>
+                                    <th>{{total.bonus}}</th>
+                                    <th>{{total.totalPrice}}</th>
+                                    <th>{{total.payoutRate}}%</th>
+                                    <th>{{total.payout}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="HAD">
+                                    <td>{{hbox1.local_m}}</td>
+                                    <td>{{hbox1.totalInvestment}}</td>
+                                    <td>{{hbox1.invest}}</td>
+                                    <th>{{hbox1.bonus}}</th>
+                                    <td>{{hbox1.totalPrice}}</td>
+                                    <td>{{hbox1.payoutRate}}%</td>
+                                    <td>{{hbox1.payout}}</td>
+                                </tr>
+                                <tr ng-repeat="h in hbox">
+                                    <td class="local_m">{{h.local_m}}关    Level {{h.local_m}}</td>
+                                    <td>{{h.totalInvestment}}</td>
+                                    <td>{{h.invest}}</td>
+                                    <th>{{h.bonus}}</th>
+                                    <td>{{h.totalPrice}}</td>
+                                    <td>{{h.payoutRate}}%</td>
+                                    <td>{{h.payout}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="HHAD">
+                                    <td>{{abox1.local_m}}</td>
+                                    <td>{{abox1.totalInvestment}}</td>
+                                    <td>{{abox1.invest}}</td>
+                                    <td>{{abox1.bonus}}</td>
+                                    <td>{{abox1.totalPrice}}</td>
+                                    <td>{{abox1.payoutRate}}%</td>
+                                    <td>{{abox1.payout}}</td>
+                                </tr>
+                                <tr ng-repeat="a in abox">
+                                    <td class="local_m" >{{a.local_m}}关    Level {{a.local_m}}</td>
+                                    <td>{{a.totalInvestment}}</td>
+                                    <td>{{a.invest}}</td>
+                                    <td>{{a.bonus}}</td>
+                                    <td>{{a.totalPrice}}</td>
+                                    <td>{{a.payoutRate}}%</td>
+                                    <td>{{a.payout}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="HAFU">
+                                    <td>{{bbox1.local_m}}</td>
+                                    <td>{{bbox1.totalInvestment}}</td>
+                                    <td>{{bbox1.invest}}</td>
+                                    <td>{{bbox1.bonus}}</td>
+                                    <td>{{bbox1.totalPrice}}</td>
+                                    <td>{{bbox1.payoutRate}}%</td>
+                                    <td>{{bbox1.payout}}</td>
+                                </tr>
+                                <tr ng-repeat="b in bbox">
+                                    <td class="local_m" >{{b.local_m}}关    Level {{b.local_m}}</td>
+                                    <td>{{b.totalInvestment}}</td>
+                                    <td>{{b.invest}}</td>
+                                    <td>{{b.bonus}}</td>
+                                    <td>{{b.totalPrice}}</td>
+                                    <td>{{b.payoutRate}}%</td>
+                                    <td>{{b.payout}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="TTG">
+                                    <td>{{tbox1.local_m}}</td>
+                                    <td>{{tbox1.totalInvestment}}</td>
+                                    <td>{{tbox1.invest}}</td>
+                                    <td>{{tbox1.bonus}}</td>
+                                    <td>{{tbox1.totalPrice}}</td>
+                                    <td>{{tbox1.payoutRate}}%</td>
+                                    <td>{{tbox1.payout}}</td>
+                                </tr>
+                                <tr ng-repeat="t in tbox">
+                                    <td class="local_m" >{{t.local_m}}关    Level {{t.local_m}}</td>
+                                    <td>{{t.totalInvestment}}</td>
+                                    <td>{{t.invest}}</td>
+                                    <td>{{t.bonus}}</td>
+                                    <td>{{t.totalPrice}}</td>
+                                    <td>{{t.payoutRate}}%</td>
+                                    <td>{{t.payout}}</td>
+                                </tr>
+                            </tbody>
+                            
+                           <tbody>
+                                <tr class="FCA">
+                                    <td>{{fbox1.local_m}}</td>
+                                    <td>{{fbox1.totalInvestment}}</td>
+                                    <td>{{fbox1.invest}}</td>
+                                    <td>{{fbox1.bonus}}</td>
+                                    <td>{{fbox1.totalPrice}}</td>
+                                    <td>{{fbox1.payoutRate}}%</td>
+                                    <td>{{fbox1.payout}}</td>
+                                </tr>
+                                <tr ng-repeat="f in fbox">
+                                    <td class="local_m" >{{f.local_m}}关    Level {{f.local_m}}</td>
+                                    <td>{{f.totalInvestment}}</td>
+                                    <td>{{f.invest}}</td>
+                                    <td>{{f.bonus}}</td>
+                                    <td>{{f.totalPrice}}</td>
+                                    <td>{{f.payoutRate}}%</td>
+                                    <td>{{f.payout}}</td>
+                                </tr>
+                            </tbody>
+                            
+                            
+                            
+                            
+                            
+                            <tbody>
+                                <tr class="CRS">
+                                    <td >{{cbox1.local_m}}</td>
+                                    <td>{{cbox1.totalInvestment}}</td>
+                                    <td>{{cbox1.invest}}</td>
+                                    <td>{{cbox1.bonus}}</td>
+                                    <td>{{cbox1.totalPrice}}</td>
+                                    <td>{{cbox1.payoutRate}}%</td>
+                                    <td>{{cbox1.payout}}</td>
+                                </tr>
+                                <tr ng-repeat="c in cbox">
+                                    <td class="local_m" >{{c.local_m}}关    Level {{c.local_m}}</td>
+                                    <td>{{c.totalInvestment}}</td>
+                                    <td>{{c.invest}}</td>
+                                    <td>{{c.bonus}}</td>
+                                    <td>{{c.totalPrice}}</td>
+                                    <td>{{c.payoutRate}}%</td>
+                                    <td>{{c.payout}}</td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+   	<div id="loading-bar-container"></div>  <!--加载中..-->
+    </div>
+
+	<!-- scripts -->
+	
+	<script th:src="@{/js/external.js}"></script>
+    <script th:src="@{/js/jquery-latest.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
+    <script th:src="@{/js/angular.min.js}"></script>
+    <script th:src="@{/js/allup.js}"></script> 
+    <script th:src="@{/js/top.js}"></script>
+    <script th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+    <script src="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+</body>
+</html>

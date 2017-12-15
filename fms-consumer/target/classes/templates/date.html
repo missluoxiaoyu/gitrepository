@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>回收明细</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+
+ <link th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" th:href="@{/css/daterangepicker.css}"/>
+
+ <style type="text/css">
+      	#tablesss thead, #tablesss tr {
+    	  border-top-width: 1px;
+    	  border-top-style: solid;
+    	  border-top-color: rgb(230, 189, 189);
+    	  }
+    	  #tablesss {
+    	  border-bottom-width: 1px;
+    	  border-bottom-style: solid;
+    	  border-bottom-color: rgb(230, 189, 189);
+    	  }
+
+    	
+    	  #tablesss td, #tablesss th {
+    	  padding: 5px 10px;
+    	  font-size: 12px;
+    	  font-family: Verdana;
+    	  color: rgb(177, 106, 104);
+    	  }
+
+    	
+    	  #tablesss tr:nth-child(even) {
+    	  background: rgb(238, 211, 210)
+    	  }
+    	  #tablesss tr:nth-child(odd) {
+    	  background: #FFF
+    	  }
+
+ </style>
+
+
+</head>
+<body>
+
+
+<div class="form-group">
+	<label class="col-sm-3 control-label"></label>
+	<div class="col-sm-9">
+		<div class="input-group">
+		<p>
+			<button type="button" class="btn btn-default pull-left" id="daterange-btn">
+				<span>
+				  <i class="fa fa-calendar"></i> 日期选择
+				</span>
+				<i class="fa fa-caret-down"></i>
+			  </button> 
+			 
+			  
+			  <button type="button"  id="querybtn" onclick="query()" >查询</button>
+			  <button type="button"  id="exportbtn" onclick="exportExcel()" >导出</button>
+		</p> 
+		</div>
+	</div>
+</div>
+			 
+ <div id ="recyde"> </div>
+			
+			 
+
+
+
+
+<script type="text/javascript" th:src="@{/js/angular.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/moment.js}"></script>
+<script type="text/javascript" th:src="@{/js/daterangepicker.js}"></script>
+<script type="text/javascript" th:src="@{/js/recycledetail.js}"></script>
+
+
+
+
+
+
+<script th:inline="javascript" type="text/javascript">
+
+var startDate = "";
+var endDate ="";
+
+var agentId = [[${agentId}]];
+var pid = [[${pid}]];
+
+
+</script>
+
+</body>
+</html>
+
+				 

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Daily Breakdown</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/img/biticon.ico}" media="screen" />
+    
+    <!-- bootstrap -->
+    <link th:href="@{/css/bootstrap/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap/bootstrap-responsive.css}" rel="stylesheet" />
+   
+    <!--<link href="css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />-->
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/elements.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icons.css}" />
+    <!-- libraries -->
+    <link th:href="@{/css/lib/font-awesome.css}" type="text/css" rel="stylesheet" />    
+     <link href="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css" rel="stylesheet"/>
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" th:href="@{/css/compiled/tables.css}" type="text/css" media="screen" />
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+</head>
+<body ng-app="Breakdown">
+    <!-- navbar -->
+  <div class="navbar navbar-inverse" >
+        <div ng-include="'../top.html'"></div>
+   </div>
+    
+    
+<!--     <div class="navbar navbar-inverse" >
+        <div th:include="top::top"></div> 
+    </div> -->
+    
+    <!-- end navbar -->
+
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="breakctrl as brk">
+        <ul id="dashboard-menu">
+            <li ng-repeat="br in brk.brbox" ng-class="{active:br.active}" ng-click="br.active = !br.active">                
+                <a ng-href="{{br.urlb}}" rel="external" >
+                    <span>{{br.texa}}</span>
+                </a>
+            </li> 
+           
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="brdownctrl as down">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section center">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>财务数据日明细表</span><br />
+                            	<span>Daily Betting Breakdown</span>
+                            </h4>
+                            <form class="formdate left">
+								<input id="d12" class="Wdate" type="text"/>
+								<input type="radio" name="radio" value="1" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy'})"/>年
+								<input type="radio" name="radio" value="2" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M'})"/>月
+								<input type="radio" name="radio" value="3" checked="checked" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M-d'})"/>日
+							</form>
+							<button ng-click="data()">查询</button>
+							<button ng-click="export()">导出</button>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="gree3" colspan="5">合计Total</td>
+                                    <td class="red1" colspan="5">过关固定奖ALLUP</td>
+                                    <td class="blue1" colspan="7">单场固定奖FSGL</td>
+                                    <td class="yel1" colspan="5">Level0</td>
+                                </tr>
+                                <tr ng-repeat="do in down.dobox">
+                                    <td>{{do.worda}}</td>
+                                    <td>{{do.wordb}}</td>
+                                    <td class="gree3">{{do.wordc}}</td>
+                                    <td class="gree3">{{do.wordd}}</td>
+                                    <td class="gree3">{{do.wordn}}</td>
+                                    <td class="gree3">{{do.worde}}</td>
+                                    <td class="gree3">{{do.wordf}}</td>
+                                  
+                                    <td class="red1">{{do.wordc}}</td>
+                                    <td class="red1">{{do.wordd}}</td>
+                                    <td class="red1">{{do.wordn}}</td>
+                                    <td class="red1">{{do.worde}}</td>
+                                    <td class="red1">{{do.wordf}}</td>
+                       
+                                    <td class="blue1">{{do.wordc}}</td>
+                                    <td class="blue1">{{do.wordd}}</td>
+                                    <td class="blue1">{{do.wordn}}</td>
+                                    <td class="blue1">{{do.worde}}</td>
+                                    <td class="blue1">{{do.wordf}}</td>
+                                    <td class="blue1">{{do.wordg}}</td>
+                                    <td class="blue1">{{do.wordh}}</td>
+                                    
+                                    <td class="yel1">{{do.wordc}}</td>
+                                    <td class="yel1">{{do.wordd}}</td>
+                                    <td class="yel1">{{do.wordn}}</td>
+                                    <td class="yel1">{{do.worde}}</td>
+                                    <td class="yel1">{{do.wordf}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fb" rowspan="7">足球FB</td>
+                                </tr>
+                                <tr ng-repeat="dn in dnbox">
+                                    <td class="product" >{{dn.product}}</td>
+                                    <td class="gree">{{dn.totalInvestment}}￥</td>
+                                    <td class="gree">{{dn.invest}}￥</td>
+                                    <td class="gree">{{dn.bonusInvest}}￥</td>
+                                    <td class="gree">{{dn.totalPrice}}￥</td>
+                                    <td class="gree">{{dn.payoutRate}}%</td>
+                                    
+                                    <td class="red">{{dn.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{dn.investAllup}}￥</td>
+                                    <td class="red">{{dn.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{dn.totalPriceAllup}}￥</td>
+                                    <td class="red">{{dn.payoutRateAllup}}%</td>
+                                    
+                                    <td class="blue">{{dn.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{dn.investFsgl}}￥</td>
+                                    <td class="blue">{{dn.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{dn.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{dn.payoutRateFsgl}}%</td>
+                                    <td class="blue">{{dn.winpriceFsgl}}￥</td>
+                                    <td class="blue">{{dn.averageFsgl}}</td>
+                                   
+                                    <td class="yel">{{dn.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{dn.investLevel0}}￥</td>
+                                    <td class="yel">{{dn.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{dn.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{dn.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr class="fb">
+                                    <td colspan="2">足球合计 FB Total</td>
+                                    <td>{{FBtotal.totalInvestment}}￥</td>
+                                    <td>{{FBtotal.invest}}￥</td>
+                                    <td>{{FBtotal.bonusInvest}}￥</td>
+                                    <td>{{FBtotal.totalPrice}}￥</td>
+                                    <td>{{FBtotal.payoutRate}}%</td>
+                                    <td>{{FBtotal.totalInvestmentAllup}}￥</td>
+                                    <td>{{FBtotal.investAllup}}￥</td>
+                                    <td>{{FBtotal.bonusInvestAllup}}￥</td>
+                                    <td>{{FBtotal.totalPriceAllup}}￥</td>
+                                    <td>{{FBtotal.payoutRateAllup}}%</td>
+                                    <td>{{FBtotal.totalInvestmentFsgl}}￥</td>
+                                    <td>{{FBtotal.investFsgl}}￥</td>
+                                    <td>{{FBtotal.bonusInvestFsgl}}￥</td>
+                                    <td>{{FBtotal.totalPriceFsgl}}￥</td>
+                                    <td>{{FBtotal.payoutRateFsgl}}%</td>
+                                    <td>{{FBtotal.winpriceFsgl}}￥</td>
+                                    <td>{{FBtotal.averageFsgl}}￥</td>
+                                    <td>{{FBtotal.totalInvestmentLevel0}}￥</td>
+                                    <td>{{FBtotal.investLevel0}}￥</td>
+                                    <td>{{FBtotal.bonusInvestLevel0}}￥</td>
+                                    <td>{{FBtotal.totalPriceLevel0}}￥</td>
+                                    <td>{{FBtotal.payoutRateLevel0}}%</td>
+                                </tr>
+                               
+      
+                                 <tr>
+                                    <td class="fb" rowspan="6">篮球BK</td>
+                                </tr>
+                                <tr ng-repeat="dnb in dnboxBk">
+                                    <td class="product" >{{dnb.product}}</td>
+                                    <td class="gree">{{dnb.totalInvestment}}￥</td>
+                                    <td class="gree">{{dnb.invest}}￥</td>
+                                    <td class="gree">{{dnb.bonusInvest}}￥</td>
+                                    <td class="gree">{{dnb.totalPrice}}￥</td>
+                                    <td class="gree">{{dnb.payoutRate}}%</td>
+                                    <td class="red">{{dnb.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{dnb.investAllup}}￥</td>
+                                  	<td class="red">{{dnb.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{dnb.totalPriceAllup}}￥</td>
+                                    <td class="red">{{dnb.payoutRateAllup}}%</td>
+                                    <td class="blue">{{dnb.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{dnb.investFsgl}}￥</td>
+                                    <td class="blue">{{dnb.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{dnb.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{dnb.payoutRateFsgl}}%</td>
+                                    <td class="blue">{{dnb.winpriceFsgl}}￥</td>
+                                    <td class="blue">{{dnb.averageFsgl}}</td>
+                                    <td class="yel">{{dnb.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{dnb.investLevel0}}￥</td>
+                                    <td class="yel">{{dnb.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{dnb.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{dnb.payoutRateLevel0}}%</td>
+                                </tr>
+                                
+                               
+                                <tr class="fb">
+                                    <td colspan="2">篮球合计 BK Total</td>
+                                    <td>{{BKtotal.totalInvestment}}￥</td>
+                                    <td>{{BKtotal.invest}}￥</td>
+                                    <td>{{BKtotal.bonusInvest}}￥</td>
+                                    <td>{{BKtotal.totalPrice}}￥</td>
+                                    <td>{{BKtotal.payoutRate}}%</td>
+                                    <td>{{BKtotal.totalInvestmentAllup}}￥</td>
+                                    <td>{{BKtotal.investAllup}}￥</td>
+                                    <td>{{BKtotal.bonusInvestAllup}}￥</td>
+                                    <td>{{BKtotal.totalPriceAllup}}￥</td>
+                                    <td>{{BKtotal.payoutRateAllup}}%</td>
+                                    <td>{{BKtotal.totalInvestmentFsgl}}￥</td>
+                                    <td>{{BKtotal.investFsgl}}￥</td>
+                                    <td>{{BKtotal.bonusInvestFsgl}}￥</td>
+                                    <td>{{BKtotal.totalPriceFsgl}}￥</td>
+                                    <td>{{BKtotal.payoutRateFsgl}}%</td>
+                                    <td>{{BKtotal.winpriceFsgl}}￥</td>
+                                    <td>{{BKtotal.averageFsgl}}￥</td>
+                                    <td>{{BKtotal.totalInvestmentLevel0}}￥</td>
+                                    <td>{{BKtotal.investLevel0}}￥</td>
+                                    <td>{{BKtotal.bonusInvestLevel0}}￥</td>
+                                    <td>{{BKtotal.totalPriceLevel0}}￥</td>
+                                    <td>{{BKtotal.payoutRateLevel0}}%</td>
+                                </tr> 
+                                
+                                <tr class="dategray">
+                                    <td colspan="2">当日合计 Total</td>
+                                    <td>{{total.totalInvestment}}￥</td>
+                                    <td>{{total.invest}}￥</td>
+                                    <td>{{total.bonusInvest}}￥</td>
+                                    <td>{{total.totalPrice}}￥</td>
+                                    <td>{{total.payoutRate}}%</td>
+                                    <td>{{total.totalInvestmentAllup}}￥</td>
+                                    <td>{{total.investAllup}}￥</td>
+                                    <td>{{total.bonusInvestAllup}}￥</td>
+                                    <td>{{total.totalPriceAllup}}￥</td>
+                                    <td>{{total.payoutRateAllup}}%</td>
+                                    <td>{{total.totalInvestmentFsgl}}￥</td>
+                                    <td>{{total.investFsgl}}￥</td>
+                                    <td>{{total.bonusInvestFsgl}}￥</td>
+                                    <td>{{total.totalPriceFsgl}}￥</td>
+                                    <td>{{total.payoutRateFsgl}}%</td>
+                                    <td>{{total.winpriceFsgl}}￥</td>
+                                    <td>{{total.averageFsgl}}￥</td>
+                                    <td>{{total.totalInvestmentLevel0}}￥</td>
+                                    <td>{{total.investLevel0}}￥</td>
+                                    <td>{{total.bonusInvestLevel0}}￥</td>
+                                    <td>{{total.totalPriceLevel0}}￥</td>
+                                    <td>{{total.payoutRateLevel0}}%</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        	<div id="loading-bar-container"></div>  <!--加载中..-->
+    </div>
+
+	<!-- scripts -->
+	<script th:src="@{/js/external.js}"></script>
+    <script th:src="@{/js/jquery-latest.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
+	<script th:src="@{/js/angular.min.js}"></script>
+	 <script th:src="@{/js/breakdown.js}"></script> 
+	<script th:src="@{/js/top.js}"></script>
+	<script th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+	 <script src="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+</body>
+</html>

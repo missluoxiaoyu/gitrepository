@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html ng-app="ui.bootstrap.demo"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ui.bootstrap模态框</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script type="text/javascript" src="http://code.angularjs.org/1.5.5/angular.min.js"></script>
+	<script src="http://cdn.bootcss.com/angular-ui-bootstrap/1.3.2/ui-bootstrap-tpls.js"></script> 
+	<script th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+	<style type="text/css">
+		.centerm
+			{ 
+			position: absolute; 
+			z-index: 100; 
+			display: block; 
+			} 
+	
+	</style>
+	
+	
+</head>
+<body>
+	<div ng-app="ui.bootstrap.demo">
+		<div ng-controller="ModalDemoCtrl">
+			<div style="padding: 20px;">
+				<button type="button" class="btn btn-primary" ng-click="open()">Open me!</button>
+				<button type="button" class="btn btn-success" ng-click="open('lg')">Large modal</button>
+				<button type="button" class="btn btn-default" ng-click="open('sm')">Small modal</button>
+				<div ng-show="selected">Selection from a modal: {{ selected }}</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal-header -->
+	 <script type="text/ng-template" id="myModalContent.html">
+        <div class="centerm" style="width: 400px; height:200px" align="center" >
+            <h3 class="modal-title">请选择时间</h3>
+			 <p class="word">
+                 <span>交易开始时间：</span>
+                 <input type="text" id="startime" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-M-d HH:mm:ss'})"  />
+                 <br />
+                 <span>交易截止时间：</span>
+                 <input type="text" id="endtime" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-M-d HH:mm:ss'})"  />
+              </p>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+<script type="text/javascript">
+	var myModal = angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
+        myModal.controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
+            $scope.items = ['item1', 'item2', 'item3'];
+            $scope.open = function (size) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl', /*依赖控制器注入*/
+                    backdrop: "static",
+                    size: size,
+                     resolve: { /*传递到模态窗口中的对象*/
+                        items1: function () {
+                            return $scope.items;
+                        }
+                    } 
+                });
+                //模态实例---ModalDemoCtrl中的$scope
+                //接收点击ok参数
+                modalInstance.result.then(function (selectedItem) {
+                    $scope.selected = selectedItem;
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
+
+            $scope.toggleAnimation = function () {
+                $scope.animationsEnabled = !$scope.animationsEnabled;
+            };
+        });
+
+		//$uibModalInstance是模态窗口的实例  
+	    myModal.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items1) {
+	        $scope.items = items1;
+	        $scope.selected = {
+	            item: $scope.items[0]
+	        };
+	        $scope.ok = function () {
+	        	//关闭模态后，将ModalInstanceCtrl控制器
+	        	//$scope.selected.item 值传到
+	            $uibModalInstance.close($scope.selected.item);
+	        };
+	        $scope.cancel = function () {
+	            $uibModalInstance.dismiss('cancel');
+	        };
+	    });
+</script>
+
+</body>
+</html>

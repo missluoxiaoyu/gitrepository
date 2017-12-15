@@ -1,0 +1,26 @@
+<!DOCTYPE html> 
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>ng-class类选择</title>  
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>  
+    <style type="text/css">  
+        .lightblue{width: 200px;height: 300px;background-color: lightblue;}  
+        .red{width: 200px;height: 300px;background-color: red;}  
+        .green{width: 200px;height: 300px;background-color: green;}  
+    </style>  
+</head>  
+<body>  
+    <div ng-app="">  
+        <select name="color" id="color" ng-model='home'>  
+            <option value="lightblue">天蓝色</option>  
+            <option value="red">红色</option>  
+            <option value="green">绿色</option>  
+        </select>  
+        <div ng-class="home">  
+            <h1>选择自己想要的颜色</h1>  
+            <p>瓦萨，好多颜色呢</p>  
+        </div>  
+    </div>  
+</body>  
+</html>  

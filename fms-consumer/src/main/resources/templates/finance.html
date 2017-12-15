@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	
+	<title>Summary</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/img/biticon.ico}" media="screen" />
+    <!-- bootstrap -->
+    <link th:href="@{/css/bootstrap/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap/bootstrap-responsive.css}" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/elements.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icons.css}" />
+
+    <link th:href="@{/css/lib/font-awesome.css}" type="text/css" rel="stylesheet" />    
+   	 <link href="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css" rel="stylesheet"/>
+   
+    <!-- this page specific styles -->
+    <link rel="stylesheet" th:href="@{/css/compiled/tables.css}" type="text/css" media="screen" />
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+</head>
+<body ng-app="finance">
+    <!-- navbar -->
+  
+  	 <div class="navbar navbar-inverse" >
+        <div ng-include="'../top.html'"></div>
+    </div>
+  
+    <!-- <div class="navbar navbar-inverse" >
+        <div th:include="top::top"></div> 
+    </div> -->
+    
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="financtrl as anc">
+        <ul id="dashboard-menu">
+            <li ng-repeat="n in anc.nbox" ng-class="{active:n.active}" ng-click="n.active = !n.active">                
+                <a ng-href="{{n.urlb}}" rel="external" >
+                    <span>{{n.texa}}</span>
+                </a>
+            </li> 
+            
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="fincectrl as ce">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section center">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>Cash out 财务数据汇总表</span><br />
+                            	<span>截至{{ce.date}}</span>
+                            </h4>
+                            <form class="formdate left">
+								<input id="d12" type="text" class="Wdate" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M-d'})"/>
+								<b>月：<span id= "vor" class="vor">{{ce.month}}</span></b>
+								<b>周：<span id="week"  class="vor">{{ce.weeking}}</span></b>
+							</form>
+							
+							<p>
+								 <span>请选择</span>
+                                    <select id="state">
+                                     <!--    <option value="0">ALL</option> -->
+                                        <option value="1">足球</option>
+                                        <option value="2">篮球</option>
+                                    </select> 
+                                 <button ng-click="data()">查询</button>
+								 <button ng-click="export()">导出</button>
+							</p>
+						
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <tbody>
+                                <tr class="gree1" >
+                                    <td ></td>
+                                    <td ></td>
+                                    <td  colspan="5" >合计Total</td>
+                                    <td  colspan="5">过关固定奖ALLUP</td>
+                                    <td  colspan="5">单场固定奖FSGL</td>
+                                    <td  colspan="5">Level0</td>
+                                </tr>
+                                <tr class="gree1"  ng-repeat="do in ce.dobox">
+                                    <td >{{do.worda}}</td>
+                                    <td >{{do.wordb}}</td>
+                                    <td >{{do.wordc}}</td>
+                                    <td >{{do.wordd}}</td>
+                                    <td >{{do.wordn}}</td>
+                                    <td >{{do.worde}}</td>
+                                    <td >{{do.wordf}}</td>
+                                    <td >{{do.wordc}}</td>
+                                    <td >{{do.wordd}}</td>
+                                    <td >{{do.wordn}}</td>
+                                    <td >{{do.worde}}</td>
+                                    <td >{{do.wordf}}</td>
+                                    <td >{{do.wordc}}</td>
+                                    <td >{{do.wordd}}</td>
+                                    <td >{{do.wordn}}</td>
+                                    <td >{{do.worde}}</td>
+                                    <td >{{do.wordf}}</td>
+                                    <td >{{do.wordc}}</td>
+                                    <td >{{do.wordd}}</td>
+                                    <td >{{do.wordn}}</td>
+                                    <td >{{do.worde}}</td>
+                                    <td >{{do.wordf}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelToday.date}}</td>
+                                    <td class="gree" >{{modelToday.num}}</td>
+                                    <td class="gree">{{modelToday.totalInvestment}}￥</td>
+                                    <td class="gree">{{modelToday.invest}}￥</td>
+                                    <td class="gree">{{modelToday.bonusInvest}}￥</td>
+                                    <td class="gree">{{modelToday.totalPrice}}￥</td>
+                                    <td class="gree">{{modelToday.payoutRate}}%</td>
+                                    <td class="red">{{modelToday.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{modelToday.investAllup}}￥</td>
+                                    <td class="red">{{modelToday.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{modelToday.totalPriceAllup}}￥</td>
+                                    <td class="red">{{modelToday.payoutRateAllup}}%</td>
+                                    <td class="blue">{{modelToday.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{modelToday.investFsgl}}￥</td>
+                                    <td class="blue">{{modelToday.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{modelToday.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{modelToday.payoutRateFsgl}}%</td>
+                                    <td class="yel">{{modelToday.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{modelToday.investLevel0}}￥</td>
+                                    <td class="yel">{{modelToday.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{modelToday.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{modelToday.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelWeek.date}}</td>
+                                    <td class="gree" >{{modelWeek.num}}</td>
+                                    <td class="gree">{{modelWeek.totalInvestment}}￥</td>
+                                    <td class="gree">{{modelWeek.invest}}￥</td>
+                                    <td class="gree">{{modelWeek.bonusInvest}}￥</td>
+                                    <td class="gree">{{modelWeek.totalPrice}}￥</td>
+                                    <td class="gree">{{modelWeek.payoutRate}}%</td>
+                                    <td class="red">{{modelWeek.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{modelWeek.investAllup}}￥</td>
+                                    <td class="red">{{modelWeek.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{modelWeek.totalPriceAllup}}￥</td>
+                                    <td class="red">{{modelWeek.payoutRateAllup}}%</td>
+                                    <td class="blue">{{modelWeek.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{modelWeek.investFsgl}}￥</td>
+                                    <td class="blue">{{modelWeek.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{modelWeek.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{modelWeek.payoutRateFsgl}}%</td>
+                                    <td class="yel">{{modelWeek.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{modelWeek.investLevel0}}￥</td>
+                                    <td class="yel">{{modelWeek.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{modelWeek.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{modelWeek.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelMonth.date}}</td>
+                                    <td class="gree" >{{modelMonth.num}}</td>
+                                    <td class="gree">{{modelMonth.totalInvestment}}￥</td>
+                                    <td class="gree">{{modelMonth.invest}}￥</td>
+                                    <td class="gree">{{modelMonth.bonusInvest}}￥</td>
+                                    <td class="gree">{{modelMonth.totalPrice}}￥</td>
+                                    <td class="gree">{{modelMonth.payoutRate}}%</td>
+                                    <td class="red">{{modelMonth.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{modelMonth.investAllup}}￥</td>
+                                    <td class="red">{{modelMonth.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{modelMonth.totalPriceAllup}}￥</td>
+                                    <td class="red">{{modelMonth.payoutRateAllup}}%</td>
+                                    <td class="blue">{{modelMonth.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{modelMonth.investFsgl}}￥</td>
+                                    <td class="blue">{{modelMonth.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{modelMonth.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{modelMonth.payoutRateFsgl}}%</td>
+                                    <td class="yel">{{modelMonth.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{modelMonth.investLevel0}}￥</td>
+                                    <td class="yel">{{modelMonth.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{modelMonth.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{modelMonth.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelYear.date}}</td>
+                                    <td class="gree" >{{modelYear.num}}</td>
+                                    <td class="gree">{{modelYear.totalInvestment}}￥</td>
+                                    <td class="gree">{{modelYear.invest}}￥</td>
+                                    <td class="gree">{{modelYear.bonusInvest}}￥</td>
+                                    <td class="gree">{{modelYear.totalPrice}}￥</td>
+                                    <td class="gree">{{modelYear.payoutRate}}%</td>
+                                    <td class="red">{{modelYear.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{modelYear.investAllup}}￥</td>
+                                    <td class="red">{{modelYear.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{modelYear.totalPriceAllup}}￥</td>
+                                    <td class="red">{{modelYear.payoutRateAllup}}%</td>
+                                    <td class="blue">{{modelYear.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{modelYear.investFsgl}}￥</td>
+                                    <td class="blue">{{modelYear.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{modelYear.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{modelYear.payoutRateFsgl}}%</td>
+                                    <td class="yel">{{modelYear.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{modelYear.investLevel0}}￥</td>
+                                    <td class="yel">{{modelYear.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{modelYear.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{modelYear.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr>
+                                    <td class="gree1">月份明细Month</td>
+									<td class="gree" ></td>
+                                    <td class="gree"></td>
+                                    <td class="gree"></td>
+                                    <td class="gree"></td>
+                                    <td class="gree"></td>
+                                    <td class="gree"></td>
+                                    <td class="red"></td>
+                                    <td class="red"></td>
+                                    <td class="red"></td>
+                                    <td class="red"></td>
+                                     <td class="red"></td>
+                                    <td class="blue"></td>
+                                    <td class="blue"></td>
+                                    <td class="blue"></td>
+                                    <td class="blue"></td>
+                                    <td class="blue"></td>
+                                    <td class="yel"></td>
+                                    <td class="yel"></td>
+                                    <td class="yel"></td>
+                                    <td class="yel"></td>
+                                    <td class="yel"></td>
+                                </tr>
+                                <tr ng-repeat="fin in financebox">
+                                    <td class="gree1">{{fin.date}}</td>
+                                    <td class="gree" >{{fin.num}}</td>
+                                    <td class="gree">{{fin.totalInvestment}}￥</td>
+                                    <td class="gree">{{fin.invest}}￥</td>
+                                    <td class="gree">{{fin.bonusInvest}}￥</td>
+                                    <td class="gree">{{fin.totalPrice}}￥</td>
+                                    <td class="gree">{{fin.payoutRate}}%</td>
+                                    <td class="red">{{fin.totalInvestmentAllup}}￥</td>
+                                    <td class="red">{{fin.investAllup}}￥</td>
+                                    <td class="red">{{fin.bonusInvestAllup}}￥</td>
+                                    <td class="red">{{fin.totalPriceAllup}}￥</td>
+                                    <td class="red">{{fin.payoutRateAllup}}%</td>
+                                    <td class="blue">{{fin.totalInvestmentFsgl}}￥</td>
+                                    <td class="blue">{{fin.investFsgl}}￥</td>
+                                    <td class="blue">{{fin.bonusInvestFsgl}}￥</td>
+                                    <td class="blue">{{fin.totalPriceFsgl}}￥</td>
+                                    <td class="blue">{{fin.payoutRateFsgl}}%</td>
+                                    <td class="yel">{{fin.totalInvestmentLevel0}}￥</td>
+                                    <td class="yel">{{fin.investLevel0}}￥</td>
+                                    <td class="yel">{{fin.bonusInvestLevel0}}￥</td>
+                                    <td class="yel">{{fin.totalPriceLevel0}}￥</td>
+                                    <td class="yel">{{fin.payoutRateLevel0}}%</td>
+                                </tr>
+                                <tr class="dategray">
+                                    <td>{{total.date}}</td>
+                                    <td>{{total.num}}</td>
+                                    <td>{{total.totalInvestment}}￥</td>
+                                    <td>{{total.invest}}￥</td>
+                                    <td>{{total.bonusInvest}}￥</td>
+                                    <td>{{total.totalPrice}}￥</td>
+                                    <td>{{total.payoutRate}}%</td>
+                                    <td>{{total.totalInvestmentAllup}}￥</td>
+                                    <td>{{total.investAllup}}￥</td>
+                                    <td>{{total.bonusInvestAllup}}￥</td>
+                                    <td>{{total.totalPriceAllup}}￥</td>
+                                    <td>{{total.payoutRateAllup}}%</td>
+                                    <td>{{total.totalInvestmentFsgl}}￥</td>
+                                    <td>{{total.investFsgl}}￥</td>
+                                    <td>{{total.bonusInvestFsgl}}￥</td>
+                                    <td>{{total.totalPriceFsgl}}￥</td>
+                                    <td>{{total.payoutRateFsgl}}%</td>
+                                    <td>{{total.totalInvestmentLevel0}}￥</td>
+                                    <td>{{total.investLevel0}}￥</td>
+                                    <td>{{total.bonusInvestLevel0}}￥</td>
+                                    <td>{{total.totalPriceLevel0}}￥</td>
+                                    <td>{{total.payoutRateLevel0}}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+         	<div id="loading-bar-container"></div>  <!--加载中..-->
+    </div>
+
+	<!-- scripts -->
+	<script th:src="@{/js/external.js}"></script>
+    <script th:src="@{/js/jquery-latest.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
+	<script th:src="@{/js/angular.min.js}"></script>
+	<script th:src="@{/js/finance.js}"></script>
+	<script th:src="@{/js/top.js}"></script>
+	<script th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+	 <script src="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+</body>
+</html>
