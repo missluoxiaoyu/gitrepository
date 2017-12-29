@@ -83,26 +83,25 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Map queryChannel(String year, String month, String day) throws Exception {
-		Map resultMap = new HashMap<>();
+	
 		
 		Map<String, Object> date = getStartAndEndDate(year, month, day);// 获取时间
-
-		List<AgentInfoModel> agentInfoModels = getInfo(date);
-		resultMap.put("agentInfoModels", agentInfoModels);
-		return resultMap;
+		return getInfo(date);
 	}
 
 
 	
 
 	
-	public List<AgentInfoModel> getInfo(Map<String, Object> date){
+	public Map<String, Object> getInfo(Map<String, Object> date){
 	
 		List<AgentInfo> all = agentInfoApi.queryAllAgents();
 		
 		AgentInfoModel params = new AgentInfoModel();
 		params.setStartDate((String)date.get("startDate"));
 		params.setEndDate((String)date.get("endDate"));
+		
+		AgentInfoModel total = new AgentInfoModel();
 		
 		List<AgentInfoModel> models = new ArrayList<>();
 	
@@ -112,6 +111,7 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 			
 			getFb(params, result);
 			getbk(params, result);
+		
 			result.setAgentSell(agentInfo.getAgentSell());
 			result.setAgentCode(agentInfo.getAgentCode());
 			result.setPrestoreAlarm(NumberUtil.getNumberAccordingToPercision(agentInfo.getPrestoreAlarm(),3));
@@ -121,13 +121,82 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 			result.setAgentName(agentInfo.getAgentName());
 			result.setPrestore(NumberUtil.getNumberAccordingToPercision(agentInfo.getPrestore(),3));// 预存款
 			models.add(result);
-
+			
+			
+			total.setPrestore(NumberUtil.getNumberAccordingToPercision(add(total.getPrestore(), result.getPrestore()), 3));
+			total.setPrestoreAlarm(add(total.getPrestoreAlarm(), result.getPrestoreAlarm()));
+			total.setRecyclePriceFb(add(total.getRecyclePriceFb(), result.getRecyclePriceFb()));
+			
+			total.setCxBonusFb(add(total.getCxBonusFb(), result.getCxBonusFb()));
+			total.setUserAmountFb(add(total.getUserAmountFb(), result.getUserAmountFb()));// 用户数
+			total.setOrderAmountFb(add(total.getOrderAmountFb(), result.getOrderAmountFb()));// 订单数
+			
+			total.setTradePriceFb(add(total.getTradePriceFb(), result.getTradePriceFb()));// 交易额
+			total.setWinMoneyFb(NumberUtil.getNumberAccordingToPercision(add(total.getWinMoneyFb(), result.getWinMoneyFb()), 3));// 最大中奖额
+			total.setRecyclePriceFb(add(total.getRecyclePriceFb(), result.getRecyclePriceFb()));
+			
+			total.setCxBonusBk(add(total.getCxBonusBk(), result.getCxBonusBk()));
+			total.setUserAmountBk(add(total.getUserAmountBk(), result.getUserAmountBk()));// 用户数
+			total.setOrderAmountBk(add(total.getOrderAmountBk(), result.getOrderAmountBk()));// 订单数
+			
+			total.setTradePriceBk(add(total.getTradePriceBk(), result.getTradePriceBk()));// 交易额
+			total.setWinMoneyBk(NumberUtil.getNumberAccordingToPercision(add(total.getWinMoneyBk(), result.getWinMoneyBk()), 3));// 最大中奖额
+			
+			
 		}
 		
-		return models;
-
+	
+		
+		total.setProfitFb(NumberUtil.getNumberAccordingToPercision(total.getWinMoneyFb()-total.getTradePriceFb(), 3));
+		total.setProfitabilityFb(total.getTradePriceFb()==0.0?0.0:NumberUtil.getNumberAccordingToPercision(total.getProfitFb()/total.getTradePriceFb()*100, 3));
+		total.setProfitBk(NumberUtil.getNumberAccordingToPercision(total.getWinMoneyBk()-total.getTradePriceBk(), 3));
+		total.setProfitabilityBk(total.getTradePriceBk()==0.0?0.0:NumberUtil.getNumberAccordingToPercision(total.getProfitBk()/total.getTradePriceBk()*100,3 ));
+		
+		
+		Map resultMap = new HashMap<>();
+		resultMap.put("agentInfoModels", models);
+		resultMap.put("total", total);
+		
+		return resultMap;
+		
+	
 	}
 
+	
+	public Double add(Double addend,Double augend){
+		if(addend==null){
+			addend=0.0;
+		}
+		if(augend==null){
+			augend=0.0;
+		}
+		return addend+augend;
+	}
+	
+	
+	public Integer add(Integer addend,Integer augend){
+		if(addend==null){
+			addend=0;
+		}
+		if(augend==null){
+			augend=0;
+		}
+		return addend+augend;
+	}
+	
+	public BigDecimal add(BigDecimal addend,BigDecimal augend){
+		if(addend==null){
+			addend = new BigDecimal("0");
+		}
+		if(augend==null){
+			augend = new BigDecimal("0");
+		}
+		return new BigDecimal(addend.doubleValue()+augend.doubleValue());
+	}
+	
+	
+	
+	
 	
 	public AgentInfoModel getFb(AgentInfoModel params,AgentInfoModel result){
 		
@@ -155,9 +224,9 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 		result.setCxBonusFb(getFbCxBonus(orderTickets));
 		result.setUserAmountFb(userAmount);// 用户数
 		result.setOrderAmountFb(orderAmount);// 订单数
-		result.setTradePriceFb(NumberUtil.getNumberAccordingToPercision(tradePrice, 3));// 交易额
+		result.setTradePriceFb(NumberUtil.getNumberAccordingToPercision(tradePrice+result.getCxBonusFb().doubleValue(), 3));// 交易额
 		result.setWinMoneyFb(NumberUtil.getNumberAccordingToPercision(winMoney,3));// 最大中奖额
-		result.setProfitFb(NumberUtil.getNumberAccordingToPercision(winMoney - tradePrice,3));// 盈余
+		result.setProfitFb(NumberUtil.getNumberAccordingToPercision(winMoney - result.getTradePriceFb(),3));// 盈余
 		result.setProfitabilityFb(tradePrice==0.0?0.0:NumberUtil.getNumberAccordingToPercision(result.getProfitFb() / result.getTradePriceFb() * 100, 3));// 盈余率
 		result.setRecyclePriceFb(NumberUtil.getNumberAccordingToPercision(totalPrice, 3));
 		
@@ -197,11 +266,11 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 		result.setCxBonusBk(getBkCxBonus(orderTickets));
 		result.setUserAmountBk(userAmount);// 用户数
 		result.setOrderAmountBk(orderAmount);// 订单数
-		result.setTradePriceBk(NumberUtil.getNumberAccordingToPercision(tradePrice, 3));// 交易额
+		result.setTradePriceBk(NumberUtil.getNumberAccordingToPercision(tradePrice+result.getCxBonusBk().doubleValue(), 3));// 交易额
 		result.setWinMoneyBk(NumberUtil.getNumberAccordingToPercision(winMoney,3));// 最大中奖额
-		result.setProfitBk(NumberUtil.getNumberAccordingToPercision(winMoney - tradePrice,3));// 盈余
+		result.setProfitBk(NumberUtil.getNumberAccordingToPercision(winMoney - result.getTradePriceBk(),3));// 盈余
 		result.setProfitabilityBk( tradePrice ==0.0?0.0:NumberUtil.getNumberAccordingToPercision(result.getProfitBk() / result.getTradePriceBk() * 100, 3));// 盈余率
-		result.setRecyclePriceBk(NumberUtil.getNumberAccordingToPercision(totalPrice, 3));
+		result.setRecyclePriceFb(NumberUtil.getNumberAccordingToPercision(result.getRecyclePriceFb()==null?0:result.getRecyclePriceFb()+totalPrice, 3));
 		}
 		
 		return result;
@@ -434,16 +503,15 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 	public Response exportchannelStatisticsExcel(HttpServletRequest request,HttpServletResponse response, String year, String month, String day)
 			throws Exception {
 		Response res = new Response();
-		try {
+		
 			
 		Map<String, Object> map = queryChannel(year, month, day);
-		AgentInfoModel model = (AgentInfoModel) map.get("model");
+		AgentInfoModel model = (AgentInfoModel) map.get("total");
 		List<AgentInfoModel> agentInfoModels = (List<AgentInfoModel>) map.get("agentInfoModels");
 		List<AgentInfoModel> list = new ArrayList<AgentInfoModel>();
 		String[] strKeyArray = null;
 		model.setAgentName("合计 Total");
 		list.add(model);
-		list.add(null);
 		list.add(null);
 		for (int i = 0; i < agentInfoModels.size(); i++) {
 			AgentInfoModel agentInfoModel = agentInfoModels.get(i);
@@ -462,7 +530,7 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 		
 		
 		strKeyArray = new String[] { "agentName", "agentCode","prestore","prestoreAlarm", 
-				"recyclePrice","agentSellMessage","userAmountFb", "orderAmountFb",
+				"recyclePriceFb","agentSellMessage","userAmountFb", "orderAmountFb",
 				"tradePriceFb","cxBonusFb", "winMoneyFb", "profitFb",
 				"profitabilityFb",  "userAmountBk", "orderAmountBk",
 				"tradePriceBk","cxBonusBk", "winMoneyBk", "profitBk",
@@ -473,10 +541,7 @@ public class AgentInfoServiceImpl implements AgentInfoService {
 		
 		res.getResult().setResultCode(1);
 		res.getResult().setResultMsg("success");
-		} catch (Exception e) {
-			res.getResult().setResultCode(0);
-			res.getResult().setResultMsg("fail");
-		}
+		
 		return res;
 		
 	}

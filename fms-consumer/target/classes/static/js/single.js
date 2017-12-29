@@ -51,7 +51,26 @@ var gbox = [
 },{
 	"urlb":urlip+"account/orderTicket/list",
 	"texa":"Third"
-}];
+}
+,
+{
+	"urlb":urlip+"account/bookieSummary/list",
+	"texa":"虚拟Summary"
+},
+{
+	"urlb":urlip+"account/bookieAgent/list",
+	"texa":"虚拟渠道"
+},
+{
+	"urlb":urlip+"account/bookieOrder/list",
+	"texa":"虚拟订单"
+},{
+	"urlb":urlip+"account/bookieSingle/list",
+	"texa":"虚拟single"
+}
+
+
+];
 app.controller("singctrl",function(){
 		this.gbox = gbox;
 });

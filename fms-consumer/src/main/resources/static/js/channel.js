@@ -55,7 +55,27 @@ var chbox = [
 },{
 	"urlb":urlip+"account/orderTicket/list",
 	"texa":"Third"
-}];
+}
+,
+{
+	"urlb":urlip+"account/bookieSummary/list",
+	"texa":"虚拟Summary"
+},
+{
+	"urlb":urlip+"account/bookieAgent/list",
+	"texa":"虚拟渠道"
+},
+{
+	"urlb":urlip+"account/bookieOrder/list",
+	"texa":"虚拟订单"
+},{
+	"urlb":urlip+"account/bookieSingle/list",
+	"texa":"虚拟single"
+}
+
+
+
+];
 
 
 var agentidd=0;
@@ -68,7 +88,8 @@ app.controller("chanelctrl",function($scope,$http,cfpLoadingBar,$uibModal,){
 		.success(function(data){
 			if(data){
 				$scope.lebox = data.agentInfoModels;
-			
+				$scope.total = data.total;
+				
 				for(var i=0; i<$scope.lebox.length; i++){	
 				
 					if($scope.lebox[i].agentSell =="-1"){
@@ -79,10 +100,10 @@ app.controller("chanelctrl",function($scope,$http,cfpLoadingBar,$uibModal,){
 					}
 					
 					
-					if($scope.lebox[i].recyclePrice ==null){
+					if($scope.lebox[i].recyclePriceFb ==null){
 						$scope.lebox[i].recyclePriceName= "-"; 
 					}else{
-						$scope.lebox[i].recyclePriceName = $scope.lebox[i].recyclePrice ;
+						$scope.lebox[i].recyclePriceName = $scope.lebox[i].recyclePriceFb ;
 					}
 					
 					
@@ -157,9 +178,78 @@ app.controller("chanelctrl",function($scope,$http,cfpLoadingBar,$uibModal,){
 	
 	
 	
+	$scope.prestoreAlarm=function(data){
+		
 
+		var html = "<label class='youqi'>渠道名称：<input class='confirm_input' id='agentNamecop' value="+ data.agentName +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道编码：<input class='confirm_input noline' id='agentCodecop' value="+ data.agentCode +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道编号：<input class='confirm_input noline' id='agentIdcop' value="+ data.agentId +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>预存额：<input class='confirm_input' id='prestorecop' value="+ data.prestore +" readonly onfocus='this.blur()'></label>";		
+		html += "<label class='youqi'>原预存额报警线：<input class='confirm_input noline' id='prestoreAlarmold' value="+ data.prestoreAlarm +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>预存额报警线：<input class='confirm_input noline' id='prestoreAlarmcop' readonly placeholder="+ data.prestoreAlarm +" value="+ data.prestoreAlarm +"></label>";
+		layer.confirm(html, {
+			btn: ['取消', '确定']
+		}, function() {
+			layer.msg('取消了', {
+				icon: 5
+			});
+		},function(){
+			layer.msg('确定', {
+				icon: 5
+			});
+			
+		});
+	}
 
+	$scope.updateAgentName=function(data){	
+		var html = "<label class='youqi'>渠道名称：<input class='confirm_input' id='agentNameid' value="+ data.agentName +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道编码：<input class='confirm_input noline' id='agentCodeid' value="+ data.agentCode +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道编号：<input class='confirm_input noline' id='agentIdid' value="+ data.agentId +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道url：<input class='confirm_input' id='urlid' readonly value="+ data.url +"></label>";
+		html += "<label class='youqi'>渠道密码：<input class='confirm_input' id='passwordid' readonly value="+ data.password +" ></label>";		
+		html += "<label class='youqi'>预存额：<input class='confirm_input noline' id='prestoreid' value="+ data.prestore +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>存额报警线：<input class='confirm_input noline' id='prestoreAlarmid' value="+ data.prestoreAlarm +" readonly onfocus='this.blur()'></label>";
+		layer.confirm(html, {
+			
+			btn: ['取消', '确定'],
+			yes: function(){
+				layer.msg('取消了', {
+					icon: 5
+				});
+			},
+			btn2: function(){
+				
+				layer.msg('确定', {
+					icon: 5
+				});
+				
+			}
+		});
+	}
 	
+	
+	
+	$scope.prestore=function(data){	
+		var html = "<label class='youqi'>渠道名称：<input class='confirm_input' id='agentNameyu' value="+ data.agentName +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道编码：<input class='confirm_input noline' id='agentCodeyu' value="+ data.agentCode +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>渠道编号：<input class='confirm_input noline' id='agentIdyu' value="+ data.agentId +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>原预存额：<input class='confirm_input' id='prestoreold' value="+ data.prestore +" readonly onfocus='this.blur()'></label>";		
+		html += "<label class='youqi'>预存额报警线：<input class='confirm_input noline' id='prestoreAlarmyu' value="+ data.prestoreAlarm +" readonly onfocus='this.blur()'></label>";
+		html += "<label class='youqi'>预存额：<input class='confirm_input noline' id='prestoreyu' placeholder="+ data.prestore +" value="+ data.prestore +" readonly onfocus='this.blur()'></label>";
+		layer.confirm(html, {
+			btn: ['取消', '确定']
+		}, function() {
+			layer.msg('取消了', {
+				icon: 5
+			});
+		},function(){
+			layer.msg('确定', {
+				icon: 5
+			});
+			
+			}
+		);
+	}
 	
 	
 	

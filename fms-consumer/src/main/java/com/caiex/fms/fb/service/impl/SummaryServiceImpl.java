@@ -215,7 +215,7 @@ public class SummaryServiceImpl implements SummaryService{
 			list.add(null);
 			list.addAll(modelList);
 			list.add(total);
-			String[] strKeyArray = new String[] {"date","column2","totalInvestment", "invest", "bonusInvest","totalPrice", "payoutRate","totalInvestmentAllup", "investAllup", "bonusInvestAllup","totalPriceAllup", "payoutRateAllup","totalInvestmentFsgl", "investFsgl","bonusInvestFsgl", "totalPriceFsgl","payoutRateFsgl","totalInvestmentLevel0", "investLevel0","bonusInvestLevel0","totalPriceLevel0","payoutRateLevel0"};
+			String[] strKeyArray = new String[] {"date","num","totalInvestment", "invest", "bonusInvest","totalPrice", "payoutRate","totalInvestmentAllup", "investAllup", "bonusInvestAllup","totalPriceAllup", "payoutRateAllup","totalInvestmentFsgl", "investFsgl","bonusInvestFsgl", "totalPriceFsgl","payoutRateFsgl","totalInvestmentLevel0", "investLevel0","bonusInvestLevel0","totalPriceLevel0","payoutRateLevel0"};
 			
 			HSSFWorkbook workbook = PoiUtil.getListToExcelIn(in, 1, 1,list, strKeyArray, OrderTicketDetailFinancialModel.class);
 			PoiUtil.returnExcel(response, workbook, "summary");
@@ -306,7 +306,6 @@ public  Map<String, Object> getTimesWeek(String year,String month,String day) th
    params.put("startDate",startDate );
    params.put("endDate",  endDate);
   
-   log.info("本周"+startDate+"截止到"+endDate);
    return params;  
 }  
 
@@ -328,7 +327,6 @@ public   Map<String, Object> getTimesMonth(String year,String month,String day) 
        params.put("startDate", startDate);
        params.put("endDate", endDate );
      
-       log.info("本月"+startDate+"截止到"+endDate);
        
        return params;  
    }  
@@ -348,7 +346,6 @@ public   Map<String, Object> getCurrentYear(String year,String month,String day)
       
        params.put("startDate", DateUtil.formatDate(cal.getTime())+" 14:00:00");
        params.put("endDate", endDate);
-       log.info("本年"+DateUtil.formatDate(cal.getTime())+" 14:00:00"+"截止到"+endDate);
        return params;  
    }
 
@@ -427,7 +424,18 @@ public   Map<String, Object> getCurrentYear(String year,String month,String day)
 	}
 	
 	
+	public boolean checkout(String year,String month,String day,String pid){
+		
+		OrderTicketDetailFinancialModel param = new OrderTicketDetailFinancialModel();
+		param.setDate(year+"-"+month+"-"+day);
+		param.setBallType(Integer.valueOf(pid));
+		if(summaryProHisService.modelIsExist(param)==1){
+			return true;
+		}else{
+			return false;
+		}
 	
+	}
 	
 	
 
@@ -436,22 +444,43 @@ public   Map<String, Object> getCurrentYear(String year,String month,String day)
 
 	@Override
 	public Map<String, Object> query(String year,String month,String day,String pid) throws Exception {
+		 Calendar cal = Calendar.getInstance();
 		
 		OrderTicketDetailFinancialModel modelToday = getTotalModel(getToday(year, month, day),pid);
 		modelToday.setDate(year+"-"+month+"-"+day);
-	
-		 OrderTicketDetailFinancialModel modelParam = new OrderTicketDetailFinancialModel();
-		 modelParam.setBallType(Integer.valueOf(pid));
-		 modelParam.setDate("本周截止到今日"+year+month+day);
-		 OrderTicketDetailFinancialModel modelWeek =summaryProHisService.queryAll(modelParam);
-		modelParam.setDate("本月截止到今日"+year+month+day);
-		OrderTicketDetailFinancialModel modelMonth =summaryProHisService.queryAll(modelParam);
-		modelParam.setDate("本年截止到今日"+year+month+day);
-		OrderTicketDetailFinancialModel modelYear = summaryProHisService.queryAll(modelParam);
-		 
+		OrderTicketDetailFinancialModel modelParam = new OrderTicketDetailFinancialModel();
+		modelParam.setBallType(Integer.valueOf(pid));
+		
+		OrderTicketDetailFinancialModel modelWeek = new OrderTicketDetailFinancialModel();
+		OrderTicketDetailFinancialModel modelMonth = new OrderTicketDetailFinancialModel();
+		OrderTicketDetailFinancialModel modelYear = new OrderTicketDetailFinancialModel();
+		
+		if(!checkout(year, month, day, pid)){
+			//不存在就去数据库查
+			modelWeek = getTotalModel(getTimesWeek(year, month, day),pid);
+			modelWeek.setDate("本周截止到今日"+year+month+day);
+			modelMonth = getTotalModel(getTimesMonth(year, month, day),pid);
+			modelMonth.setDate("本月截止到今日"+year+month+day);
+			modelYear = getTotalModel(getCurrentYear(year, month, day),pid);
+			modelYear.setDate("本年截止到今日"+year+month+day);
+
+		}else{
+		
+		
+			
+			modelParam.setDate("本周截止到今日"+year+month+day);
+			modelWeek =summaryProHisService.queryAll(modelParam);
+			modelParam.setDate("本月截止到今日"+year+month+day);
+		    modelMonth =summaryProHisService.queryAll(modelParam);
+			modelParam.setDate("本年截止到今日"+year+month+day);
+			modelYear = summaryProHisService.queryAll(modelParam);
+
+		}
+		
+		
 		List<OrderTicketDetailFinancialModel> modelList = new ArrayList<>();
 		for (String monthParam : months) {
-			 Calendar cal = Calendar.getInstance();
+			
 			 int nowMonth=(cal.get(Calendar.MONTH)+1);
 			 if(Integer.valueOf(monthParam)> nowMonth){
 				break;

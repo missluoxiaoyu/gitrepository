@@ -421,14 +421,12 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 			
 			List<OrderTicketModel> modelList = getAllList(totalModelList);
 			
-			Map<String,Object> map = queryAll(orderTicket);
-			OrderTicketModel total  =(OrderTicketModel) map.get("total");
+			OrderTicketModel total  =getTotal(modelList);
 			
 			total.setRecycleMessage(total.getRecyclePrice()+"");
 			total.setStateMessage(total.getPayoutrate()+"");
+			Double trPrice = 0.0;
 			
-			list.add(total);
-		
 			for (OrderTicketModel model : modelList) {
 				
 				if (model.getBallType() == 1) {
@@ -492,6 +490,12 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 				
 			}
 			calculate(modelList);
+			
+			total.setTrade_price(trPrice);
+			Double pay = total.getWinMoney()==null?0:total.getWinMoney().doubleValue()-trPrice;
+			total.setPayoutrate(trPrice==0.0?0:NumberUtil.getNumberAccordingToPercision(pay/trPrice*100, 3));
+			
+			list.add(total);
 			list.add(null);
 			list.addAll(modelList);
 

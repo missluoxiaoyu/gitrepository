@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	
+	<title>Summary</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/img/biticon.ico}" media="screen" />
+    <!-- bootstrap -->
+    <link th:href="@{/css/bootstrap/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap/bootstrap-responsive.css}" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/elements.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icons.css}" />
+
+    <link th:href="@{/css/lib/font-awesome.css}" type="text/css" rel="stylesheet" />    
+   	 <link href="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css" rel="stylesheet"/>
+   
+    <!-- this page specific styles -->
+    <link rel="stylesheet" th:href="@{/css/compiled/tables.css}" type="text/css" media="screen" />
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+</head>
+<body ng-app="finance">
+    <!-- navbar -->
+  
+  	 <div class="navbar navbar-inverse" >
+        <div ng-include="'../top.html'"></div>
+    </div>
+  
+    <!-- <div class="navbar navbar-inverse" >
+        <div th:include="top::top"></div> 
+    </div> -->
+    
+    <!-- sidebar -->
+    <div id="sidebar-nav" ng-controller="financtrl as anc">
+        <ul id="dashboard-menu">
+            <li ng-repeat="n in anc.nbox" ng-class="{active:n.active}" ng-click="n.active = !n.active">                
+                <a ng-href="{{n.urlb}}" rel="external" >
+                    <span>{{n.texa}}</span>
+                </a>
+            </li> 
+            
+        </ul>
+    </div>
+	<!-- main container -->
+    <div class="content" ng-controller="fincectrl as ce">
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+                <!-- orders table -->
+                <div class="table-wrapper orders-table section center">
+                    <div class="row-fluid head">
+                        <div class="span12">
+                            <h4 class="left">
+                            	<span>虚拟足球财务数据汇总表</span><br />
+                            	<span>截至{{ce.date}}</span>
+                            </h4>
+                            <form class="formdate left">
+								<input id="d12" type="text" class="Wdate" onclick="WdatePicker({el:'d12',skin:'whyGreen',dateFmt:'yyyy-M-d'})"/>
+								<b>月：<span id= "vor" class="vor">{{ce.month}}</span></b>
+								<b>周：<span id="week"  class="vor">{{ce.weeking}}</span></b>
+							</form>
+							
+							<p>
+								
+                                 <button ng-click="data()">查询</button>
+								 <button ng-click="export()">导出</button>
+							</p>
+						
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <table class="table">
+                            <tbody>
+                                <tr class="gree1" >
+                                    <td ></td>
+                                    <td ></td>
+                               
+                                    <td  colspan="5">单场固定奖FSGL</td>
+                                   
+                                </tr>
+                                <tr class="gree1"  ng-repeat="do in ce.dobox">
+                                    <td >{{do.worda}}</td>
+                                    <td >{{do.wordb}}</td>
+                                    <td >{{do.wordd}}</td>
+                                    <td >{{do.worde}}</td>
+                                    <td >{{do.wordf}}</td>
+                                  
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelToday.date}}</td>
+                                    <td class="gree" >{{modelToday.num}}</td>
+                                    <td class="gree">{{modelToday.invest}}￥</td>
+                                    <td class="gree">{{modelToday.totalPrice}}￥</td>
+                                    <td class="gree">{{modelToday.payoutRate}}%</td>
+                                  
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelWeek.date}}</td>
+                                    <td class="gree" >{{modelWeek.num}}</td>
+                                    <td class="gree">{{modelWeek.invest}}￥</td>
+                                    <td class="gree">{{modelWeek.totalPrice}}￥</td>
+                                    <td class="gree">{{modelWeek.payoutRate}}%</td>
+                                  
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelMonth.date}}</td>
+                                    <td class="gree" >{{modelMonth.num}}</td>
+                                    <td class="gree">{{modelMonth.invest}}￥</td>
+                                    <td class="gree">{{modelMonth.totalPrice}}￥</td>
+                                    <td class="gree">{{modelMonth.payoutRate}}%</td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td class="gree1" >{{modelYear.date}}</td>
+                                    <td class="gree" >{{modelYear.num}}</td>
+                                    <td class="gree">{{modelYear.invest}}￥</td>
+                                    <td class="gree">{{modelYear.totalPrice}}￥</td>
+                                    <td class="gree">{{modelYear.payoutRate}}%</td>
+                                 
+                                </tr>
+                                <tr>
+                                    <td class="gree1">月份明细Month</td>
+									<td class="gree" ></td>
+                                    <td class="gree"></td>
+                                    <td class="gree"></td>
+                                    <td class="gree"></td>
+                                  
+                                </tr>
+                                <tr ng-repeat="fin in financebox">
+                                    <td class="gree1">{{fin.date}}</td>
+                                    <td class="gree" >{{fin.num}}</td>
+                                    <td class="gree">{{fin.invest}}￥</td>
+                                    <td class="gree">{{fin.totalPrice}}￥</td>
+                                    <td class="gree">{{fin.payoutRate}}%</td>
+                              
+                                </tr>
+                                <tr class="dategray">
+                                    <td>{{total.date}}</td>
+                                    <td>{{total.num}}</td>
+                                    <td>{{total.invest}}￥</td>
+                                    <td>{{total.totalPrice}}￥</td>
+                                    <td>{{total.payoutRate}}%</td>
+                                 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+         	<div id="loading-bar-container"></div>  <!--加载中..-->
+    </div>
+
+	<!-- scripts -->
+	<script th:src="@{/js/external.js}"></script>
+    <script th:src="@{/js/jquery-latest.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
+	<script th:src="@{/js/angular.min.js}"></script>
+	<script th:src="@{/js/bookieSummary.js}"></script>
+	<script th:src="@{/js/top.js}"></script>
+	<script th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+	 <script src="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+</body>
+</html>

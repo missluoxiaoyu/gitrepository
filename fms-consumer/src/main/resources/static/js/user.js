@@ -52,7 +52,25 @@
                   {
                   	"urlb":urlip+"account/orderTicket/list",
                   	"texa":"Third"
-                  }];
+                  },
+                  {
+                		"urlb":urlip+"account/bookieSummary/list",
+                		"texa":"虚拟Summary"
+                	},
+                	{
+                		"urlb":urlip+"account/bookieAgent/list",
+                		"texa":"虚拟渠道"
+                	},
+                	{
+                		"urlb":urlip+"account/bookieOrder/list",
+                		"texa":"虚拟订单"
+                	},{
+                		"urlb":urlip+"account/bookieSingle/list",
+                		"texa":"虚拟single"
+                	}
+
+                  
+                  ];
     
     
     
@@ -146,15 +164,16 @@
      $scope.details = function (data){
     	var ticketInfo_id = data.ticketInfo_id;
     	var  ballType = data.ballType;
+    	var tkId = data.tkId;
     	
     	$http({
     		url:urlip+'account/orderManage/queryDetail?ticketInfo_id='+ticketInfo_id+'&ballType='+ballType,
     		method:'GET'
     		}).success(function(data,header,config,status){
     		//响应成功
-    			 
+    			 //
 				 var html= "<table class='pad'><thead>";
-				 html+="<tr><th >订单ID</th><th  colspan='7' style='text-align:left;'>"+data.tkId+"</th></tr>";
+				 html+="<tr><th >订单ID</th><th  colspan='7'  style='text-align:left;'>"+tkId+"</th></tr>";
 				 
 				  html += "<tr><th>序号</th><th>玩法</th><th style='width:52%'>投注内容</th>";
 	              html += "<th>过关方式</th><th>倍数</th><th>中奖金额</th><th >原交易金额</th><th >caiex加奖额</th></tr></thead>";
@@ -288,6 +307,7 @@
 					}else{
 						$scope.bbox[i].recycleP = $scope.bbox[i].recyclePrice;
 					}
+				
 				}
 			  
 			

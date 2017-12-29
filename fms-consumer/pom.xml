@@ -96,10 +96,15 @@
         <dependency>
          	<groupId>com.caiex.dbservice</groupId>
         	<artifactId>dbservice-api</artifactId>
-        	 <version>0.0.1-SNAPSHOT</version>
+        	 <version>1.0</version>
         </dependency> 
 
-		 
+		 <dependency>
+			<groupId>com.caiex.oltp</groupId>
+			<artifactId>oltp-service-api</artifactId>
+			<version>1.0.release</version>
+		</dependency> 
+	
 		
 
 		<!-- httpclient start -->

@@ -1,9 +1,12 @@
 <!DOCTYPE html> 
 <html lang="en">  
 <head>  
-    <meta charset="UTF-8">  
+    <meta charset="UTF-8"/>  
     <title>ng-class类选择</title>  
-    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>  
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> 
+    <script type="text/javascript" src="http://localhost:8085/account/js/jquery-2.1.1.min.js"></script>
+	
+	<script src="http://localhost:8085/account/js/angular-route.js"></script> 
     <style type="text/css">  
         .lightblue{width: 200px;height: 300px;background-color: lightblue;}  
         .red{width: 200px;height: 300px;background-color: red;}  
@@ -11,6 +14,13 @@
     </style>  
 </head>  
 <body>  
+
+ 	<div class="navbar navbar-inverse" >
+        <div ng-include="'../menu.html'"></div>
+    </div>
+
+
+
     <div ng-app="">  
         <select name="color" id="color" ng-model='home'>  
             <option value="lightblue">天蓝色</option>  

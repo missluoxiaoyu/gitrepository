@@ -350,8 +350,8 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 					score_b=scoreAway.substring(0,1);
 				}else{
 					
-					score_a = Integer.valueOf(scoreHome)+"";
-					score_b = Integer.valueOf(scoreAway)+"";
+					score_a = Integer.valueOf(scoreHome).toString();
+					score_b = Integer.valueOf(scoreAway).toString();
 				}
 				
 				}
@@ -390,7 +390,7 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 			}
 			
 			
-			OrderTicketInfo orderinfo=orderManageProService.queryById(orderTicket.getTicketInfo_id());
+			/*OrderTicketInfo orderinfo=orderManageProService.queryById(orderTicket.getTicketInfo_id());
 			OrderTicketInfo orderHis = orderManageProHisService.queryById(orderTicket.getTicketInfo_id());
 			
 			if(orderinfo!=null){
@@ -400,7 +400,7 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 			}else{
 				OrderTicketInfo info =orderManageProService.queryInfoCancelById(orderTicket.getTicketInfo_id());
 				tkId = info.getTkId();
-			}
+			}*/
 			
 			
 			orderTicketDetail.setL_code(l_code);
@@ -412,7 +412,7 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
         }
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("tkId", tkId);
+		//map.put("tkId", tkId);
 		map.put("detailList", list);
 		return map;
 			
@@ -430,7 +430,7 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 		
 		List<OrderTicketModel> list = new ArrayList<>();
 		
-		try {
+	
 			
 			if(orderTicket.getStartDate()!=null &&  !"".equals(orderTicket.getStartDate())){
 				orderTicket.setStartDate(orderTicket.getStartDate());
@@ -459,13 +459,12 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 			
 			List<OrderTicketModel> modelList = getAllList(totalModelList);
 			
-			Map<String,Object> map = queryAll(orderTicket);
-			OrderTicketModel total  =(OrderTicketModel) map.get("total");
+		
+			OrderTicketModel total  =getTotal(modelList);
 			
-			total.setRecycleMessage(total.getRecyclePrice()+"");
-			total.setStateMessage(total.getPayoutrate()+"");
+		
+			Double trPrice = 0.0;
 			
-			list.add(total);
 			for (OrderTicketModel model : modelList) {
 				
 				if (model.getBallType() == 1) {
@@ -527,12 +526,21 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 					model.setRecycleMessage(model.getRecyclePrice() + "");
 				}
 				
+				trPrice +=model.getTrade_price();
 				
 			}
+			
 			calculate(modelList);
+			total.setTrade_price(trPrice);
+			Double pay = total.getWinMoney()==null?0:total.getWinMoney().doubleValue()-trPrice;
+			total.setPayoutrate(trPrice==0.0?0:NumberUtil.getNumberAccordingToPercision(pay/trPrice*100, 3));
+			
+			total.setRecycleMessage(total.getRecyclePrice()+"");
+			total.setStateMessage(total.getPayoutrate()+"");
+			list.add(total);
 			list.add(null);
 			list.addAll(modelList);
-			//String strTemplate = "/opt/FMS/fms/excel/user-demo.xls";// 模板位置
+		
 			Resource resource = new ClassPathResource("/excel/user-demo.xls");
 			InputStream in = resource.getInputStream();
 			
@@ -544,12 +552,12 @@ public ArrayList<Integer> listSize(List<OrderTicketModel> lists) {
 			
 			res.getResult().setResultCode(1);
 			res.getResult().setResultMsg("success");
-			} 
+			
 				
-			catch (Exception e) {
+		/*
 				res.getResult().setResultCode(0);
-				res.getResult().setResultMsg("fail");
-			}
+				res.getResult().setResultMsg("fail");*/
+			
 			return res;
 
 	}

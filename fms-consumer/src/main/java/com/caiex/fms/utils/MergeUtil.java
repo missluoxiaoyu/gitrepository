@@ -3,8 +3,12 @@ package com.caiex.fms.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.List;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
+
+import com.caiex.dbservice.model.OrderTicketDetailSGLModel;
 @Component
 public class MergeUtil {
 	
@@ -89,6 +93,41 @@ public class MergeUtil {
 		}
 		return o;
 	}
+	
+	
+	
+	public Object mergeList(List<OrderTicketDetailSGLModel> list,Object total) throws Exception{
+		
+		
+		Field[] field = total.getClass().getDeclaredFields();
+	
+		for(int j=0 ; j<field.length ; j++){
+	        String name = field[j].getName();    
+	        String type = field[j].getGenericType().toString();   
+	        if(type.equals("class java.lang.Double")){
+	        	 Double param =0.0;	
+	 	        Method m = total.getClass().getMethod("get"+toUpperCaseFirstOne(name));
+	 	        
+	 	        for (Object model : list) {
+	 	    	  	Double value = (Double) m.invoke(model);
+	 	    	  	if(value==null){
+	 	    	  		value =0.0;
+	 	    	  	}
+	 	    	  	param +=value;
+	 	       }
+	 	        
+	 	            
+	 	            m = total.getClass().getMethod("set"+toUpperCaseFirstOne(name), Double.class);
+	 	            m.invoke(total, param); 
+	        }
+	       
+		}
+		return total;
+		
+		
+	}
+	
+	
 	
 	
 }

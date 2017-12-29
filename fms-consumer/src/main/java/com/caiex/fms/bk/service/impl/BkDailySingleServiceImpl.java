@@ -246,8 +246,10 @@ public class BkDailySingleServiceImpl implements BkSingleService{
 			}
 			
 			
-			BasketBallSGLModel basketBallSGLModel = getjson(models, infoModel);
-			list.add(basketBallSGLModel);
+			BasketBallSGLModel sModel = getjson(models, infoModel);
+			
+			calculatePayoutRate(sModel);
+			list.add(sModel);
 		}
 	
 		

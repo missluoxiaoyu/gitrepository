@@ -3,29 +3,57 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Angular.js</title>
-<script type="text/javascript" src="http://localhost:8085/account/js/jquery-2.1.1.min.js"></script>
+  
+  	<link rel="shortcut icon" type="image/x-icon" href="http://localhost:8085/account/img/biticon.ico" media="screen" />
+   
+    
+    <link rel="stylesheet" type="text/css" href="http://localhost:8085/account/css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost:8085/account/css/elements.css" />
+    <link rel="stylesheet" type="text/css"href="http://localhost:8085/account/css/icons.css" />
+
+   
+    <link href="http://cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css" rel="stylesheet"/>
+  	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    
+<style media="all and (orientation:landscape)" type="text/css">
+#portrait { display: none; }
+</style>
+  
+ 
 <script type="text/javascript" src="http://localhost:8085/account/js/angular.min.js"></script>
 <script src="http://localhost:8085/account/js/angular-route.js"></script>
-  
+
+ 
 </head>
 <style type="text/css">
+	body{
+			background-color: #2d2c41;
+
+		}
+		.menu{
+			position:absolute;
+			top:200px;
+			width: 150px;
+		}
 		
-
-
+	
+	
         .expander {
             border: 1px solid black;
             width: 250px;
-			background-color: ;
+			background-color: #d9d9d9;
         }
 
         .expander>.title {
-          
-            color: black;
+			text-align:center;
+			height:30px;
+            color: #b63b4d;
             padding: .1em .3em;
             cursor: pointer;
         }
 
         .expander>.body {
+			color: black;
             padding: .1em .3em;
         }
 		
@@ -33,18 +61,58 @@
 </style>
 
 
-<body>     
-      <div ng-controller='SomeController'  >
+<body >    
+	  
+	<div class="navbar navbar-inverse" >
+        <div ng-include="'top.html'"></div>
+    </div>
+
+
+      <div  class='menu'    ng-controller='SomeController'  >
               <expander   class='expander' expander-title='title' ng-cloak>
-                    <div class="dropdown" ng-repeat="use in text"> <a href="{{use.list}}">{{use.directory}}</a> </div>
-              </expander>         
-				
-				
+                    <div class="dropdown" ng-repeat="use in text"> <a  ng-click="showView(use.list)";>{{use.directory}}</a> </div>    
+              </expander>  
+			
+			  <expander   class='expander' expander-title='titleS' ng-cloak>
+                    <div class="dropdown" ng-repeat="use in textS"> <a  ng-click="showView(use.list)";>{{use.directory}}</a> </div>    
+              </expander> 			  
+			
       </div>
+	  <div class ='content' ng-view=''>
+	  
+	  
+	  
+	  </div>
       
  <script type="text/javascript">
- var expanderModule=angular.module('expanderModule',[])
- expanderModule.directive('expander',function(){
+ var urlip = "http://"+document.location.host+"/account"; 
+
+ var app=angular.module('expanderModule',['ngRoute'])
+ .controller('HomeController', function ($scope, $route) { $scope.$route = $route;})
+ .controller('AboutController', function ($scope, $route) { $scope.$route = $route;})
+ .controller('SomeController', function ($scope, $route) { $scope.$route = $route;})
+ .config(function ($routeProvider) {
+	    $routeProvider.
+	    when('/home', {
+	        templateUrl: 'home.html',
+	        controller: 'HomeController'
+	    }).
+	    when('/about', {
+	        templateUrl: 'about.html',
+	        controller: 'AboutController'
+	    }).
+	    when('/summary', {
+	        templateUrl: '/summary/list',
+	        controller: 'SomeController'
+	    }).
+	    otherwise({
+	        redirectTo: '/home'
+	    });
+	});
+
+
+ 
+ app.directive('expander',function(){
        return{
              restrict:'EA',
              replace:true,
@@ -54,7 +122,9 @@
              },
              template:'<div>'+'<div class="title"  ng-click="toggle()">{{title}}</div>'
              +'<div class="body" ng-show="showMe" ng-transclude></div>'+'</div>',
-             link:function(scope,element,attrs){
+            
+
+			link:function(scope,element,attrs){
                 scope.showMe=false;
                 scope.toggle=function toggle(){
                    scope.showMe=!scope.showMe;
@@ -62,23 +132,91 @@
              } 
        }
  });
- expanderModule.controller('SomeController',function($scope){
-       $scope.title='start';
+ 
+ 
+
+ 
+ 
+ 
+ app.controller('SomeController',function($scope,$location){
+       $scope.title='FootBall';
        $scope.text= [{
- 						"directory":"baidu",
- 						"list":"http://www.baidu.com"
+ 						"directory":"Sumamry",
+ 						"list":'summary'
  					},{
- 						"directory":"tencent",
+ 						"directory":"Daily Single",
+ 						"list":urlip+"http://www.qq.com"
+ 					},{
+ 						"directory":"Daily Breakdown",
+ 						"list":urlip+"http://www.youdao.com"
+ 					}
+					,{
+ 						"directory":"Daily Summary",
+ 						"list":urlip+"http://www.youdao.com"
+ 					}
+					,{
+ 						"directory":"Daily Allup",
+ 						"list":urlip+"http://www.youdao.com"
+ 					}
+					
+					,{
+ 						"directory":"Order Manage",
+ 						"list":"http://www.youdao.com"
+ 					}
+					,{
+ 						"directory":"Channel Manage",
+ 						"list":"http://www.youdao.com"
+ 					}
+					,{
+ 						"directory":"Error Ticket",
+ 						"list":"http://www.youdao.com"
+ 					}
+					,{
+ 						"directory":"Thrid",
+ 						"list":"http://www.youdao.com"
+ 					}
+					
+					
+					];
+ 
+	
+	   $scope.titleS='Virual FootBall';
+	    $scope.textS= [{
+ 						"directory":"Bookie Channel Manage",
  						"list":"http://www.qq.com"
  					},{
- 						"directory":"youdao",
+ 						"directory":"Bookie Order Manage",
  						"list":"http://www.youdao.com"
- 					}];
+ 					},
+					{
+ 						"directory":"Bookie Single",
+ 						"list":"http://www.qq.com"
+ 					},{
+ 						"directory":"Bookie Summary",
+ 						"list":"http://www.youdao.com"
+ 					}
+					];
+	
+
+		$scope.showView=function(data){
+			//alert(data);
+			$location.path(data);
+			//window.location.href =data;
+		}
+
  });
+ 
+ 
+ 
+ 
+ 
+ 
  
  </script>
    
  
+
+ <script src="http://localhost:8085/account/js/top.js"></script>
 
 </body>
 </html>

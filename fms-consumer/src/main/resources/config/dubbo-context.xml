@@ -61,6 +61,23 @@
 	<dubbo:reference  id= "bkOrderManageProHisApi" interface="com.caiex.dbservice.historydb.api.BkOrderManageProHisApi"  version="${version}"/>  
 	<dubbo:reference  id= "bkOrderTicketHistoryApi" interface="com.caiex.dbservice.historydb.api.BkOrderTicketHistoryApi"  version="${version}"/>  
 	
+	<!-- 虚拟足球 -->
+	
+	<dubbo:reference  id= "agentBookieProService" interface="com.caiex.dbservice.caiexbooker.api.fms.AgentBookieProService"  version="${version}"/>
+	<dubbo:reference  id= "orderBookieProService" interface="com.caiex.dbservice.caiexbooker.api.fms.OrderBookieProService"  version="${version}"/>
+	<dubbo:reference  id= "singleBookieProService" interface="com.caiex.dbservice.caiexbooker.api.fms.SingleBookieProService"  version="${version}"/>
+	<dubbo:reference  id= "summaryBookieProService" interface="com.caiex.dbservice.caiexbooker.api.fms.SummaryBookieProService"  version="${version}"/>
+	
+	
+	<dubbo:reference  id= "agentBookieProHisService" interface="com.caiex.dbservice.historydb.api.bookiefms.AgentBookieProHisService"  version="${version}"/>
+	<dubbo:reference  id= "orderBookieProHisService" interface="com.caiex.dbservice.historydb.api.bookiefms.OrderBookieProHisService"  version="${version}"/>
+	<dubbo:reference  id= "singleBookieProHisService" interface="com.caiex.dbservice.historydb.api.bookiefms.SingleBookieProHisService"  version="${version}"/>
+	<dubbo:reference  id= "summaryBookieProHisService" interface="com.caiex.dbservice.historydb.api.bookiefms.SummaryBookieProHisService"  version="${version}"/>
+
+	
+	
+	
+	
 	
     <!--  -->
     <dubbo:reference id="ticketApi" interface="com.caiex.oltp.api.ticket.TicketApi"  timeout="20000"/> 

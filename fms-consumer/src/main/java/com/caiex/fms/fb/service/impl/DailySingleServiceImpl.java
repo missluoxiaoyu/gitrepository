@@ -220,8 +220,10 @@ public class DailySingleServiceImpl  implements DailySingleService{
 				}
 			}
 			
-			OrderTicketDetailSGLModel orderTicketDetailSGLModel = getjson(models, infoModel);
-			list.add(orderTicketDetailSGLModel);
+			OrderTicketDetailSGLModel sModel = getjson(models, infoModel);
+			
+			calculatePayoutRate(sModel);
+			list.add(sModel);
 		}
 	
 		

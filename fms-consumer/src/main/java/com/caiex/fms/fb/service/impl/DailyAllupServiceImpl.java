@@ -4,6 +4,7 @@ package com.caiex.fms.fb.service.impl;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -99,7 +100,7 @@ public class DailyAllupServiceImpl implements DailyAllupService{
 				}
 			payout = totalPrice-invest;
 			payoutrate = invest == 0.0 ?0:(totalPrice-invest)/invest *100;
-			OrderTicketDetailModel total = new OrderTicketDetailModel(0,"玩法合计", NumberUtil.getNumberAccordingToPercision(totalInvestment,3), NumberUtil.getNumberAccordingToPercision(invest,3),NumberUtil.getNumberAccordingToPercision(totalPrice,3),NumberUtil.getNumberAccordingToPercision(payoutrate,3), NumberUtil.getNumberAccordingToPercision(payout,3),null,null,bonus);
+			OrderTicketDetailModel total = new OrderTicketDetailModel(0,"玩法合计", NumberUtil.getNumberAccordingToPercision(totalInvestment,3), NumberUtil.getNumberAccordingToPercision(invest,3),NumberUtil.getNumberAccordingToPercision(totalPrice,3),NumberUtil.getNumberAccordingToPercision(payoutrate,3), NumberUtil.getNumberAccordingToPercision(payout,3),null,null,NumberUtil.getNumberAccordingToPercision(bonus, 3));
 			modelList.add(total);
 			map.put(product, modelList);
 			
@@ -119,7 +120,7 @@ public class DailyAllupServiceImpl implements DailyAllupService{
 		allTotalInvestment = Double.valueOf(totalc== null?0:totalc.getTotalInvestment());
 		allTotalInvestment +=Double.valueOf(totalh == null?0:totalh.getTotalInvestment());
 		
-		OrderTicketDetailModel total = new OrderTicketDetailModel(0,"合计", NumberUtil.getNumberAccordingToPercision(allTotalInvestment, 3),NumberUtil.getNumberAccordingToPercision(allInvest, 3) ,NumberUtil.getNumberAccordingToPercision(allTotalPrice,3), allPayoutrate,allPayout,null,null,allBonus);
+		OrderTicketDetailModel total = new OrderTicketDetailModel(0,"合计", NumberUtil.getNumberAccordingToPercision(allTotalInvestment, 3),NumberUtil.getNumberAccordingToPercision(allInvest, 3) ,NumberUtil.getNumberAccordingToPercision(allTotalPrice,3), allPayoutrate,allPayout,null,null,NumberUtil.getNumberAccordingToPercision(allBonus, 3));
 	
 		mergeUtil.getNumberAccordingToPercision(total);
 		map.put("total", total);
@@ -153,14 +154,16 @@ public class DailyAllupServiceImpl implements DailyAllupService{
 			OrderTicketDetailModel total=(OrderTicketDetailModel) map.get("total");
 			list.add(null);
 			list.add(total);
+			
+			
 			for (String product : products) {
 				List<OrderTicketDetailModel> model = (List<OrderTicketDetailModel>) map.get(product);
 				
 				for (OrderTicketDetailModel orderTicketDetailModel : model) {
 					orderTicketDetailModel.setProduct(null);
 				}
-				
-				list.addAll(model);
+				list.add(model.get(7));
+				list.addAll(model.subList(0, 7));
 			}
 
 			Resource resource = new ClassPathResource("/excel/dailyALLUP-demo.xls");

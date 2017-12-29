@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,7 +21,13 @@ public class RedisUtil {
 	
 
 	@Autowired
-	RedisTemplate<String, Object> redisTemplate;
+	@Resource(name = "redisTemplate")
+	private RedisTemplate<String, Object> redisTemplate;
+	
+	@Autowired
+	@Resource(name = "bookieTemplate")
+	private RedisTemplate<String, Object> bookieTemplate;
+	
 	
 	
 	//模糊查询
@@ -138,4 +146,34 @@ public class RedisUtil {
 	public List<Object> lRangeAll(String key) {
 		return redisTemplate.opsForList().range(key, 0, -1);
 	}
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////
+	public void bookieSet(String key, String value) {
+		bookieTemplate.opsForValue().set(key, value);		
+	}
+	
+	
+
+	public Object bookieGet(String key) {
+		return bookieTemplate.opsForValue().get(key);
+	}
+
+	
+	public String bookiehGet(String key, String field) {
+		return (String) bookieTemplate.opsForHash().get(key, field);
+	}
+
+	
+	public void bookiehSet(String key, String field, String value) {
+		bookieTemplate.opsForHash().put(key, field, value);
+	}
+
+	
+	public List<Object> bookiemGet(String[] keys) {
+		return bookieTemplate.opsForValue().multiGet(Arrays.asList(keys));
+		
+	}
+	
 }

@@ -84,7 +84,30 @@
                     <div class="row-fluid">
                         <table class="table" >
                             <thead>
-                                <!-- 合计的部分 -->
+                                 <tr >
+                                	<td class="blue1">合计</td>
+                                	<td class="blue1">-</td>
+                                	<td class="blue1"  colspan="3">{{total.prestore}}</td>
+                                	<td class="blue1">{{total.prestoreAlarm}}</td>
+                                	<td class="blue1">{{total.recyclePriceFb}}</td>
+                                	<td class="blue1">-</td>
+                                	
+                                	<td class="red1">{{total.userAmountFb}}</td>
+                                	<td class="red1">{{total.orderAmountFb}}</td>
+                                	<td class="red1">{{total.tradePriceFb}}￥</td>
+                                	<td class="red1">{{total.cxBonusFb}}￥</td>
+                                	<td class="red1">{{total.winMoneyFb}}￥</td>
+                                	<td class="red1">{{total.profitFb}}￥</td>
+                                	<td class="red1">{{total.profitabilityFb}}%</td>
+                                	
+                                	<td class="yel1">{{total.userAmountBk}}</td>
+                                	<td class="yel1">{{total.orderAmountBk}}</td>
+                                	<td class="yel1">{{total.tradePriceBk}}￥</td>
+                                	<td class="yel1">{{total.cxBonusBk}}￥</td>
+                                	<td class="yel1">{{total.winMoneyBk}}￥</td>
+                                	<td class="yel1">{{total.profitBk}}￥</td>
+                                	<td class="yel1">{{total.profitabilityBk}}%</td>
+                                </tr>
                             </thead>
                             <tbody>
                             	<tr class="blue">
@@ -121,11 +144,11 @@
                                 </tr>
                                
                                 <tr ng-repeat="le in lebox">
-                                    <td class="aclic" >{{le.agentName}}</td>  
+                                    <td class="aclic" ng-click="updateAgentName(le)" >{{le.agentName}}</td>  
                                     <td>{{le.agentCode}}</td>
-                                    <td class="aclic"  ng-click="prestore(le.agentName,le.agentCode,le.agentId,le.url,le.password,le.prestore,le.prestoreAlarm,le.updateflag)"  >{{le.prestore}}</td>  
+                                    <td class="aclic"  ng-click="prestore(le)"  >{{le.prestore}}</td>  
                                     <td class="aclic" ng-click="saveOrdrawDetail(le.agentCode)">预存额明细  </td>  <td class="aclic"   ng-click="open(le.agentId)" >回收明细  </td>   <!-- ng-click="recycleDetail(le.agentId)"  -->
-                                    <td class="aclic"  ng-click="prestoreAlarm(le.agentName,le.agentCode,le.agentId,le.url,le.password,le.prestore,le.prestoreAlarm,le.updateflag)" >{{le.prestoreAlarm}}</td>
+                                    <td class="aclic"  ng-click="prestoreAlarm(le)" >{{le.prestoreAlarm}}</td>
                                    	<td>{{le.recyclePriceName}}</td>
                                     <td>
                                     	{{le.agentSellMess}}

@@ -20,7 +20,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.caiex.dbservice.basketball.api.BkAllupProService;
-import com.caiex.dbservice.currentdb.entity.OrderTicketDetail;
+import com.caiex.dbservice.basketball.entity.BasketBallOrderTicketDetail;
 import com.caiex.dbservice.historydb.api.BkAllupProHisService;
 import com.caiex.dbservice.model.OrderTicketDetailModel;
 import com.caiex.fms.bk.service.BkAllupService;
@@ -90,7 +90,7 @@ public class BkDailyAllupServiceImpl implements BkAllupService{
 				}
 			payout = totalPrice-invest;
 			payoutrate = invest == 0.0 ?0:(totalPrice-invest)/invest *100;
-			OrderTicketDetailModel total = new OrderTicketDetailModel(0,"玩法合计", NumberUtil.getNumberAccordingToPercision(totalInvestment,3), NumberUtil.getNumberAccordingToPercision(invest,3),NumberUtil.getNumberAccordingToPercision(totalPrice,3),NumberUtil.getNumberAccordingToPercision(payoutrate,3), NumberUtil.getNumberAccordingToPercision(payout,3),null,null,bonus);
+			OrderTicketDetailModel total = new OrderTicketDetailModel(0,"玩法合计", NumberUtil.getNumberAccordingToPercision(totalInvestment,3), NumberUtil.getNumberAccordingToPercision(invest,3),NumberUtil.getNumberAccordingToPercision(totalPrice,3),NumberUtil.getNumberAccordingToPercision(payoutrate,3), NumberUtil.getNumberAccordingToPercision(payout,3),null,null,NumberUtil.getNumberAccordingToPercision(bonus, 3));
 			modelList.add(total);
 			map.put(product, modelList);
 		
@@ -106,8 +106,8 @@ public class BkDailyAllupServiceImpl implements BkAllupService{
 		allPayoutrate = allInvest==0.0?0:(allTotalPrice-allInvest)/allInvest *100;
 		allPayoutrate=NumberUtil.getNumberAccordingToPercision(allPayoutrate, 3);
 		
-		OrderTicketDetail totalc = bkAllupProService.getTotalInvestment(date);
-		OrderTicketDetail totalh = bkAllupProHisService.getTotalInvestment(date);
+		BasketBallOrderTicketDetail totalc = bkAllupProService.getTotalInvestment(date);
+		BasketBallOrderTicketDetail totalh = bkAllupProHisService.getTotalInvestment(date);
 		
 		allTotalInvestment = Double.valueOf(totalc== null?0:totalc.getTotalInvestment());
 		allTotalInvestment +=Double.valueOf(totalh == null?0:totalh.getTotalInvestment());
@@ -145,7 +145,11 @@ public class BkDailyAllupServiceImpl implements BkAllupService{
 			list.add(total);
 			for (String product : products) {
 				List<OrderTicketDetailModel> model = (List<OrderTicketDetailModel>) map.get(product);
-				list.addAll(model);
+				for (OrderTicketDetailModel orderTicketDetailModel : model) {
+					orderTicketDetailModel.setProduct(null);
+				}
+				list.add(model.get(7));
+				list.addAll(model.subList(0, 7));
 			}
 			
 			

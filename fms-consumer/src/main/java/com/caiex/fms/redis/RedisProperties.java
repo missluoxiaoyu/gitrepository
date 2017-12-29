@@ -11,8 +11,6 @@ public class RedisProperties {
 	private String masterName;
 	private String password;
 	private String [] sentinels;
-	
-	
 	public String getMasterName() {
 		return masterName;
 	}
@@ -25,21 +23,18 @@ public class RedisProperties {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public String[] getSentinels() {
 		return sentinels;
 	}
 	public void setSentinels(String[] sentinels) {
 		this.sentinels = sentinels;
 	}
-	public RedisProperties() {
-		super();
-	}
+
 	
 	
 	
+
 	
-	
-	
+
 	
 }

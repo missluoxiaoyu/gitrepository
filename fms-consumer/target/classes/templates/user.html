@@ -57,13 +57,23 @@
             <div class="nav pull-right" >
             	<div  class="gray hidden-phone" id="prompt_information" ng-controller="promptInfo" >
             	<a id="prompt" ng-click="click()"><b style="color:white;font-size: larger;">提示</b></a>
-            		<pre ng-hide="myVar" style=" color:cue;">
+            		<div ng-hide="myVar" style=" color:cue;">
+            		<p>
             			1.每次更新版本首次启动需等待10分钟点击报表(系统后台正在缓存，目前只有summary有缓存，其他页面敬请期待)
-           			    2.渠道管理页面显示 查询时间区间为 所选时间的00:00:00 至24:00:00
-            			3.用户管理页面显示 查询时间区间为 此时时间小于当日14:00:00 查询 系统默认查询前一日14:00:00至当天23:59:59;
+            		</p>
+            		<p>
+            			2.渠道管理页面显示 查询时间区间为 所选时间的00:00:00 至24:00:00
+            		</p>
+            		<p>
+            		 	3.用户管理页面显示 查询时间区间为 此时时间小于当日14:00:00 查询 系统默认查询前一日14:00:00至当天23:59:59;
             			     此时时间大于当日14:00:00 查询 系统默认查询当日14:00:00至当天23:59:59 
-            			4.其他报表页面显示 查询时间区间是所选择时间的14:00:00至第二天的14:00:00 
-            		</pre>
+            		</p>
+            		<p>
+            		    4.其他报表页面显示 查询时间区间是所选择时间的14:00:00至第二天的14:00:00 
+            		</p>
+            		</div>
+            		
+            		
             	</div>
 			</div>
         </div>
@@ -166,17 +176,17 @@
                             <thead>
                                 <tr class="thtible">
                                     <th>合计Total</th>
-                                    <th>{{total.tkId}}</th>
                                     <td>{{total.uid}}</td>
-                                    <td>{{total.agentName}}</td> 
-                                    <td>{{total.ballType}}</td> 
+                                    <td>-</td> 
+                                    <td>-</td> 
                                     <td>{{total.bettingproducts}}</td>
                                     <td>{{total.inplay}}</td>
                                     <td>{{total.totalInvestment}}</td>
                                     <td>{{total.totalPrice}}</td>
-                                    <td>{{total.trade_time}}</td> 
+                                    <td>-</td> 
+                                    <td>-</td>
                                     <td>{{total.trade_price}}</td>
-                                    <td>{{total.trade_type}}</td>
+                                    <td>-</td>
                                     <td>{{total.payoutrate}}%</td>
                                     <td>{{total.winMoney}}</td>
                                     <td>{{total.rakeRate}}</td> 
@@ -193,7 +203,7 @@
                                     <td>订单类型</td>
                                     <td>金额</td>
                                     <td>最大中奖额</td>
-                                    <td>加奖额</td>
+                                    <td>渠道促销</td>
                                     <td>交易时间</td> 
                                     <td>交易金额</td>
                                     <td>交易状态</td>

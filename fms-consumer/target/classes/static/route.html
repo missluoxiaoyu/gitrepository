@@ -1,0 +1,191 @@
+<html>
+<head>
+
+<style type="text/css">
+	body{
+			background-color: #2d2c41;
+
+		}
+		.menu{
+			position:absolute;
+			top:200px;
+			width: 150px;
+		}
+		
+	
+	
+        .expander {
+            border: 1px solid black;
+            width: 250px;
+			background-color: #d9d9d9;
+        }
+
+        .expander>.title {
+			text-align:center;
+			height:30px;
+            color: #b63b4d;
+            padding: .1em .3em;
+            cursor: pointer;
+        }
+
+        .expander>.body {
+			color: black;
+            padding: .1em .3em;
+        }
+		
+		
+</style>
+
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<script src="http://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+
+<script type="text/javascript">
+var app = angular.module('ngRouteExample', ['ngRoute'])
+.controller('HomeController', function ($scope, $route) { $scope.$route = $route;})
+.controller('AboutController', function ($scope, $route) { $scope.$route = $route;})
+.controller('SomeController', function ($scope, $route) { $scope.$route = $route;})
+.config(function ($routeProvider) {
+    $routeProvider.
+    when('/home', {
+        templateUrl: 'home.html',
+        controller: 'HomeController'
+    }).
+    when('/about', {
+        templateUrl: 'about.html',
+        controller: 'AboutController'
+    }).
+    when('/summary', {
+        templateUrl: 'summary/list',
+        controller: 'SomeController'
+    }).
+    otherwise({
+        redirectTo: '/home'
+    });
+});
+
+
+
+app.directive('expander',function(){
+    return{
+          restrict:'EA',
+          replace:true,
+          transclude:true,
+          scope:{
+              title:'=expanderTitle'
+          },
+          template:'<div>'+'<div class="title"  ng-click="toggle()">{{title}}</div>'
+          +'<div class="body" ng-show="showMe" ng-transclude></div>'+'</div>',
+         
+
+			link:function(scope,element,attrs){
+             scope.showMe=false;
+             scope.toggle=function toggle(){
+                scope.showMe=!scope.showMe;
+             }
+          } 
+    }
+});
+
+
+
+app.controller('SomeController',function($scope,$location){
+    $scope.title='FootBall';
+    $scope.text= [{
+						"directory":"Sumamry",
+						"list":"/summary"
+					},{
+						"directory":"Daily Single",
+						"list":"/detailSGL"
+					},{
+						"directory":"Daily Breakdown",
+						"list":"http://www.youdao.com"
+					}
+					,{
+						"directory":"Daily Summary",
+						"list":"http://www.youdao.com"
+					}
+					,{
+						"directory":"Daily Allup",
+						"list":"http://www.youdao.com"
+					}
+					
+					,{
+						"directory":"Order Manage",
+						"list":"http://www.youdao.com"
+					}
+					,{
+						"directory":"Channel Manage",
+						"list":"http://www.youdao.com"
+					}
+					,{
+						"directory":"Error Ticket",
+						"list":"http://www.youdao.com"
+					}
+					,{
+						"directory":"Thrid",
+						"list":"http://www.youdao.com"
+					}
+					
+					
+					];
+
+	
+	   $scope.titleS='Virual FootBall';
+	    $scope.textS= [{
+						"directory":"Bookie Channel Manage",
+						"list":"http://www.qq.com"
+					},{
+						"directory":"Bookie Order Manage",
+						"list":"http://www.youdao.com"
+					},
+					{
+						"directory":"Bookie Single",
+						"list":"http://www.qq.com"
+					},{
+						"directory":"Bookie Summary",
+						"list":"http://www.youdao.com"
+					}
+					];
+	
+
+		$scope.showView=function(data){
+		 
+			 $location.path(data);
+		}
+
+});
+
+
+
+</script>
+
+  
+</head>
+
+<body ng-app="ngRouteExample" class="ng-scope">
+ 
+	  <div  class='menu'    ng-controller='SomeController'  >
+              <expander   class='expander' expander-title='title' ng-cloak>
+                    <div class="dropdown" ng-repeat="use in text"> <a  ng-click="showView(use.list)";>{{use.directory}}</a> </div>    
+              </expander>  
+			
+			  <expander   class='expander' expander-title='titleS' ng-cloak>
+                    <div class="dropdown" ng-repeat="use in textS"> <a  ng-click="showView(use.list)";>{{use.directory}}</a> </div>    
+              </expander> 			  
+			
+      </div>
+
+
+  <div> 
+    <div id="navigation">  
+      <a href="#/home">Home</a>
+      <a href="#/about">About</a>
+    </div>
+      
+    <div  class ='content'  ng-view="">
+    </div>
+  </div>
+</body>
+</html>
